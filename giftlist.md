@@ -70,4 +70,3 @@
 
 [clothing] 100% Merino wool socks with pleasing but unusual patterns
 
-#personal #gift #wishlist
