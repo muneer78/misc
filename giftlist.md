@@ -14,7 +14,7 @@
 
 [dvd] Parks and Recreation Season 7
 
-[dvd] Fresh Prince of Bel Air Seasons 2, 3, 4, 5, 6
+[dvd] Fresh Prince of Bel Air Seasons 3, 4, 5, 6
 
 [dvd] The Nice Guys
 
@@ -53,10 +53,6 @@
 [book] Poor Charlie's Almanack by Charlie Munger
 
 [book] The Kansas City Barbeque Society Cookbook
-
-[book] Paul Kirk's Championship Barbecue Sauces: 175 Make-Your-Own Sauces, Marinades, Dry Rubs, Wet Rubs, Mops and Salsas
-
-[book] Aaron Franklin- Franklin Barbecue: A Meat Smoking Manifesto
 
 [cologne] Dolce and Gabbana Velvet Bergamot
 
