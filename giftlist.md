@@ -1,3 +1,5 @@
+[dental equipment] Water Pik
+
 [board game/card game] Spyfall
 
 [board game/card game] 7 Wonders
