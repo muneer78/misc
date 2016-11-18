@@ -1,5 +1,7 @@
 [dental equipment] Water Pik
 
+[board game/card game] Munchkin
+
 [board game/card game] Spyfall
 
 [board game/card game] 7 Wonders
@@ -18,11 +20,11 @@
 
 [dvd] Fresh Prince of Bel Air Seasons 3, 4, 5, 6
 
-[dvd] The Nice Guys
+[dvd] 2 Broke Girls Season 5
+
+[dvd] Better Off Ted Season 2
 
 [dvd] Wake Up, Ron Burgundy
-
-[dvd] Sicario
 
 [dvd] The Big Short
 
@@ -51,6 +53,8 @@
 [Multitool] Leatherman Skeletool
 
 [multitool] Gerber Dime
+
+[book] Ryan Holiday- The Daily Stoic
 
 [book] Poor Charlie's Almanack by Charlie Munger
 
