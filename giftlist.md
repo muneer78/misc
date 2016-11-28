@@ -1,5 +1,7 @@
 [dental equipment] Water Pik
 
+[grooming] Philips Norelco OneBlade hybrid electric trimmer and shaver, QP2520/70
+
 [board game/card game] Munchkin
 
 [board game/card game] Spyfall
