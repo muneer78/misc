@@ -1,12 +1,20 @@
 Gift List
 
-[clothing] neckties in the following colors: orange, green, pink, indigo, violet and in the following patterns: stripes, checks, or geometric patterns.
+[clothing] neckties in the following colors: orange, green, pink, blue, red, gold and in the following patterns: stripes, checks, or geometric patterns.
 
 [clothing] Kansas Jayhawks t-shirt 4XL or sweats 3XL
 
 [clothing] Kansas City Royals t-shirts 4XL shorts or sweats 3XL
 
 [clothing] 100% Merino wool socks with pleasing but unusual patterns
+
+[pen] Fisher Space Pen
+
+[pen] Pilot Kakuno
+
+[pen] Kaweco Sport
+
+[pen] Lamy Safari
 
 [board game/card game] 7 Wonders
 
@@ -33,8 +41,6 @@ Gift List
 [dvd] Married Season 2
 
 [dvd] Barney Miller: The Complete Series DVDs
-
-[pen] Fisher Space Pen
 
 [knife] Victorinox Spartan Lite
 
