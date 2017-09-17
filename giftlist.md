@@ -26,6 +26,8 @@ Gift List
 
 [board game/card game] Drunk, Stoned or Stupid
 
+[dvd] The Big Bang Theory, Season 10
+
 [dvd] Parks and Recreation Season 7
 
 [dvd] 2 Broke Girls Season 5
@@ -33,8 +35,6 @@ Gift List
 [dvd] Better Off Ted Season 2
 
 [dvd] Wake Up, Ron Burgundy
-
-[dvd] The Big Short
 
 [dvd] Fresh Off The Boat Season 2
 
