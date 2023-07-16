@@ -1,12 +1,15 @@
+"""
+Using pandas to create dataframe
+"""
+
 import pandas as pd
-import numpy as np
 
 df = pd.read_csv("ars.csv")
 
-df["ARInt"] = df["Account Relationship Name"].str.extract("(\d*\.?\d+)", expand=True)
+df["ARInt"] = df["Account Relationship Name"].str.extract(r"(\d*\.?\d+)", expand=True)
 
 df["ARNameInt"] = df["Account Relationship Member Name"].str.extract(
-    "(\d*\.?\d+)", expand=True
+    r"(\d*\.?\d+)", expand=True
 )
 
 df[["ARInt", "ARNameInt"]] = df[["ARInt", "ARNameInt"]].astype(int)
