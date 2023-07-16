@@ -51,9 +51,9 @@ print("Final draft order:")
 for i, team in enumerate(draft_order):
     print(f"{i+1}. {team}")
 
-with open('draft_lottery_results.csv', mode='w') as file:
+with open("draft_lottery_results.csv", mode="w") as file:
     writer = csv.writer(file)
-    writer.writerow(['Team', 'Draft Order'])
+    writer.writerow(["Team", "Draft Order"])
 
     # Write the draft order to the CSV file
-    writer.writerows([[team, i+1] for i, team in enumerate(draft_order)])
+    writer.writerows([[team, i + 1] for i, team in enumerate(draft_order)])
