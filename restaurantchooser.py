@@ -1,3 +1,7 @@
+"""
+Use random to shuffle items
+"""
+
 import random
 
 low = [
@@ -77,10 +81,10 @@ output_low = random.sample(low, k=3)
 output_mid = random.sample(mid, k=3)
 output_high = random.sample(high, k=3)
 
-message_low = "Your low priced choices are: "
-message_mid = "Your mid priced choices are: "
-message_high = "Your high priced or far away choices are: "
+MESSAGE_LOW = "Your low priced choices are: "
+MESSAGE_MID = "Your mid priced choices are: "
+MESSAGE_HIGH = "Your high priced or far away choices are: "
 
-print(message_low + ", ".join(output_low))
-print(message_mid + ", ".join(output_mid))
-print(message_high + ", ".join(output_high))
+print(MESSAGE_LOW + ", ".join(output_low))
+print(MESSAGE_MID + ", ".join(output_mid))
+print(MESSAGE_HIGH + ", ".join(output_high))
