@@ -1,13 +1,16 @@
 import pandas as pd
-from skimpy import skim
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
+# Set the font family and size
+plt.rcParams['font.family'] = 'Noto Sans'
+plt.rcParams['font.size'] = 12
+
 # Get today's date in the desired format (assuming YYYY-MM-DD)
 today_date = datetime.today().strftime('%Y-%m-%d')
 
-# # Construct the filenames using f-strings
+# Construct the filenames using f-strings
 newopps_filename = f'{today_date}-Day91NewOpps.csv'
 reassignops_filename = f'{today_date}-Day91ReassignOpps.csv'
 
@@ -15,17 +18,25 @@ reassignops_filename = f'{today_date}-Day91ReassignOpps.csv'
 pdf_filename = f'{today_date}-Day91RepAssignments.pdf'
 pdf_pages = PdfPages(pdf_filename)
 
-def create_stacked_bar_plot(title, counts):
-    plt.figure(figsize=(10, 6))
-    ax = counts.plot(kind='bar', stacked=True)
-    plt.title(title)
-    plt.xlabel('Rep Name')
-    plt.ylabel('Count')
+# Create the Excel writer filename using f-string
+excel_filename = f'{today_date}-DataSummary.xlsx'
+excel_writer = pd.ExcelWriter(excel_filename, engine='xlsxwriter')
 
-    # Add total count above each bar without .0
+def create_bar_plot(title, counts):
+    plt.figure(figsize=(10, 6))
+    
+    # Use sorted data for plotting
+    sorted_counts = counts.sort_index(ascending=False)
+    ax = sorted_counts.plot(kind='barh')  # Change to horizontal bar plot
+    
+    plt.title(title)
+    plt.xlabel('Count')
+    plt.ylabel('Rep Name')
+
+    # Add total count next to each bar without .0
     for p in ax.patches:
-        height = int(p.get_height())  # Convert the height to an integer
-        ax.annotate(str(height), (p.get_x() + p.get_width() / 2., p.get_height()), ha='center', va='bottom')
+        width = int(p.get_width())  # Convert the width to an integer
+        ax.annotate(str(width), (p.get_width(), p.get_y() + p.get_height() / 2.), ha='left', va='center')
 
     plt.tight_layout()  # Adjust layout to prevent label cutoff
     pdf_pages.savefig()  # Save the current plot to the PDF
@@ -34,23 +45,36 @@ def create_stacked_bar_plot(title, counts):
 # Load actual lead uploaded data
 success = pd.read_csv('success.csv')
 success = success.dropna(axis=1, how='all')
-skim(success)
-counts4 = success['REP'].value_counts()
-create_stacked_bar_plot('Rep Assignments for Successfully Loaded Leads', counts4)
+counts1 = success['REP'].value_counts().sort_values(ascending=False)  # Sort in descending order
+create_bar_plot('Rep Assignments for Successfully Loaded Leads', counts1)
 
 # Load new opportunities data
 df_newopps = pd.read_csv(newopps_filename)
 df_newopps = df_newopps.dropna(axis=1, how='all')
-skim(df_newopps)
-counts2 = df_newopps['rep'].value_counts()
-create_stacked_bar_plot('Rep Assignments for New Opps', counts2)
+counts2 = df_newopps['rep'].value_counts().sort_values(ascending=False)  # Sort in descending order
+create_bar_plot('Rep Assignments for New Opps', counts2)
 
 # Load reassign opportunities data
 df_reassignops = pd.read_csv(reassignops_filename)
 df_reassignops = df_reassignops.dropna(axis=1, how='all')
-skim(df_reassignops)
-counts3 = df_reassignops['rep'].value_counts()
-create_stacked_bar_plot('Rep Assignments for Reassigned Opps', counts3)
+counts3 = df_reassignops['rep'].value_counts().sort_values(ascending=False)  # Sort in descending order
+create_bar_plot('Rep Assignments for Reassigned Opps', counts3)
+
+success.describe(include='all').to_excel(excel_writer, sheet_name='Successful_Leads_Summary')
+
+df_newopps.describe(include='all').to_excel(excel_writer, sheet_name='NewOpps_Summary')
+
+df_reassignops.describe(include='all').to_excel(excel_writer, sheet_name='ReassignOpps_Summary')
+
+# Auto-format columns to fit content
+worksheet_dict = excel_writer.sheets
+for sheet_name, worksheet in worksheet_dict.items():
+    for idx, col in enumerate(success.columns):
+        max_len = max(success[col].astype(str).apply(len).max(), len(col))
+        worksheet.set_column(idx, idx, max_len)  # Set column width to max_len
+
+# Close the Excel writer
+excel_writer.close()
 
 # Close the PDF file
 pdf_pages.close()
