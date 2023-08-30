@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+import missingno
 
 # Set the font family and size
 plt.rcParams['font.family'] = 'Noto Sans'
@@ -42,23 +43,38 @@ def create_bar_plot(title, counts):
     pdf_pages.savefig()  # Save the current plot to the PDF
     plt.close()  # Close the plot to free memory
 
+def generate_missing_data_plot(data_frame, record_type="", color="royalblue", sort="ascending", figsize=(10, 5), fontsize=12):
+    today_date = datetime.now().strftime("%Y%m%d")
+    
+    fig = missingno.bar(data_frame, color=color, sort=sort, figsize=figsize, fontsize=fontsize)
+    fig_filename = f'{today_date}-{record_type}MissingDataPlot.png'
+    
+    fig_copy = fig.get_figure()
+    fig_copy.savefig(fig_filename, bbox_inches='tight')
+    
+    plt.close(fig_copy)
+
 # Load actual lead uploaded data
 success = pd.read_csv('success.csv')
 success = success.dropna(axis=1, how='all')
 counts1 = success['REP'].value_counts().sort_values(ascending=False)  # Sort in descending order
 create_bar_plot('Rep Assignments for Successfully Loaded Leads', counts1)
+generate_missing_data_plot(success, record_type="Lead")
+
 
 # Load new opportunities data
 df_newopps = pd.read_csv(newopps_filename)
 df_newopps = df_newopps.dropna(axis=1, how='all')
 counts2 = df_newopps['rep'].value_counts().sort_values(ascending=False)  # Sort in descending order
 create_bar_plot('Rep Assignments for New Opps', counts2)
+generate_missing_data_plot(df_newopps, record_type="NewOpps")
 
 # Load reassign opportunities data
 df_reassignops = pd.read_csv(reassignops_filename)
 df_reassignops = df_reassignops.dropna(axis=1, how='all')
 counts3 = df_reassignops['rep'].value_counts().sort_values(ascending=False)  # Sort in descending order
 create_bar_plot('Rep Assignments for Reassigned Opps', counts3)
+generate_missing_data_plot(df_reassignops, record_type="ReassignOpps")
 
 success.describe(include='all').to_excel(excel_writer, sheet_name='Successful_Leads_Summary')
 
