@@ -53,18 +53,15 @@ def assign_reps(row, repdict, rep_id_dict, assigned_reps):
     values = repdict.get(bucket, [])
     
     if values:
-        if bucket not in assigned_reps:
-            assigned_reps[bucket] = 0
-        
-        assigned_index = assigned_reps[bucket]
-        num_reps = len(values)
-        rep_index = assigned_index % num_reps
+        assigned_index = assigned_reps.setdefault(bucket, 0)
+        rep_index = assigned_index % len(values)
         
         row['rep'] = values[rep_index]
-        row['repid'] = rep_id_dict.get(row['rep'])  # Add 'repid' column
+        row['repid'] = rep_id_dict.get(row['rep'], None)  # Add 'repid' column
         assigned_reps[bucket] += 1
         
     return row
+
 
 def assign_and_filter_leads(df_leads, repdict, rep_id_dict):
     df_leads['rep'] = None
