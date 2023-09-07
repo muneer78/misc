@@ -3,19 +3,19 @@ from datetime import datetime as dt
 from dateutil.relativedelta import relativedelta
 
 repdict = {'AZ 1-5': ['Kevin Kula'], 
-           'GA 1-5': ['Junior Robert', 'Rosana Aboytes', 'Robert Burckhardt'], 
+           'GA 1-5': ['Rosana Aboytes', 'Gustavo Marquez'], 
            'IL 1-5': ['Ivan Beran', 'Joe Knudson'],
            'NR 1-9': ['Adan Baltazar', 'Amanda Breting', 'August Ripley', 'Derrick Cook', 'Dalton Graves', 'Dylan Curry', 'Gretchen Halldin', 'Harrison Porter', 'Jed Kent', 'Noah Durham', 'Rylan Chaney', 'Wade Hyatt'],
            'TN 1-5': ['Nick Price'],
-           'TX 1-5': ['TJ Thompson'],
+           'TX 1-5': ['Lexi Kump', 'TJ Thompson'],
            'AZ 6-15': ['Emily Kamm'],
-           'GA 6-15': ['Holden Stallbaumer'],
+           'GA 6-15': ['Junior Robert'],
            'IL 6-15': ['James Sowa'],
            'NR 10-25': ['Alex Samuelson', 'Dylan Curry'],
            'TN 6-15': ['Michael Licciardi'],
            'TX 6-15': ['Landry Brewton'],
            'AZ 16-40': ['Emily Kamm'],
-           'GA 16-40': ['Holden Stallbaumer'],
+           'GA 16-40': ['Gustavo Marquez'],
            'IL 16-40': ['Ashli Hill'],
            'NR 26-40': ['Alex Samuelson', 'Jacob Douglas', 'Lucas Deegan', 'Brian Dolan'],
            'TN 16-40': ['Jon Kiger'],
@@ -66,8 +66,35 @@ def assign_reps(row, repdict, rep_id_dict, assigned_reps):
 def assign_and_filter_leads(df_leads, repdict, rep_id_dict):
     df_leads['rep'] = None
     df_leads['bucket'] = df_leads.apply(setterritory, axis=1)
-    df_leads = df_leads.apply(assign_reps, args=(repdict, rep_id_dict, assigned_reps), axis=1)
     df_leads['repid'] = df_leads['rep'].map(rep_id_dict)
+
+    # Define the list of Canadian provinces and territories
+    canadian_provinces = ('NL', 'PE', 'NS', 'NB', 'QC', 'ON', 'MB', 'SK', 'AB', 'BC', 'YT', 'NT', 'NU')
+
+    # Create a dictionary to map states to country codes
+    state_to_country_code = {
+        'AZ': 'US',
+        'IL': 'US',
+        'GA': 'US',
+        'TN': 'US',
+        'TX': 'US'
+    }
+
+    # Function to get the country code based on the state
+    def get_country_code(row):
+        state = row['state']
+        if state in canadian_provinces:
+            return 'CA'
+        elif state in state_to_country_code:
+            return state_to_country_code[state]
+        else:
+            return 'US'
+
+    # Apply the get_country_code function to create the "Country Code" column
+    df_leads['Country Code'] = df_leads.apply(get_country_code, axis=1)
+
+    # Now, update the 'rep' and 'repid' columns based on the 'bucket'
+    df_leads = df_leads.apply(assign_reps, args=(repdict, rep_id_dict, assigned_reps), axis=1)
     df_leads_filtered = df_leads[df_leads['fmcsa_trucks'] < 250].copy()
     df_leads_filtered = df_leads_filtered.reset_index(drop=True)
     return df_leads_filtered
@@ -108,7 +135,7 @@ def process_and_export_exceptions(df_opps_error):
         df_opps_error.to_excel(writer, sheet_name='Opportunities', index=False)
 
 # Load data
-filename = 'pfj_day_91_scrub_output_202308211452.xlsx'
+filename = 'pfj_day_91_scrub_output_202308291319.xlsx'
 sheet_names = ['Create Lead', 'Create Opp', 'Create Opp - Exception', 'Reassign Opp']
 dfs = {sheet_name: read_excel_sheet(filename, sheet_name) for sheet_name in sheet_names}
 df_leads = dfs['Create Lead']
