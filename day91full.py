@@ -23,6 +23,88 @@ repdict = {'AZ 1-5': ['Kevin Kula'],
            '40+': ['Matt Bernard']
           }
 
+state_to_code = {
+    "VERMONT": "VT", 
+    "GEORGIA": "GA", 
+    "IOWA": "IA", 
+    "Armed Forces Pacific": "AP", 
+    "GUAM": "GU",
+    "KANSAS": "KS", 
+    "FLORIDA": "FL", 
+    "AMERICAN SAMOA": "AS", 
+    "NORTH CAROLINA": "NC", 
+    "HAWAII": "HI",
+    "NEW YORK": "NY", 
+    "CALIFORNIA": "CA", 
+    "ALABAMA": "AL", 
+    "IDAHO": "ID", 
+    "FEDERATED STATES OF MICRONESIA": "FM",
+    "Armed Forces Americas": "AA", 
+    "DELAWARE": "DE", 
+    "ALASKA": "AK", 
+    "ILLINOIS": "IL",
+    "Armed Forces Africa": "AE", 
+    "SOUTH DAKOTA": "SD", 
+    "CONNECTICUT": "CT", 
+    "MONTANA": "MT", 
+    "MASSACHUSETTS": "MA",
+    "PUERTO RICO": "PR", 
+    "Armed Forces Canada": "AE", 
+    "NEW HAMPSHIRE": "NH", 
+    "MARYLAND": "MD", 
+    "NEW MEXICO": "NM",
+    "MISSISSIPPI": "MS", 
+    "TENNESSEE": "TN", 
+    "PALAU": "PW", 
+    "COLORADO": "CO", 
+    "Armed Forces Middle East": "AE",
+    "NEW JERSEY": "NJ", 
+    "UTAH": "UT", 
+    "MICHIGAN": "MI", 
+    "WEST VIRGINIA": "WV", 
+    "WASHINGTON": "WA",
+    "MINNESOTA": "MN", 
+    "OREGON": "OR", 
+    "VIRGINIA": "VA", 
+    "VIRGIN ISLANDS": "VI", 
+    "MARSHALL ISLANDS": "MH",
+    "WYOMING": "WY", 
+    "OHIO": "OH", 
+    "SOUTH CAROLINA": "SC", 
+    "INDIANA": "IN", 
+    "NEVADA": "NV", 
+    "LOUISIANA": "LA",
+    "NORTHERN MARIANA ISLANDS": "MP", 
+    "NEBRASKA": "NE", 
+    "ARIZONA": "AZ", 
+    "WISCONSIN": "WI", 
+    "NORTH DAKOTA": "ND",
+    "Armed Forces Europe": "AE", 
+    "PENNSYLVANIA": "PA", 
+    "OKLAHOMA": "OK", 
+    "KENTUCKY": "KY", 
+    "RHODE ISLAND": "RI",
+    "DISTRICT OF COLUMBIA": "DC", 
+    "ARKANSAS": "AR", 
+    "MISSOURI": "MO", 
+    "TEXAS": "TX", 
+    "MAINE": "ME",
+    "ONTARIO": "ON",   # Ontario, Canada
+    "QUEBEC": "QC",     # Quebec, Canada
+    "BRITISH COLUMBIA": "BC",  # British Columbia, Canada
+    "ALBERTA": "AB",    # Alberta, Canada
+    "MANITOBA": "MB",   # Manitoba, Canada
+    "SASKATCHEWAN": "SK",  # Saskatchewan, Canada
+    "NOVA SCOTIA": "NS",  # Nova Scotia, Canada
+    "NEW BRUNSWICK": "NB",  # New Brunswick, Canada
+    "NEWFOUNDLAND AND LABRADOR": "NL",  # Newfoundland and Labrador, Canada
+    "PRINCE EDWARD ISLAND": "PE",  # Prince Edward Island, Canada
+    "NORTHWEST TERRITORIES": "NT",  # Northwest Territories, Canada
+    "NUNAVUT": "NU",   # Nunavut, Canada
+    "YUKON": "YT"       # Yukon, Canada
+}
+
+
 def read_excel_sheet(filename, sheet_name):
     return pd.read_excel(filename, sheet_name=sheet_name)
 
