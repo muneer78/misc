@@ -4,7 +4,7 @@ Use numpy to shuffle items
 import numpy as np
 import pandas as pd
 
-places = ["Amanda", "Blake", "Dalia", "Lisa", "Mandie", "McKenzie", "Muneer", "Tiffany"]
+places = ["Britt", "Muneer", "Steven", "Scott", "Jason", "Lisa", "Carl", "Brian", "Nick", "Tony"]
 
 # Initialize a dictionary to store the counts
 counts = {place: 0 for place in places}

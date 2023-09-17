@@ -4,7 +4,7 @@ Using pandas to create dataframe
 import pandas as pd
 
 # Create dataframe
-df = pd.read_csv("books.csv")
+df = pd.read_csv( "books.csv" )
 
 
 def get_random_row(category):
