@@ -1,5 +1,4 @@
 import csv
-import requests
 from newspaper import Article
 
 # Function to extract title and body text from a URL
@@ -36,4 +35,4 @@ def process_csv(input_csv, output_text):
                 text_file.write(separator + '\n\n')
 
 # Example usage
-process_csv('zitron.csv', 'zitron.txt')
+process_csv('whitwell.csv', 'thingsilearned.txt')
