@@ -14,6 +14,9 @@ appended_rows = dot_dupes_df[dot_dupes_df["Processed"].notnull()]
 # Append rows from DOTDupes.csv where Processed column is not null to DOTAcctsProcessed.csv
 dot_processed_df = dot_processed_df._append(appended_rows, ignore_index=True)
 
+# Convert "DateProcessed" column to datetime type
+dot_processed_df["DateProcessed"] = pd.to_datetime(dot_processed_df["DateProcessed"])
+
 # Sort the dataframe by DateProcessed, UID, and dot_number__c
 dot_processed_df.sort_values(by=["DateProcessed", "UID", "dot_number__c"], inplace=True)
 
@@ -29,13 +32,11 @@ dot_dupes_df.to_csv("DOTDupes.csv", index=False)
 dot_reprocess_df = pd.read_csv(FILENAME)
 
 # Update DateProcessed column only for the newly appended rows where DateProcessed is null
-dot_reprocess_df.loc[
-    dot_reprocess_df["DateProcessed"].isnull(), "DateProcessed"
-] = pd.to_datetime(str(date.today()))
-
-# Set date format to month/day/year
-dot_reprocess_df["DateProcessed"] = dot_reprocess_df["DateProcessed"].dt.strftime(
-    "%m/%d/%Y"
+dot_reprocess_df["DateProcessed"] = dot_reprocess_df.apply(
+    lambda row: pd.to_datetime(str(date.today())).strftime("%m/%d/%Y")
+    if pd.isnull(row["DateProcessed"])
+    else row["DateProcessed"],
+    axis=1,
 )
 
 # Write the updated DOTAcctsProcessed.csv file
@@ -43,7 +44,8 @@ dot_reprocess_df.to_csv(FILENAME, index=False)
 
 # Filter records with today's date in DateProcessed column
 today_records = dot_reprocess_df[
-    dot_reprocess_df["DateProcessed"] == date.today().strftime("%m/%d/%Y")
+    dot_reprocess_df["DateProcessed"]
+    == pd.to_datetime(str(date.today())).strftime("%m/%d/%Y")
 ]
 
 # Print the number of records with today's date
