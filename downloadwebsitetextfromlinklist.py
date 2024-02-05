@@ -35,4 +35,4 @@ def process_csv(input_csv, output_text):
                 text_file.write(separator + '\n\n')
 
 # Example usage
-process_csv('whitwell.csv', 'thingsilearned.txt')
+process_csv('patheos.csv', 'patheos.txt')
