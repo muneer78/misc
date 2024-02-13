@@ -4,11 +4,11 @@ import pandas as pd
 df = pd.read_csv("20230212Competitor.csv")
 
 # Create a dataframe of records meeting the condition
-condition = (df["Delete"] = "Y", case=False, na=False)
-df_deletes = df[condition]
+condition_delete = df["Deleted"].str.lower() == "y"
+df_deletes = df[condition_delete]
 
-condition2 = (df["Update"] = "Y", case=False, na=False)
-df_updates = df[condition2]
+condition_update = df["Update"].str.lower() == "y"
+df_updates = df[condition_update]
 
 # Write the filtered dataframe to 'filtered_records.csv'
 df_deletes.to_csv("competitordelete.csv", index=False)
