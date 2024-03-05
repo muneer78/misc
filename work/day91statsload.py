@@ -66,7 +66,15 @@ def main():
         combined_df = df
 
     # Save combined data to Excel file
-    combined_df.to_excel("Day 91 Load Stats.xlsx", index=False)
+    try:
+        existing_df = pd.read_excel("Day 91 Load Stats.xlsx")
+        # Concatenate existing data with new data
+        combined_df = pd.concat([existing_df, df], ignore_index=True)
+        # Save combined data to the existing Excel file without overwriting
+        combined_df.to_excel("Day 91 Load Stats.xlsx", index=False)
+    except FileNotFoundError:
+        # If the file does not exist, use only the new data
+        df.to_excel("Day 91 Load Stats.xlsx", index=False)
 
     # Write DataFrame to a new Excel file
     date_str = datetime.date.today().strftime("%Y%m%d")
