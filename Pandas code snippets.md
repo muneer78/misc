@@ -1,7 +1,8 @@
 # Pandas
 
 ## General
-Chain custom functions
+#Chain custom functions
+
 result = (
     df.pipe(subtract_federal_tax)
       .pipe(subtract_state_tax, rate=0.12)
