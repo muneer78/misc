@@ -190,7 +190,6 @@ df = df[['fname','lname','age','sex','section','height(cm)','weight(kg)','spend_
 pd.melt(df, id_vars=['A'], value_vars=['B'])
 ```
 
-```
 # Numpy
 
 ```
@@ -206,7 +205,12 @@ row = reshaped[1, :]  # Retrieve the second row of 'reshaped'
 
 # Boolean indexing
 filtered = a[a > 2]  # Elements of 'a' greater than 2
+```
 
 # Regular expressions
+
+```
+# Replace text
 replaced_text = re.sub(r"string", "sentence", text)
 print(replaced_text)
+```
