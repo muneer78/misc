@@ -57,8 +57,10 @@ assert pd.notnull(df).all().all()
 assert (df >=0).all().all()
 ```
 
-```
+
 ## Filters and queries 
+
+```
 # Show specific rows and columns
 df.iloc[2:10, 5:10]
 
@@ -93,9 +95,10 @@ df["wage_eur"].describe()
 df.count(level="Pclass")
 ```
 
-```
+
 ## Totals and grouping
 
+```
 # provides you with the cumulative sum of all the values of the previous rows
 df[["value_eur", "wage_eur"]].cumsum()
 
@@ -127,9 +130,10 @@ pd.qcut(df["value_eur"], q=5)
 pd.cut(df["value_eur"], bins=5).value_counts()
 ```
 
-```
+
 ## Update dataset
 
+```
 # When we reset the index, the old index is added as a column, and a new sequential index is used:
 df.reset_index(names=['classes', 'names'])
 
