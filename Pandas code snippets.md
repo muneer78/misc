@@ -13,7 +13,6 @@ result = (
           rate_increase=0.02
       )
 )
-
 print(result)
 
 # Create permutations
