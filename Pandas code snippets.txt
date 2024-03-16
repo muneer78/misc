@@ -13,6 +13,12 @@ result = (
 
 print(result)
 
+# Create permutations
+from itertools import permutations
+paths = permutations([1, 2, 3])  # Generate all permutations of the list [1, 2, 3]
+for path in paths:
+    print(path)
+
 # EDA
 
 # Get info on dataset
@@ -174,3 +180,18 @@ pd.melt(df, id_vars=['A'], value_vars=['B'])
 
 # Find out number of dimensions in array
 df.ndim
+
+# Create linearly spaced array
+linear_spaced = np.linspace(0, 1, 5)  # 5 values from 0 to 1
+
+# Accessing Array Elements
+element = a[2]  # Retrieve the third element of array 'a'
+row = reshaped[1, :]  # Retrieve the second row of 'reshaped'
+
+# Boolean indexing
+filtered = a[a > 2]  # Elements of 'a' greater than 2
+
+# Regular expressions
+replaced_text = re.sub(r"string", "sentence", text)
+print(replaced_text)
+
