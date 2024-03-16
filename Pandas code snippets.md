@@ -15,7 +15,6 @@ result = (
 )
 
 print(result)
-```
 
 ```
 # Create permutations
