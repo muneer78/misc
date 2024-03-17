@@ -2,12 +2,12 @@
 total_invested_amount = float(input("Enter the total amount invested: "))
 
 # Step 2: Input amounts of money invested in stocks, international stocks, and bonds
-stocks_amount = float(input("Enter the amount invested in stocks: "))
+stocks_amount = float(input("Enter the amount invested in domestic stocks: "))
 international_stocks_amount = float(input("Enter the amount invested in international stocks: "))
 bonds_amount = float(input("Enter the amount invested in bonds: "))
 
 # Step 3: Input target percentages to invest in stocks and bonds
-target_stocks_percentage = int(input("Enter the target percentage for stocks: "))
+target_stocks_percentage = int(input("Enter the target percentage for all stocks: "))
 target_bonds_percentage = int(input("Enter the target percentage for bonds: "))
 
 # Step 4: Calculate target equity and bond amounts based on total invested amount

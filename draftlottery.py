@@ -2,15 +2,15 @@ import random
 
 # Assigning numbers to each team based on their percentages in reverse order
 team_assignments = {
-    "Britt": list(range(91, 101)),
-    "Mike": list(range(81, 91)),
-    "Nick": list(range(71, 81)),
-    "Jack": list(range(59, 71)),
-    "Carl": list(range(46, 59)),
-    "Brian": list(range(36, 46)),
-    "Muneer": list(range(26, 36)),
-    "Scott": list(range(15, 26)),
-    "Steve": list(range(5, 15)),
+    "Britt": list(range(190, 250)),
+    "Mike": list(range(150, 190)),
+    "Nick": list(range(120, 150)),
+    "Jack": list(range(90, 120)),
+    "Carl": list(range(60, 90)),
+    "Brian": list(range(40, 60)),
+    "Muneer": list(range(20, 40)),
+    "Scott": list(range(10, 20)),
+    "Steve": list(range(5, 10)),
     "Tony": list(range(1, 5))
 }
 
@@ -20,7 +20,7 @@ draft_order = []
 # Continue until all teams are assigned to a draft slot
 while team_assignments:
     # Pick a random number from 1 to 100
-    random_number = random.randint(1, 100)
+    random_number = random.randint(1, 250)
     
     # Find the team associated with the random number
     for team, numbers in team_assignments.items():
