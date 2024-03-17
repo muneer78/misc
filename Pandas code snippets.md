@@ -1,27 +1,5 @@
 #  Pandas
 
-## General
-
-```
-# Chain custom functions
-result = (
-    df.pipe(subtract_federal_tax)
-      .pipe(subtract_state_tax, rate=0.12)
-      .pipe(
-          (subtract_national_insurance, 'df'),
-          rate=0.05,
-          rate_increase=0.02
-      )
-)
-print(result)
-
-# Create permutations
-from itertools import permutations
-paths = permutations([1, 2, 3])  # Generate all permutations of the list [1, 2, 3]
-for path in paths:
-    print(path)
-```
-
 ## EDA
 
 ```
@@ -128,8 +106,24 @@ pd.qcut(df["value_eur"], q=5)
 
 # provide number of bins and split up dataset
 pd.cut(df["value_eur"], bins=5).value_counts()
-```
 
+# percentage change between the current and a prior element in a Series or DataFrame
+data = {
+    "date": pd.date_range(start="2022-01-01", end="2022-01-05"),
+    "price": [100, 105, 98, 110, 120],
+}
+
+df = pd.DataFrame(data).set_index("date")
+
+df["price"].pct_change()
+
+
+# Calculate rolling mean with a 7-day window
+rolling_mean = data['value'].rolling(window=7).mean()
+
+# Compute exponential moving average (EMA)
+ema = data['value'].ewm(span=10).mean()
+```
 
 ## Update dataset
 
@@ -169,7 +163,7 @@ people = people.drop_duplicates(subset="Name")
 to_drop = ['Edition Statement', 'Corporate Author', 'Corporate Contributors', 'Former owner', 'Engraver', 'Contributors',
             'Issuance type',
             'Shelfmarks']
->>> df.drop(to_drop, inplace=True, axis=1)
+df.drop(to_drop, inplace=True, axis=1)
 
 # Convert to DateTime format
 pd.to_datetime(people["Graduation"])
@@ -189,6 +183,36 @@ df = df[['fname','lname','age','sex','section','height(cm)','weight(kg)','spend_
 #  unpivots a DataFrame from wide format to long format
 #  massage a DataFrame into a format where one or more columns are identifier variables, while all other columns, considered measured variables, are unpivoted to the row axis, leaving just two non-identifier columns, variable and value.
 pd.melt(df, id_vars=['A'], value_vars=['B'])
+
+# Explode function to to reformat it in a way that there is a separate row for each item in that list
+df_new = df.explode(column="data").reset_index(drop=True)
+
+# Assign: reate a new DataFrame with additional columns, assigning values based on existing columns or operations
+df.assign(value_cat=np.where(df["Value"] > 20, "high", "low"))
+df.assign(value_cat=np.where(df["Value"] > 20, "high", "low")).groupby(
+    "value_cat"
+).mean()
+
+#combine_first: choosing values from the first Series and filling in any missing values with the corresponding values from the second Series
+s1 = pd.Series([1, 2, np.nan, 4, np.nan, 6])
+s2 = pd.Series([10, np.nan, 30, 40, np.nan, 60])
+
+s1.combine_first(s2)
+
+s3 = pd.Series([1, 2, 3, 4, 5, 6])
+s1.combine_first(s2).combine_first(s3)
+
+# Sort List based on another List
+list1 =  ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+list2 = [ 0, 1, 1, 1, 2, 2, 0, 1, 1, 3, 4]
+C = [x for _, x in sorted(zip(list2, list1), key=lambda pair: pair[0])]
+print(C) # ['a', 'g', 'b', 'c', 'd', 'h', 'i', 'e', 'f', 'j', 'k']
+
+# Reading lines from a file until an empty line is encountered using walrus
+# allows for assignment and return of a value within an expression
+with open('myfile.txt') as file:
+    while (line := file.readline().rstrip()):
+        print(line)
 ```
 
 # Numpy
@@ -214,4 +238,48 @@ filtered = a[a > 2]  # Elements of 'a' greater than 2
 # Replace text
 replaced_text = re.sub(r"string", "sentence", text)
 print(replaced_text)
+```
+
+## Misc
+
+```
+# Chain custom functions
+result = (
+    df.pipe(subtract_federal_tax)
+      .pipe(subtract_state_tax, rate=0.12)
+      .pipe(
+          (subtract_national_insurance, 'df'),
+          rate=0.05,
+          rate_increase=0.02
+      )
+)
+print(result)
+
+# Create permutations
+from itertools import permutations
+paths = permutations([1, 2, 3])  # Generate all permutations of the list [1, 2, 3]
+for path in paths:
+    print(path)
+
+# Create a DataFrame from a JSON file
+import json
+
+with open("data.json") as f:
+    data = json.load(f)
+
+data
+# output
+{'data': [{'id': 101,
+   'category': {'level_1': 'code design', 'level_2': 'method design'},
+   'priority': 9},
+  {'id': 102,
+   'category': {'level_1': 'error handling', 'level_2': 'exception logging'},
+   'priority': 8}]}
+
+df = pd.json_normalize(data, "data")
+
+# pretty printing
+import pprint
+data = {'a': [1, 2, 3], 'b': [4, 5, 6]}
+pprint.pprint(data)
 ```
