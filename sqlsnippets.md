@@ -66,3 +66,11 @@ SELECT
         ELSE PurchaseAmount
     END AS FinalAmount
 FROM Customers;
+
+# Use numbers in Group By
+SELECT DISTINCT rcdc."name", rcdc.account_rep__c
+FROM crm.rpl_cadence_details__c rcdc
+WHERE rcdc.account_rep__c IS NOT NULL
+GROUP BY 1, 2
+LIMIT 100
+```
