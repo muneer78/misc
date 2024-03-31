@@ -34,5 +34,12 @@ def process_csv(input_csv, output_text):
                 separator = '-' * 20
                 text_file.write(separator + '\n\n')
 
-# Example usage
-process_csv('patheos.csv', 'patheos.txt')
+# Define your string
+filename = "sex"
+
+# Build input_csv filename
+input = filename + ".csv"
+
+# Build output filename
+output = filename + ".txt"
+process_csv(input, output)
