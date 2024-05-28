@@ -8,7 +8,8 @@ time_zones = [
     ('US/Eastern', 'EST', 'Montreal, Orlando, and Toronto'),
     ('Europe/Istanbul', '', 'Istanbul'),
     ('Asia/Karachi', '', 'Karachi'),
-    ('Asia/Dhaka', '', 'Dhaka')
+    ('Asia/Dhaka', '', 'Dhaka'),
+    ('Pacific/Tarawa','', 'Tarawa')
 ]
 
 # Input a specific date and time in the Central US time zone from the terminal

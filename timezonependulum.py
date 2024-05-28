@@ -9,6 +9,7 @@ time_zones = {
     "Istanbul": "Europe/Istanbul",
     "Karachi": "Asia/Karachi",
     "Dhaka": "Asia/Dhaka",
+    "Tarawa": "Pacific/Tarawa"
 }
 
 input_str = input("Enter the date and time in Central Time (YYYY-MM-DD HH:MM AM/PM): ")
