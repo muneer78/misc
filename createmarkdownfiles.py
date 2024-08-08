@@ -57,7 +57,7 @@ categories: {category}
 title: {title}
 ---
 
-![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
+![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename}.png)
 """
 
     # Write content to the markdown file
