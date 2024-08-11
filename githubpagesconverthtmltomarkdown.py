@@ -23,20 +23,7 @@ def convert_html_to_markdown(text):
     return text.strip()
 
 html_text = '''
-<img src="https://buttondown-attachments.s3.amazonaws.com/images/f8203f71-6737-4685-8451-9e296029f375.png" alt="madness.png" />
-<hr>
-<p>Ever since I saw this, I can never stop laughing when I see it:</p>
-<img src="https://buttondown-attachments.s3.amazonaws.com/images/be0c25b5-7788-44af-9be8-823ab8460723.png" alt="VodkaPapaJohns.png" />
-<hr>
-<p><a href="https://www.reddit.com/r/worldnews/comments/4oiz4f/exauschwitz_guard_reinhold_hanning_94_sentenced/d4dkbu2">This Reddit post</a> about Adolf Eichmann has some very deep insights about why people choose to believe in things like conspiracy theories:</p>
-<blockquote>
-<p>In a search for some higher meaning, he gave himself to a cause so completely that he was unable to think outside of it&#39;s cliche&#39;s, standard lines... or from the point of view of other people. By adopting a cause Eichmann created a intellectual fence around himself and relieved himself of having to think critically or examine his convictions.</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>There is pleasure in understanding the world around us and meaning in the unending work of developing and refining a coherent world view. Adopting an ideology, short circuits that effort, providing pleasure and meaning with an unwarranted (and unquestioned) degree of certainty. Consequently, fully adopting an ideology, whether it&#39;s Nazism or Feminism, is fundamentally not a benign act. People do this on a regular basis: unquestioned, mild, allegiance to their church, to their political party, to traditional values, to their social causes, etc. This is the essence of &quot;the banality of evil&quot; that Arendt talks about. There is a strong intellectual resemblance between the unquestioned beliefs and unexamined assumptions that allow a man to ship millions of people to extermination camps, and the unquestioned assumptions and beliefs that we all operate on, on a daily basis. Psychopathic cruelty and blood-thirst are not required.</p>
-</blockquote>
----
+<p>First, I wish I could say this every day to at least one person:</p><p><img src="https://assets.buttondown.email/images/d4ca985e-3f5d-4caf-9bd8-f288339096f4.png?w=960&amp;fit=max"></p><hr><p>Second, anyone who has a significant other can relate to this. Men and women:</p><p><img src="https://assets.buttondown.email/images/6e1918b0-be9e-4885-90f2-6901836d038e.png?w=960&amp;fit=max"></p><hr><p>Third, this is the pun of the millenium:</p><p><img src="https://assets.buttondown.email/images/858b83ac-c0f8-4373-8e62-6448fe2dcdc8.png?w=960&amp;fit=max"></p><p></p>
 '''
 
 markdown_text = convert_html_to_markdown(html_text)
