@@ -40,13 +40,23 @@
 Use this section for multiple files
 '''
 
-import os
 import csv
-from datetime import datetime
+import re
+
+def sanitize_filename(filename):
+    # Remove invalid characters for filenames and ensure it doesn't start or end with a hyphen
+    sanitized = re.sub(r'[^a-zA-Z0-9_-]', '', filename)
+    return sanitized.strip('-')
 
 def create_markdown_file(category, title, imagename, date):
     # Format title for filename
     filename_title = '-'.join(title.lower().split())
+    filename_title = sanitize_filename(filename_title)
+
+    # Check if filename_title is empty
+    if not filename_title:
+        print(f"Skipping file creation: title '{title}' results in an invalid filename.")
+        return
 
     # Create filename with date and formatted title
     filename = f"{date}-{filename_title}.md"
@@ -54,10 +64,10 @@ def create_markdown_file(category, title, imagename, date):
     # Create content with the specified pattern
     content = f"""---
 categories: {category}
-title: {title}
+title: "{title}"
 ---
 
-![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename}.png)
+![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
 """
 
     # Write content to the markdown file
@@ -69,12 +79,19 @@ title: {title}
 # Read CSV and process rows
 csv_file_path = '/Users/muneer78/Downloads/muneericaposts.csv'  # Update this path
 
-with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-    reader = csv.DictReader(csvfile)
+try:
+    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
 
-    for row in reader:
-        category = row['category']
-        title = row['title']
-        imagename = row['filename']
-        date = row['date']
-        create_markdown_file(category, title, imagename, date)
+        for row in reader:
+            category = row['category']
+            title = row['title']
+            imagename = row['filename']
+            date = row['date']
+            create_markdown_file(category, title, imagename, date)
+except FileNotFoundError:
+    print(f"Error: The file {csv_file_path} was not found.")
+except KeyError as e:
+    print(f"Error: Missing column in CSV file - {e}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
