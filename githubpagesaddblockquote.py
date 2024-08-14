@@ -13,21 +13,65 @@ def add_gt_in_front_of_paragraphs(text):
     return updated_text
 
 # Sample input text
-input_text = """I was at a shitty crustpunk bar once getting an after-work beer. One of those shitholes where the bartenders clearly hate you. So the bartender and I were ignoring one another when someone sits next to me and he immediately says, "no. get out."
+input_text = """_(I work with a pair of identical twins for the overstock night shift. They know I’m atheist, so they’ve made it their business to preach their religion at me non-stop.)_
 
-And the dude next to me says, "hey i'm not doing anything, i'm a paying customer." and the bartender reaches under the counter for a bat or something and says, "out. now." and the dude leaves, kind of yelling. And he was dressed in a punk uniform, I noticed
+**Twin #1:** “So, [my name], you think about what we said on Tuesday?”
 
-Anyway, I asked what that was about and the bartender was like, "you didn't see his vest but it was all nazi shit. Iron crosses and stuff. You get to recognize them."
+**Me:** “Not really.”
 
-And i was like, ohok and he continues.
+**Twin #1:** “Come on, man. This is important stuff.”
 
-"you have to nip it in the bud immediately. These guys come in and it's always a nice, polite one. And you serve them because you don't want to cause a scene. And then they become a regular and after awhile they bring a friend. And that dude is cool too.
+**Twin #2:** “Yeah. You wanna go to h***?”
 
-And then THEY bring friends and the friends bring friends and they stop being cool and then you realize, oh shit, this is a Nazi bar now. And it's too late because they're entrenched and if you try to kick them out, they cause a PROBLEM. So you have to shut them down.
+**Me:** “Nope.”
 
-And i was like, 'oh damn.' and he said "yeah, you have to ignore their reasonable arguments because their end goal is to be terrible, awful people."
+**Twin #1:** “I mean, I just don’t get you.”
 
-And then he went back to ignoring me. But I haven't forgotten that at all."""
+**Me:** “What do you mean?”
+
+**Twin #1:** “If you don’t believe in God, where do you get your morals from?”
+
+**Me:** “Uh…”
+
+**Twin #2:** “Yeah. The only way to know right from wrong is with God.”
+
+**Me:** “I don’t think so.”
+
+**Twin #1:** “Well, it’s still true, dude. It doesn’t matter what you think.”
+
+**Twin #2:** “Right. You should… hang on.”
+
+_(Twin #2 gets a call on his cell phone and answers it. He turns away from his brother and me but keeps standing there.)_
+
+**Twin #1:** “[My name], dude, do you think murder and rape are okay?”
+
+**Me:** “No.”
+
+**Twin #1:** “Well, that’s God, man. The only way you know that stuff is not okay is God.”
+
+**Twin #2:** _*on the phone*_ “…You picked up my bike okay? No problems getting it? Cool…”
+
+**Twin #1:** “How about lying? Or stealing? You think it’s okay to do that?”
+
+**Me:** “No.”
+
+**Twin #2:** _*on the phone*_ “..You think you could roll back the odometer about 5,000 miles…”
+
+**Twin #1:** “Well, it was God who said lying and stealing are wrong, man. It’s right there in the Bible.”
+
+**Twin #2:** _*on the phone*_ “…Yeah, I know. But I’ve got somebody coming out to look at it and he said he didn’t want it if it was too used…”
+
+**Twin #1:** “So you KNOW that stuff like killing and raping and lying and stealing and being a racist and all that stuff is wrong. How do you explain how that’s wrong without God?”
+
+**Twin #2:** _*on the phone*_ “…Oh yeah, you think you could paint over the rust on the brakes and the engine block, too? I’m pretty sure I could get at least two grand more out of this guy…”
+
+**Twin #1:** “God is righteous, [my name]. He’s going to punish people for doing all that stuff. You don’t want to go to Hell, do you?”
+
+**Twin #2:** _*on the phone*_ “…Also, I think the front tire has a hole in it. No, no, don’t patch it. Just put more air in it. It only has to look full until the guy buys it…”
+
+**Me:** “Wait, wait, wait. Are you guys listening to each other here?”
+
+**Both Twins:** “What do you mean?”"""
 
 # Apply the function to the input text
 output_text = add_gt_in_front_of_paragraphs(input_text)
