@@ -1,50 +1,75 @@
-import re
+import os
+import csv
+from bs4 import BeautifulSoup
 
-def convert_html_to_markdown(text):
-    # Step 1: Replace <p> and </p> tags with line breaks
-    text = re.sub(r'</?p>', '\n', text)
+# Directory containing the files to be updated
+content_directory = "/Users/muneer78/Desktop/saved/"
+# Path to the CSV file
+csv_file_path = "/Users/muneer78/Downloads/html.csv"
 
-    # Step 2: Replace <img> tags with markdown image syntax
-    text = re.sub(r'<img src="([^"]+)" alt="([^"]+)"[^>]*>', r'![\2](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/\2)', text)
+# Function to manually convert HTML to GitHub-flavored Markdown
+def convert_html_to_gfm(html_content):
+    soup = BeautifulSoup(html_content, 'html.parser')
 
-    # Step 3: Replace <hr> tags with horizontal rule
-    text = re.sub(r'<hr>', '\n___\n', text)
+    # Example conversions - you can extend this to handle more cases
+    for tag in soup.find_all(['b', 'strong']):
+        tag.replace_with(f"**{tag.get_text()}**")
+    for tag in soup.find_all(['i', 'em']):
+        tag.replace_with(f"*{tag.get_text()}*")
+    for tag in soup.find_all('a'):
+        href = tag.get('href')
+        tag.replace_with(f"[{tag.get_text()}]({href})")
+    for tag in soup.find_all('img'):
+        src = tag.get('src')
+        alt = tag.get('alt', '')
+        tag.replace_with(f"![{alt}]({src})")
 
-    # Step 4: Remove empty <p></p> tags and excess newlines
-    text = re.sub(r'\n{2,}', '\n\n', text)  # Reduces multiple newlines to a maximum of two
-    text = re.sub(r'<p></p>', '', text)
+    # Handle other elements as needed
 
-    # Step 5: Replace blockquote <blockquote><p>...</p></blockquote> with markdown blockquote
-    text = re.sub(r'<blockquote><p>(.*?)<\/p><\/blockquote>', r'> \1', text, flags=re.DOTALL)
+    return soup.get_text()
 
-    # Remove any remaining HTML tags
-    text = re.sub(r'<[^>]+>', '', text)
+# Function to update file content, keeping front matter intact
+def update_file_content(filepath):
+    with open(filepath, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
 
-    return text.strip()
+    # Assume front matter is enclosed in "---"
+    front_matter = []
+    content_start = 0
 
-html_text = '''
-<p>I got a call on a Thursday afternoon from [Suzie]. It was a curious call because the address on the intake form was a Canadian address. Prepaid Legal only sold plans to people in the US. Suzie had met [Gavin], a Canadian, online. After a whirlwind romance, Suzie and Gavin decided that they live together in Ottawa, where Gavin was living. They packed up all of her things into a U-Haul and then hitched her car to the U-Haul on a trailer.</p>
+    if lines[0].strip() == '---':
+        for i, line in enumerate(lines[1:], start=1):
+            if line.strip() == '---':
+                content_start = i + 1
+                break
+            front_matter.append(line)
 
-<p>The couple set out for the border crossing near Buffalo, NY. As Suzie and Gavin reached the border, the Canadian immigration officials asked if them if Suzie was emigrating or coming to Canada for vacation. Suzie replied that she was coming for vacation. Since most vacationers don’t bring 4 rooms worth of furniture and a car on a trailer for a vacation, Suzie was turned away at the border. At this point, Gavin got out of the truck and hitched a ride to Ottawa with another driver.</p>
+    # Convert the rest of the content
+    html_content = ''.join(lines[content_start:])
+    markdown_content = convert_html_to_gfm(html_content)
 
-Suzie was now stuck in Buffalo. So she called her friendly home state PPA firm. Since I was the only one who knew anything about immigration, I got to take the call. This led to the following exchange:</p>
+    # Combine front matter with converted content
+    new_content = '---\n' + ''.join(front_matter) + '---\n' + markdown_content
 
-**Suzie**: I only have enough money to stay in this motel until Tuesday! I got the forms right here. You think this will all be sorted by then?<br />
-**Me**: I highly doubt that you will be able to apply for and secure a residence permit in Canada in three and a half days.<br />
-**Suzie**: What?? I didn’t even think you needed a passport to go up to Canada. [Note: this conversation took place in 2009.]<br />
-**Me**: You can go up to Canada for a visit without requiring a passport or visa, but you cannot emigrate there without a visa.<br />
-**Suzie**: Well what do I do then?<br />
-**Me**: I would suggest asking your fiancee to get you an attorney in Canada to assist you with the process.<br />
-**Suzie**: You mean I don’t get this taken care of for free? Why am I paying you $19.95 per month?<br />
-**Me**: I can advise you on US immigration law, but you need someone who is licensed in Canada. You will need to go through Canada’s procedure for emigrating.<br />
-**Suzie**: I don’t have any money to stay in this motel past Tuesday! I thought this would be done by then!<br />
-**Me** I am sorry to disappoint you.<br />
-**Suzie**: Where am I supposed to stay??<br />
-**Me**: You could always come back to [my state].<br />
-**Suzie**: I can’t! You have no idea how tough it was to get up here with all my stuff!!<br />
-**Me** Well, then I suggest you get a residence and a job in Buffalo. This is not going to be a quick process.<br />
-**Suzie**: This is so unfair! Why do I pay you guys $19.95 a month??</p>
-'''
+    with open(filepath, 'w', encoding='utf-8') as file:
+        file.write(new_content)
 
-markdown_text = convert_html_to_markdown(html_text)
-print(markdown_text)
+# Read the CSV file
+with open(csv_file_path, mode='r', encoding='utf-8') as csvfile:
+    csv_reader = csv.DictReader(csvfile)
+
+    for row in csv_reader:
+        csv_filename = row['filename']  # Ensure this matches your actual column name
+        matched_file = None
+        for file in os.listdir(content_directory):
+            if file == csv_filename:
+                matched_file = os.path.join(content_directory, file)
+                print(f"Matched: {matched_file}")
+                break
+
+        if matched_file:
+            update_file_content(matched_file)
+            print(f"Updated: {matched_file}")
+        else:
+            print(f"File not found for: {csv_filename}")
+

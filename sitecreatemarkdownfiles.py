@@ -59,12 +59,13 @@ def create_markdown_file(category, title, imagename, date):
         return
 
     # Create filename with date and formatted title
-    filename = f"{date}-{filename_title}.md"
+    filename = f"{filename_title}.md"
 
     # Create content with the specified pattern
     content = f"""---
-categories: {category}
+tags: {category}
 title: "{title}"
+date: {date}
 ---
 
 ![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
