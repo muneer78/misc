@@ -14,7 +14,7 @@ for filename in os.listdir(directory):
                 content = file.read()
 
             # Replace instances of "greatlines" with "great-lines"
-            new_content = content.replace("covid", "great-lines")
+            new_content = content.replace("metafilter", "strange-researches")
 
             # Write the updated content back to the file
             with open(file_path, 'w', encoding='utf-8') as file:
