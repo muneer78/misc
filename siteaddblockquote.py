@@ -13,65 +13,51 @@ def add_gt_in_front_of_paragraphs(text):
     return updated_text
 
 # Sample input text
-input_text = """_(I work with a pair of identical twins for the overstock night shift. They know I’m atheist, so they’ve made it their business to preach their religion at me non-stop.)_
+input_text = """I hate “we’re fucked.”
 
-**Twin #1:** “So, [my name], you think about what we said on Tuesday?”
+I mean, I don’t want to shame anyone who has said it, thought it, or posted it. I have too. But as a philosophy, as a statement of belief, I hate it. Because it means you’ve given up. 
 
-**Me:** “Not really.”
+We are absolutely NOT fucked.
 
-**Twin #1:** “Come on, man. This is important stuff.”
+Things are so bad. This country has taken a turn that I could never have predicted. It is absolutely fascist, nativist, and extremist. It’s every bit as scary as it seems.
 
-**Twin #2:** “Yeah. You wanna go to h***?”
+But we are not fucked.
 
-**Me:** “Nope.”
+I read a long-form article on the Russia hacks in the New Yorker not long ago. However much you think that influenced the outcome, it was an instructive piece of journalism. There is very little indication that there was a specific political agenda that was being wished for. The goal was simple: Sow chaos and undermine the faith of Westerners in their own institutions.
 
-**Twin #1:** “I mean, I just don’t get you.”
+This is really important to think about right now.
 
-**Me:** “What do you mean?”
+I have a high regard for Mueller and I think his investigation will have some influence. But don’t wait on him to save us. He can’t. And don’t wait on impeachment. I would support it fervently, but it is nothing to bank on. And especially don't assume Trump can't win again. He absolutely can. Our best bet - better, even, than all of our protests and actions - is actually voting.
 
-**Twin #1:** “If you don’t believe in God, where do you get your morals from?”
+It’s so square. It’s so old-fashioned. Many of us involved with the hard-left or anarchist scene have been trained to disregard it.
 
-**Me:** “Uh…”
+Fucking don’t. NOT NOW, guys. It is the best tool at our disposal. Yeah, you can say that they will sabotage it, reject it, whatever. “Sufficient to the day is the evil thereof.” In other words, don’t create troubles before they exist. Anything seems possible to me right now, but it remains the case - despite hacked voting machines and gerrymandering - that there is no known mechanism by which our government can deny massive voter turnout.
 
-**Twin #2:** “Yeah. The only way to know right from wrong is with God.”
+Take back the House in November. Then take back the Presidency in 2020. The worst thing we could do is pretend that these are givens. I never, ever, ever thought that this piece of shit could sit in the Oval Office. I was so humbled by my error. Therefore I assume he could take it again - I know he could - unless we accept the threat as real.
 
-**Me:** “I don’t think so.”
+When we say, “We’re fucked,” we roll over. We defeat ourselves. We do their job for them. Don’t do that. We are NOT fucked. We are in a fight. It sucks. It’s hard. People are suffering. The earth is suffering. It will get worse.
 
-**Twin #1:** “Well, it’s still true, dude. It doesn’t matter what you think.”
+You know, since everyone loves the Nazi comparisons, there were people during the HEYDAY of the Third Reich who NEVER said, “We’re fucked.” They said, “We’re in a fight.” And you know what’s interesting? Nazi Germany went from the worst regime in the world to a liberal democracy within a lifetime. 
 
-**Twin #2:** “Right. You should… hang on.”
+Look at Japan. Take the historical view. Stop pretending that the worst of what’s happening now is what is going to always happen. This is what is happening RIGHT NOW. That’s all you know. If you think it’s going to be this way forever, read a book.
 
-_(Twin #2 gets a call on his cell phone and answers it. He turns away from his brother and me but keeps standing there.)_
+Countries slide into fascism for long periods. It happens. Countries also have short-term extremist right-wing governments. Happens in Europe all the time. They get voted out. The threat remains. The threat of fascism will remain in America in a way it never has before. It’s a real movement. But we’re not fucked. Not even close. We can get off the ropes in the mid-terms and knock them out in 2020. But only if we stop saying that we’re fucked, and start seeing this as a fight.
 
-**Twin #1:** “[My name], dude, do you think murder and rape are okay?”
+I’m no Pollyanna. Things are so unutterably bad that I walk around in a constant state of nausea and horror. But you have to take the historical view, and you can’t lie down and say we’re doomed, or else they have beaten you.
 
-**Me:** “No.”
+Again, I don’t want to shame anyone who says, “We’re fucked” as an emotional reaction. I get it, I really do. But if you say that as a historical reality, then you SHOULD be ashamed. We are so far from being fucked. It's time for that warrior spirit, from everyone. 
 
-**Twin #1:** “Well, that’s God, man. The only way you know that stuff is not okay is God.”
+Our best bet, actually our only realistic bet, is to mobilize the vote. There has always been a silver lining to this situation. I have always hesitated to state it, for fear of sounding like I am not taking the horror seriously. Fuck that; I do. But there has always been the possibility, there remains the possibility, that this is a time when our country faces up to its worst reflection, sees it truly, and breaks the fucking mirror. A time when the last bastion of white power and male supremacy and oligarchy attempts to enact fascism, but the antibodies of the American system and American multi-culturalism kick in to reject it. 
 
-**Twin #2:** _*on the phone*_ “…You picked up my bike okay? No problems getting it? Cool…”
+Where do you want to stand in that equation? As someone who rolled over because we’ve have had two awful years of shit that much of the world has already experienced many, many, many times over, so you decided that we’re finished and done for? Come on. Look at Europe, look at Africa, look at Asia. Back and forth with this shit, and much worse. 
 
-**Twin #1:** “How about lying? Or stealing? You think it’s okay to do that?”
+I have your back. Get up. Here’s my hand. Let’s fight. 
 
-**Me:** “No.”
+It can’t become hip to give up. It can’t become hip to say we are fucked. Look at history. People have been so much more fucked than us, and won. If you truly believe we are finished, I’m sorry, but you were the first to fall. Stick a fork in you, turn you over, you’re done. I don’t want to see you do that, if only for the selfish reason that we need you.
 
-**Twin #2:** _*on the phone*_ “..You think you could roll back the odometer about 5,000 miles…”
+Do all the protests, do all the direct action, make all the phone calls, then mobilize in October and November. That’s when we can get off the ropes and start punching again. Take the long view, my sisters and brothers. Don’t let them take you out of the fight. 
 
-**Twin #1:** “Well, it was God who said lying and stealing are wrong, man. It’s right there in the Bible.”
-
-**Twin #2:** _*on the phone*_ “…Yeah, I know. But I’ve got somebody coming out to look at it and he said he didn’t want it if it was too used…”
-
-**Twin #1:** “So you KNOW that stuff like killing and raping and lying and stealing and being a racist and all that stuff is wrong. How do you explain how that’s wrong without God?”
-
-**Twin #2:** _*on the phone*_ “…Oh yeah, you think you could paint over the rust on the brakes and the engine block, too? I’m pretty sure I could get at least two grand more out of this guy…”
-
-**Twin #1:** “God is righteous, [my name]. He’s going to punish people for doing all that stuff. You don’t want to go to Hell, do you?”
-
-**Twin #2:** _*on the phone*_ “…Also, I think the front tire has a hole in it. No, no, don’t patch it. Just put more air in it. It only has to look full until the guy buys it…”
-
-**Me:** “Wait, wait, wait. Are you guys listening to each other here?”
-
-**Both Twins:** “What do you mean?”"""
+And if you need me for anything, I am here."""
 
 # Apply the function to the input text
 output_text = add_gt_in_front_of_paragraphs(input_text)

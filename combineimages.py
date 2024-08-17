@@ -19,5 +19,5 @@ def combine_images_vertically(image_paths, output_path, border_size=10, border_c
     combined_image.save(output_path)
 
 # Example usage
-image_files = ["hoeunion1.png", "hoeunion2.png"]
-combine_images_vertically(image_files, "hoeunion.png", border_size=10, border_color=(0, 0, 0))
+image_files = ["oldmen1.jpg", "oldmen2.jpg", "oldmen3.jpg", "oldmen4.jpg", "oldmen5.jpg", "oldmen6.jpg", "oldmen7.jpg"]
+combine_images_vertically(image_files, "oldmen.jpg", border_size=10, border_color=(0, 0, 0))
