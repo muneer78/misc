@@ -1,7 +1,7 @@
 import os
 
 # Set the directory where the files are located
-directory = '/Users/muneer78/quartz/content/'  # Replace with the actual directory path
+directory = '/Users/muneer78/Documents/GitHub/muneer78newsite/content/'  # Replace with the actual directory path
 
 # Loop through each file in the directory
 for filename in os.listdir(directory):
@@ -14,7 +14,7 @@ for filename in os.listdir(directory):
                 content = file.read()
 
             # Replace instances of "greatlines" with "great-lines"
-            new_content = content.replace("bad-people, current-events", "current-events")
+            new_content = content.replace("---", "+++")
 
             # Write the updated content back to the file
             with open(file_path, 'w', encoding='utf-8') as file:

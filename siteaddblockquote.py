@@ -52,59 +52,113 @@ def add_gt_to_blank_lines(text):
 
 # Sample input text
 input_text = """
----
-date: 2024-07-14
-title: Starbucks Fan Fic 
-tags: stories, tumblr
----
+This was a really cool story that Mike Rowe posted to Facebook:
 
-[This](https://katjohnadams.tumblr.com/post/171462690508/katjohnadams-anais-ninja-blog) is such a great story:
+> "Last week in Baltimore, Uber charged me $85 for a trip that usually costs $20. I looked into the way their "surge pricing" model actually works, and didn’t like what I learned. So today, after checking out of my hotel in Oklahoma, I called Lyft instead and was picked up by a guy named Mike. He was driving a red F-150. It was clearly a work truck, full of tools and lumber. I sat up front."
 
-> Actual conversation I had at register:
+> “How far to the airport,” I asked.
 
-> “Hi, welcome to Starbucks! What can I get you, today?”
+> “Fifteen minutes,” he said. “You in a hurry?”
 
-> “Oh. uh. Well, it’d be I suppose… I only have a button for a Quad. I don’t have special pricing for twenty ounces of espresso in a single… drink.”
+> “Not really,” I said. “Are you?”
 
-> “Price is the furthest thing from my mind right now. How many ‘add shots’ is that?”
+> “Never.”
 
-> *deep breath of fear* “It’d be a quad with,” *clears throat* “uh, sixteen additional shots of espresso. But, ma’am, I should tell you that the shots will start to get really bitter if they have to sit and wait for us to pull twenty of them-”
+> As we merged onto the highway and settled into the slow lane, I asked Mike if he was a carpenter in real life.
 
-> “Taste means nothing to me.”
+> “Among other things,” he said.
 
-> At this point I am truly fearing for my very existence in the presence of what must clearly be an eldritch being.
+> “Jack of all trades?”
 
-> “Oh. Well, okay.” I put on my absolute best customer service smile to hide my terror and accept that I must face this dragon, fae, or demon with dignity. “We can certainly get that for you! The price will be _____.”
+> “Well, I don’t know about that,” he said. Back in the seventies, I was a plumber’s helper. Then I worked for a spell in the heating and air condition game.”
 
-> She begins to pay, I shit thee not, with golden dollar coins. We are a block from Wall Street, and this eldritch demi-being is paying for an unholy elixer with golden coins. My life will end soon, I am sure of it.
+> “How was that?,” I asked.
 
-> “Do you still have the ‘Add Energy’ packets?”
+> “Hot and cold,” he said.
 
-> My heart began to race at this request. “Yes ma’am.”
+> I honestly couldn’t tell if he was making a joke or not. His voice had a classic midwestern drawl, and there was no expression on his face as he stared out the windshield.
 
-> “How many can I add?”
+> “After that, I started carpentry. Trim, then framing. Then I moved on to building custom cabinets in rich people’s houses. Figured out how to build spiral staircases and furniture. Did pretty good.”
 
-> Futile though it is, at least I know the rote response to this. “For health reasons, we won’t add more than one per drink and we cannot sell the packets individually.”
+> “You retired now?
 
-> “One then.”
+> “No. I build campers these days.”
 
-> I alter the order and tell her the new price. She pays, dumps the change and five golden dollars into the tip box. I write the order on the venti cup and pass it silently to the girl working the hot beverage station. Normally we called and pass, but this was … not something to be spoken aloud.
+> “What kind of campers?” I asked.
 
-> My fellow takes the cup, not thinking anything of the minor break with protocol, until she sees the order. She stares at me. “No.”
+> “I build them small ones you can tow pretty much anywhere. They call ‘em teardrop trailers. Got really popular during the lockdowns. I build ‘em by hand, one at a time.”
 
-> The woman, which I call her for no other greater insight into her terrifying being is within my grasp, simply stands on the other side and says, calmly but with a commanding tone I expect of Admirals in bad movies, “Yes.”
+> “Yeah? How’s the quality,” I asked.
 
-> My fellow barista pales before her task. But we are dutiful, we are true to our task, great though it may be. She sets about clearing the two brand new Matrena’s of all distraction, and sets two tall cups in the ready position. The energy packet is emptied into the venti cup, and the shots begin pouring. 
+> “Pretty good,” he said.
 
-> The barista was damn near shaking. This woman’s gaze felt like the fires of the sun. Finally, the shots are pulled, the cup is filled, and the hand off takes place.
+> “Got a website,” I asked.
 
-> Our visiting Incomprehensible takes it to our milk bar and adds a dollop of cream. Satisfied, she proceeds to down what must have been half the damn cup.
+> “Sure,” he said. “Gotta have a website these days.”
 
-> Then she smiled at us, like a benediction and I was honestly filled with joy. And horror. She left, and we knew nothing more of her after that.
+> “What’s your website called,” I asked.
 
-> When I talk with other former employees, we quickly begin talking about “The Company” as if we’d never left, perhaps knowing that part of our soul still powers that awesome and terrible corporate machine. And when I share this story, other Baristas at first act shocked but quickly settle and comes the chorus, 
+> “Mike’s Pretty Good Campers.”
 
-> “Yeah, I had one like that.”
+> I still couldn’t tell if he was messing with me.
+
+> “Your company is called 'Mike’s Pretty Good Campers?'”
+
+> “I like to manage expectations,” said Mike.
+
+> "Under promise and over deliver?"
+
+> "That's the idea," said Mike.
+
+> "Is that what you were doing before you picked me up just now? Building a pretty good camper?”
+
+> “Yup. But I was starting to get frustrated. And I don’t like to work when I’m frustrated. So, every now and then I gotta step away.”
+
+> “And drive a stranger to the airport?” I said.
+
+> “Never too frustrated to drive,” said Mike. “Driving relaxes me. Besides, we ain’t strangers no more, are we?”
+
+> “No,” I said. “I suppose we’re not.”
+
+> As we turned on Airport Road, I said, “So what’s the plan? Drop me off and wait for another call? Or head back to the shop and finish building that pretty good camper?”
+
+> “Ain’t decided yet. Guess I'll see how I feel in a few minutes.”
+
+> “Good plan,” I said. “By the way, if I like your website, do you care if I share it on Facebook?”
+
+> “Why would you want to do that?” he asked.
+
+> “I’ve got a few people who follow me on social media,” I said. "I'm not sure why they do, but they do. Maybe some of them are in the market for a pretty good camper, custom made by a quasi-retired carpenter who drives for Lyft when he’s feeling frustrated?”
+
+> “Can’t hurt,” said Mike. “Once people see these things, they fall in love with ‘em. They got whole conventions all over the country for teardrop trailer owners. Thousands show up. You wouldn’t believe how people decorate ‘em and such.”
+
+> "I don't know about that, Mike. I'll believe pretty much anything these days."
+
+> As we pulled up to the airport, Mike asked me what carrier I was on.
+
+> “American,” I said. “Right here is fine.”
+
+> “Pre-check?” he asked.
+
+> “Yes,” I said.
+
+> “Well then, you don’t want to get out at American. Let me take you all the way to the end, otherwise you got a walk across the whole dang the terminal.”
+
+> We pulled up to the curb at the very end of Will Rogers Airport. I hopped out, as Mike dragged my bags out of the bed of his work truck.
+
+> “You look familiar,” he said. “Have I driven you before?”
+
+> “I don’t think so,” I said. “I would have remembered. Thanks for the lift.”
+
+> “No problem,” he said. “Was the ride okay?”
+
+> “It was a pretty good lift,” I said.
+
+> Somewhere behind his mustache, Mike might have smiled, as I walked into the only airport in America named for a cowboy who never met a man he didn’t like. There, I boarded my plane and checked to see if there really was website called “Mike’s Pretty Good Campers.”
+
+> Son of a gun...
+
+> Credit -  Mike Rowe
 """
 
 # Apply the function to the input text

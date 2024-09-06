@@ -1,45 +1,3 @@
-# import os
-# from datetime import datetime, timedelta
-#
-# def create_markdown_file(category, title, imagename, date):
-#     # Format title for filename
-#     filename_title = '-'.join(title.lower().split())
-#
-#     # Create filename with date and formatted title
-#     filename = f"{date.strftime('%Y-%m-%d')}-{filename_title}.md"
-#
-#     # Create content with the specified pattern
-#     content = f"""---
-# categories: {category}
-# title: {title}
-# ---
-#
-# ![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
-# """
-#
-#     # Write content to the markdown file
-#     with open(filename, 'w') as file:
-#         file.write(content)
-#
-#     print(f"Markdown file '{filename}' created successfully.")
-#
-# # Example usage
-# tuples = [
-#     ("funny", "2 Chainz", "2chainz.png"),
-#     ("funny", "Ride Or Die", "3am.jpg"),
-# ]
-#
-# # Start date
-# start_date = datetime(2023, 1, 8)
-#
-# for i, (category, title, imagename) in enumerate(tuples):
-#     current_date = start_date + timedelta(days=i)
-#     create_markdown_file(category, title, imagename, current_date)
-
-'''
-Use this section for multiple files
-'''
-
 import csv
 import re
 
@@ -48,7 +6,7 @@ def sanitize_filename(filename):
     sanitized = re.sub(r'[^a-zA-Z0-9_-]', '', filename)
     return sanitized.strip('-')
 
-def create_markdown_file(category, title, imagename, date):
+def create_markdown_file(tag, title, imagename, date, body):
     # Format title for filename
     filename_title = '-'.join(title.lower().split())
     filename_title = sanitize_filename(filename_title)
@@ -63,13 +21,21 @@ def create_markdown_file(category, title, imagename, date):
 
     # Create content with the specified pattern
     content = f"""---
-tags: {category}
+tags: {tag}
 title: "{title}"
 date: {date}
 ---
 
-![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
 """
+    # Add the body text
+    content += f"""{body}
+
+"""
+
+    # Add the image section only if imagename is not blank
+    if imagename:
+        content += f"""![{imagename}](https://raw.githubusercontent.com/muneer78/muneer78.github.io/master/images/{imagename})
+        """
 
     # Write content to the markdown file
     with open(filename, 'w') as file:
@@ -85,11 +51,12 @@ try:
         reader = csv.DictReader(csvfile)
 
         for row in reader:
-            category = row['category']
+            tag = row['tag']
             title = row['title']
             imagename = row['filename']
             date = row['date']
-            create_markdown_file(category, title, imagename, date)
+            body = row.get('body', '')  # Get the 'body' column, default to an empty string if not present
+            create_markdown_file(tag, title, imagename, date, body)
 except FileNotFoundError:
     print(f"Error: The file {csv_file_path} was not found.")
 except KeyError as e:
