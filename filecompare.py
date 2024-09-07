@@ -2,7 +2,10 @@ import os
 import difflib
 
 # Directory containing the files
-directory = "/Users/muneer78/Documents/GitHub/muneer78.github.io/_posts"
+directory = "/Users/muneer78/EagleFiler/Main/Files/4- Archives"
+
+# File extensions to compare
+extensions_to_compare = ['.txt']  # Add the extensions you want to compare
 
 # Function to compute similarity between two files
 def file_similarity(file1, file2):
@@ -16,8 +19,9 @@ def file_similarity(file1, file2):
     diff = difflib.SequenceMatcher(None, content1, content2)
     return diff.ratio()
 
-# Get a list of files in the directory
-files = [os.path.join(directory, f) for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+# Get a list of files in the directory with specific extensions
+files = [os.path.join(directory, f) for f in os.listdir(directory) 
+         if os.path.isfile(os.path.join(directory, f)) and os.path.splitext(f)[1] in extensions_to_compare]
 
 # Compare each file with every other file
 similar_files = []
