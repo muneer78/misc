@@ -44,7 +44,7 @@ date: {date}
     print(f"Markdown file '{filename}' created successfully.")
 
 # Read CSV and process rows
-csv_file_path = '/Users/muneer78/Downloads/muneericaposts.csv'  # Update this path
+csv_file_path = '/Users/muneer78/Documents/Projects/muneericaposts.csv'  # Update this path
 
 try:
     with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
