@@ -17,7 +17,7 @@ def create_markdown_file(tag, title, imagename, date, body):
         return
 
     # Create filename with date and formatted title
-    filename = f"{filename_title}.md"
+    filename = f"{date}-{filename_title}.md"
 
     # Create content with the specified pattern
     content = f"""---
