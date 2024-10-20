@@ -33,43 +33,146 @@ def add_gt_in_front_of_paragraphs(text):
 
 # Sample input text
 input_text = """
-Dear Men of Craigslist,
+To clarify, this is India so when I say truck, I don't mean SUV, IT IS A LITERAL LORRY FILLED WITH RICE
 
-Look, I know you men have it difficult. Women are just about impossible to understand, much less please. In a post-feminist society, you never know exactly what you should be doing. Women are bloody picky, I know we are. It can be scary, too, when women freak out about what appear to be benign issues. And men who do their best to be respectful, female-positive humans, I salute you, I do.
+Update: BIL is now negotiating with lorry driver. My requests to keep phone on speaker so I can here have been coldly rebuffed. I can however confirm that bribe has been offered and rejected. I cannot say whether this was a question of principle or price
 
-But please, please just fuck me already. Honestly, I appreciate your thoughtfulness. I like that you want to take things slow. I can totally get behind the idea of emotional connection, but dearjesusinheaven, FUCK ME. We've done dinner and drinks. We've gone dancing. We've cuddled and watched a movie. I'm wearing a low cut shirt and you've been staring at my breasts all night. Goodgodalmighty, get to it and fuck me.
+Update 2: BIL wants everyone reading this to know that I'm  dick for livetweeting it and this is not helping
 
-When we get hot and heavy, please take charge. Please, please fuck me. Trust me, I'm not going to just lie still - I'll get involved. But don't make me force your hand into my panties. That makes me feel like a rapist. We've been kissing for a half hour and your hand keeps grazing my ass. That's nice, but it's time to move forward. Get on top of me. Don't make me get on top right out of the gate and start bobbing up and down on your cock like I'm practicing some crazy new aerobic yoga because YOU won't go down on me. Roll on top and start dry humping like a good boy should. Don't gently suck my nipples and then pull back when I moan with pleasure. You being coy is totally not what I want. It's not what WE want.
+as a horror writer, I can now confirm to ou with evidence that anything can be horror, I just watched a man's face curl up in abject terror at the words "Why Is It Still Outside My House?"
 
-OK, I know it's scary. There are lots of women out there who make fucking really difficult. So, I have compiled some handy tips. Don't think of this as complaining, or as schadenfreude for the Andrea Dworkins of the world. Just some simple tips, for timid men who have forgotten what it means to fuck like men:
+Update to Drama: BIL had come in to explain that driver insists they'll have to take the rice(and pay) but midway through thouht better of it and is now negotiating with driver again. An excellent demonstration of the flight instinct in mammals when confronted with mortal peril
 
-1. Taking charge is not bad. Oh, there will be some women who feel that you are pushy. If you are making out with a woman, and she starts to push back, ask nicely if things are moving too fast. If she says yes, say something like "I'm sorry - you just look so fucking delicious. I'll go slower." Otherwise, skillfully move forward. If you start kissing a woman, and she responds well, and before long, you're both on the floor with her skirt pushed up, and you on top of her, it's not the time to roll onto your back and start awkwardly stroking the top of her head. Seriously, grow a goddamn pair. YOU'RE the man. Act like one.
+Side update: They also apparently have to unload the rice themselves.
 
-2. Ohmyfuckinggod, please learn to respect the clit. It's different for every woman, so ask what she likes. Do not, I repeat, do not just wiggle your fingers around her pussy like you're trying to tickle her. Do not drum your fingertips against her vulva like you are impatiently waiting at the Sears Tire Center for your receipt. Do not push the clit like it is a doorbell at some house that you need to get inside of. Start by using all four fingers with firm yet gentle pressure against the outside of her pussy. Do not charge in with a single finger and start jabbing at things. And if you really don't know what to do, ask her. Just ask. "How do you like it?". It's a simple question, and most women will answer straight out. If she's being all coy, ask "Do you like pressure? Is it sensitive?" The clitoris is a varied item, indeed. Treat each one as though you have never encountered one before. Forget everything that your last partner liked.
+Update: Calls are now being made to owner of warehouse
 
-3. Most women like to be fucked, and fucked well. Yes, there are women out there who want to "make love" every time - sweet, gentle, rocking love with lots of eye contact and loving kisses. Those women are not the majority. The majority like to be pounded. The majority like to have their hair pulled. The majority like a good, solid jackhammering. When a woman is bucking wildly against you, it's not because she wants you to pull back and slowly swirl your cock around her vagina like you're mixing a cake batter up there. It's because she wants you to hold down her arms, or grab her hips, or push her legs above her head, and fuck her harder. Don't be too afraid of what this means as far as gender equality goes - I am a raging feminist bitch, but I still want to be penetrated like you are planning on fucking my throat from the inside out.
+Update: Warehouse Owner is not taking calls. Spot negotiations have resumed.
 
-4. A little roughness is nice. Do not pretend that you had no idea that some women like their hair pulled. Do not act shocked if she wants you to spank her ("Really? Spanking? Won't it hurt?" - yes, it does. That's the fucking point). We know you've read Stuff and Maxim, and that's all those laddie mags talk about in their "How to Please Her" sections. Start with light, full handed smacks to the area of her ass that she sits on. Judge her response and continue on from there. You don't have to bend her over one knee and tell her she's a naughty girl and that Daddy's going to punish her; save that for the fifth date. Women are less delicate than you think, so don't worry about breaking her hip.
+Also all of you enjoying this need to join me in thanking Mom for going above and beyond the call of duty and carrying phone between locations & also relaying key info while somehow also social distancing so we can continue bringing you our live reporting on this unfolding crisis
 
-5. It's OK for you to make noise. Otherwise, we feel like we are fucking a ninja. Unless you actually are a ninja, and have sneaked into our rooms with vibrating nanuchaku and zippered black pajamas, please, please make some noise. If you're banging a woman, and she's crying out and saying your name and moaning, and you can't even manage a grunt, she's going to feel like an idiot. You don't have to make the sounds she is making, but do SOMETHING. You know how when you are watching porn, and the girl does something great to the guy and the guy kind of goes "Ah!", half grunt, half yell? That's HOT. Do that. Whisper our name (assuming you know it) gruffly. Groan against her neck when you're in missionary position. You don't have to grunt like a mountain gorilla, but if you are totally mute, she's going to get worried.
+Update: BIL is making headway. Lorry driver and helper have accepted cigarettes from him. Negotiations have resumed while all 3 smoke.
 
-6. Most women like dirty talk, in addition to the grunting. If you'd like to get some dirty talk going, ask her if she likes the way you fuck her. If she responds well, continue with something like, "I love fucking you. God, you look so fucking hot." Is she still moaning in response? "Your tits are so beautiful." Does that work? If she doesn't respond well to the term "tits", you might have to stop there. If she keep moaning or responding, pass Go and collect $200. Try the following:
+Update: Lorry driver just laughed at something BIL said. BIL also laughing. Cigarettes may have been a masterstroke by BIL. We are moving our reporting back indoors to inform Sis.
 
-"Oh, god. Your pussy is SO tight."
-"You're so wet - are you wet because you like the feel of my cock ramming you?"
-"I think I'm going to come inside you. I'm going to fill up your little cunt." It doesn't matter that you're wearing a condom; we LOVE hearing this.
+Key Update: Cigarettes were in fact a huge strategic blunder because BIL apparently assured sis that he's definitely finally quit smoking on Sunday and in no way shape or form was supposed to have packs of cigs just there in pocket ready to be used as negotiating aid.
 
-If all of those work, you can then progress to things like "sexy little bitch" and "dirty whore". Tread carefully, but please, tread. Do not tiptoe. Do not sit down. Charge.
+Update: Bereft of victims for the moment, sister is now asking me if I knew about this. There may be a slight lull in updates while I swear innocence and try to avoid becoming collateral damage in this tale of Indian Carnage
 
-6. You're not obligated to eat a woman out. In return, she's not obligated to choke on your dick. Don't skip one and expect the other. If you do eat a woman out, the only comment you should make about her pussy is how nice it is. The length of her labia minora, the color of her interior, her waxing job or full bush - you are not John Madden. No time for color commentary.
+Update: I have convinced sister that I am not party to this. However Mom and I have fled back outside because dad just walked in and asked sis "what is this truck outside why did you call it?"
 
-7. Do not bitch about condoms. Oh, we hate them. Trust us. They hurt us more than they hurt you. But we don't want to be preggers, and you don't want to catch anything, right? Don't whine about condom sex. Do not explain that you can't come with one on. LEARN to come with one on, or if not, help us figure out what to do with you once we're satisfied and it's time for you to let loose your load.
+BIL Update: Warehouse Owner still not taking calls but they have reached some chappu of his who told them to call someone called Manu, he'll take care of it. Thats all we know about him. He's Manu, this his number and he'll take care of it.  He is the Mr Wolf of warehouse cockups
 
-8. We really like it when you come. It's called a money shot for a reason. Watching semen shoot out of you is one of the most gratifying things EVER. However, do not assume that she wants you to jack it off onto her face. She might, but don't assume. Seeing and/or feeling you come is rewarding for us, so there's no need to deprive us of it, but please do consult us before unleashing. "I think I'm going to come - how do you like it?" is a fair question that shouldn't rob you of your testicles.
+Update: Manu is not answering the phone.
 
-In recent memory, I've been fucked by a very aggressive, manly guy, and I've been... well, fucked is the wrong term here. I've been penetrated by a total and utter wuss. Who am I going to run back to when I'm ready for my fill? Manly McHardon, that's who. ----------------------------------------------------
+Update: Dad has also come outside and joined outside reporting crew. Mom asked him why are you here and his response was why are YOU here?
 
-*New point of clarification - some people have brought up some really great issues in response to this post, so let me say this: I don't mean to imply that all women like to be treated like whores. I do mean to say that most women I know have told me that they like sex rougher than most men give it to them. Rough does NOT equal chains and bondage. And this applies to the bedroom only, and does not mean that she wants you to choose her dinner for her, or treat her like less of a person. **Some women have said that they don't like it rough and what the hell am I thinking? Well, girls, you're in the minority. HOWEVER, all women need to remember that, in addition to be straight forward about your sexual desires, you need to be straight forward about your sexual limits. Don't be afraid to ask for more, but when something feels wrong, say so. Don't ever do something you don't want to do in silence and then blame the guy. Silence is dangerous.
+We are all here
+
+Update: Manu just called.
+
+Manu is now speaking to lorry driver. Driver is getting animated. He is the real victim(I kinda agree)
+
+Manu is now speaking to BIL.
+
+BIL is getting animated
+
+Manu has asked to speak to lorry driver again
+
+Manu clearly believes in getting all sides in a conflict before coming to a decision because he is now speaking to lorry driver's assistant. A wise judge. Maybe he'll want to speak to me too. One can but hope.
+
+Manu is now speaking to BIL again. So far he has shown no interest in speaking to us. This is humbling.
+
+Mom is scolding dad for demanding to speak to Manu. Dad has been banished back inside as punishment.
+
+Meanwhile Manu and BIL do not appear close to a resolution.
+
+Dad attemped to break curfew and come back out. He has now claimed he's done with the whole thing and doesnt care and also where the hell is dinner and he is going to room to watch news because state of the world matters more than a ruddy truck. 
+Valid points, but I am skeptical.
+
+BREAKING NEWS: Manu Is Coming
+
+First however, Manu obv has to talk to driver again. Manu seems to be a talker, he has lots to say to everyone.
+
+Still nothing to say to me though. Hey Manu, nobody likes a snob, you know. I'm a person too.
+
+Phone has been hung up. We are now waiting for Manu.
+
+holy shit a lot of y'all care about my BIL and his misadventures with rice trucks. We're still waiting for Manu so consider this an ad break. Get popcorn, visit the loo, order some rice.
+
+Update: Manu called again. He is lost and needs directions.
+
+Mom is making everyone eat food while we wait. Ironically there is no rice on menu.
+
+Update: Mom just called back. I think Manu may have arrived.
+
+Ok we're outside(sorry bout delay, but we're dependent on mom who DGAF about anyone during dinner, even Manu)
+
+Since I know I cared about this and was wondering, Manu kinda looks disappointingly average. He's just  normal, random desi uncle in shirt pant. Sad!
+
+BIL is now making what appears to be a passionate case. Manu certainly appears sympathetic, he is nodding.
+
+Manu is now nodding at what driver says. Manu nods at everyone.
+
+BIL just played the "are you married" card. This is escalating. Manu's sense of husbandly empathy has been invoked.
+
+It turns out Manu is indeed married. BIL is visibly relieved.
+
+Lorry Driver wants them both to know that he too is married.
+
+In a tragic twist, Lorry Drivers marriage was not deemed worthy of discussion by anyone. Lorry Driver is now my rooting interest
+
+It appears Manu is brokering some sort of compromise.
+
+Apparently compromise is that if BIL buys some sacks of rice* and then Manu will make the rest just go away.
+
+*Number under negotiation
+
+Manu has opened aggressively with a you take half I take half offer. BIL has counetered by pointing out in that case Manu will need to take him too
+
+BIL is now saying he can do 10 bags but does Manu want a bottle of scotch thrown in? I deeply admire this man's commitment to corruption.
+
+Plot twist: Manu is a teetotaller apparently
+
+The lorry driver has shared that he however, would rather like a bottle of whisky. He is also willing to accept rum. He's accomodating like that.
+
+Manu has informed him he won't be getting anything of the sort. Lorry driver looks unhappy
+
+Lorry driver is no longer speaking up when Manu wants him to chime in. Heel turn.
+
+BIL just produced a MS Dhoni/Tom Brady level comeback and has sent for rum for lorry driver. He is exploiting the breach.
+
+Meanwhile mom wants to go to bed and I need to convince her not to she is our only window into this ricely saga send thoughts and prayers
+
+Update: Mom is not going to bed just yet, I invoked this ridiculously large audience and it swayed her.
+
+I think she may be judging y'all for caring this much about rice, but she's been judging me my whole life too, you'll be fine
+
+Neighbour Uncle has emerged wearing kurta pajama. He wants to solve the problem himself.
+
+Neighbour Uncle has unemerged because he was not wearing a mask and Neighbour Aunt was shouting at him
+
+Meanwhile BIL and Manu seem to be closing in on a deal in the 20-25 bag range. Lorry Driver is now not even trying to hide his alignment switch.
+
+They are now shaking hands. I believe we may have an accord.
+
+Final terms: 23 bags, one bottle Old Monk, one bottle scotch*. Everyone is exhausted. 
+
+* Lorry driver is the best fucking negotiator of the lot
+
+ITS NOT OVER OH GOD NOW WHO WILL UNLOAD 23 BAGS ARGUMENT HAS STARTED
+
+Lorry driver is sick of this shit. He has told helper to unload bags.
+
+Helper, LD and BIL are now unloading bags. This will take a while.
+
+Manu's work is done. He is leaving. This is not the only crisis he needs to solve tonight, no doubt. No rest for the elite specialist
+
+Neighbour Uncle has re-emerged, now wearing mask.
+
+BIL just asked Neighbour Uncle to help with bags.  I don't think I've ever seen a senior citizen walk home that fast.
+
+Correction: He is not a senior citizen apparently. My mistake.
 """
 
 # Apply the function to the input text

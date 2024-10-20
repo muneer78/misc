@@ -2,10 +2,10 @@ import os
 import difflib
 
 # Directory containing the files
-directory = "/Users/muneer78/EagleFiler/Main/Files/4- Archives"
+directory = "/Users/muneer78/Documents/GitHub/misc/"
 
 # File extensions to compare
-extensions_to_compare = ['.txt']  # Add the extensions you want to compare
+extensions_to_compare = ['.py']  # Add the extensions you want to compare
 
 # Function to compute similarity between two files
 def file_similarity(file1, file2):
@@ -33,6 +33,9 @@ for i, file1 in enumerate(files):
             similarity = file_similarity(file1, file2)
             if similarity >= threshold:
                 similar_files.append((file1, file2, similarity))
+
+# Sort similar files alphabetically by the first file name
+similar_files.sort(key=lambda x: (x[0], x[1]))
 
 # Output similar files
 if similar_files:
