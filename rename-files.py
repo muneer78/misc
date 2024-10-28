@@ -3,7 +3,8 @@ import os
 
 def rename_files(csv_file):
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the script file
-    directory = script_dir  # Use the script's directory as the target directory
+    # directory = script_dir  # Use the script's directory as the target directory
+    directory = '/Users/muneer78/Downloads/rename'  # Use the script's directory as the target directory
 
     with open(csv_file, 'r') as file:
         csv_reader = csv.reader(file)
@@ -23,6 +24,6 @@ def rename_files(csv_file):
                 print(f"File {new_name} already exists")
 
 # Usage example
-csv_file_path = 'filemap.csv'
+csv_file_path = '/Users/muneer78/Downloads/renamed_files_filenames_only.csv'
 
 rename_files(csv_file_path)

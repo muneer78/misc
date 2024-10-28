@@ -26,11 +26,11 @@ import os
 import re
 
 # Directory where the files are located
-directory = "/Users/muneer78/Desktop/saved/"
+directory = "/Users/muneer78/Downloads/rename"
 
 # Regular expression to match 'githubpages' in the filename
-name_pattern1 = re.compile(r'githubpages')
-name_pattern2 = 'site'
+name_pattern1 = re.compile(r'Tor  ')
+name_pattern2 = ''
 
 # Loop through each file in the directory
 for filename in os.listdir(directory):
