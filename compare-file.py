@@ -2,7 +2,7 @@ import os
 import difflib
 
 # Directory containing the files
-directory = "/Users/muneer78/Documents/GitHub/misc/"
+directory = "/Users/muneer78/Documents/Projects/utils"
 
 # File extensions to compare
 extensions_to_compare = ['.py']  # Add the extensions you want to compare
