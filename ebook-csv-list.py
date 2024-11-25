@@ -10,6 +10,23 @@ from bs4 import BeautifulSoup
 from ebooklib import epub
 from datetime import datetime
 import csv
+import re
+
+def sanitize_filename(name):
+    """Remove or replace characters not allowed in filenames."""
+    return re.sub(r'[<>:"/\\|?*]', '', name)
+
+def clean_html(content):
+    """Clean and sanitize the HTML content."""
+    soup = BeautifulSoup(content, 'html.parser')
+
+    # Remove unnecessary tags like scripts and styles
+    for tag in soup(['script', 'style']):
+        tag.decompose()
+
+    # Extract meaningful content (e.g., article body)
+    main_content = soup.find('main') or soup.find('article') or soup.body
+    return main_content.prettify() if main_content else soup.prettify()
 
 def create_ebook_with_chapters(csv_file_path, book_title, author_name):
     try:
@@ -37,11 +54,16 @@ def create_ebook_with_chapters(csv_file_path, book_title, author_name):
                     # Fetch content from the URL
                     response = requests.get(url)
                     response.raise_for_status()
-                    soup = BeautifulSoup(response.content, 'html.parser')
+
+                    # Clean and sanitize HTML content
+                    html_content = clean_html(response.content)
+
+                    # Sanitize chapter title for filenames
+                    sanitized_title = sanitize_filename(chapter_title)
 
                     # Create a new chapter
-                    chapter = epub.EpubHtml(title=chapter_title, file_name=f'chap_{index:02}.xhtml')
-                    chapter.content = soup.prettify()
+                    chapter = epub.EpubHtml(title=chapter_title, file_name=f'chap_{index:02}_{sanitized_title}.xhtml')
+                    chapter.content = html_content
                     book.add_item(chapter)
                     chapters.append(chapter)
                     print(f"Added chapter: {chapter_title}")
@@ -50,12 +72,20 @@ def create_ebook_with_chapters(csv_file_path, book_title, author_name):
                 except Exception as e:
                     print(f"Error creating chapter '{chapter_title}': {e}")
 
+        # Add navigation
+        book.toc = tuple(chapters)
+
         # Define the order of items in the book
         book.spine = ['nav'] + chapters
 
+        # Add navigation file
+        book.add_item(epub.EpubNav())
+        book.add_item(epub.EpubNcx())
+
         # Write the EPUB file
-        epub.write_epub(f'{book_title}.epub', book, {})
-        print(f"eBook '{book_title}.epub' created successfully with {len(chapters)} chapters.")
+        epub_file = f"{sanitize_filename(book_title)}.epub"
+        epub.write_epub(epub_file, book, {})
+        print(f"eBook '{epub_file}' created successfully with {len(chapters)} chapters.")
 
     except FileNotFoundError:
         print(f"File not found: {csv_file_path}")
