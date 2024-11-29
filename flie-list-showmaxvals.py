@@ -1,32 +1,26 @@
-import re
 from pathlib import Path
+import re
+from collections import defaultdict
 
-def find_max_values(folder_path):
-    """Finds the maximum value in files matching the pattern 'abc-123', 'ghf-345', 'xyz-904'
+# Path to the directory containing your files
+directory = Path("/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos")
 
-    Args:
-        folder_path: The path to the folder to search.
+# Dictionary to store max numbers for each prefix
+group_max = defaultdict(int)
 
-    Returns:
-        A dictionary containing the maximum value for each file pattern.
-    """
+# Regex to match filenames with the format <prefix>-<number>
+filename_pattern = re.compile(r"^(.*?)-(\d+)$")
 
-    max_values = {}
-    pattern = re.compile(r"^[a-zA-Z]+-\d+\.[^\.]+$")
+# Iterate through files in the directory
+for file in directory.iterdir():
+    if file.is_file():  # Ensure it's a file
+        match = filename_pattern.match(file.stem)
+        if match:
+            prefix, number = match.groups()
+            number = int(number)
+            # Update max number for the prefix
+            group_max[prefix] = max(group_max[prefix], number)
 
-    for file in Path(folder_path).rglob("*"):
-        if pattern.match(file.name):
-            with file.open('r', encoding='latin-1') as f:  # Try Latin-1 encoding
-                try:
-                    max_value = max(map(float, f.readlines()))
-                    prefix = file.stem.split('-')[0]
-                    max_values[prefix] = max_value
-                except UnicodeDecodeError:
-                    print(f"Error decoding file {file.name}")
-
-    return max_values
-
-# Example usage:
-folder_path = "/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos"
-result = find_max_values(folder_path)
-print(result)
+# Print the max number for each group
+for prefix, max_number in sorted(group_max.items()):
+    print(f"{prefix}: {max_number}")
