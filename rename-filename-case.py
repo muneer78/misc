@@ -1,8 +1,8 @@
-import os
+from pathlib import Path
 import re
 
 # Specify the directory you want to rename files in
-directory = '/Users/muneer78/Downloads'
+directory = Path('/Users/muneer78/Downloads/docs')
 
 # Function to add dashes before letters, remove special characters, and replace whitespace with dashes
 def add_dashes(name):
@@ -21,21 +21,18 @@ def remove_extra_dash(filename):
     return filename
 
 # Loop through all files in the directory
-for filename in os.listdir(directory):
+for file_path in directory.iterdir():
     # Check if the file has the specified image extensions
-    if filename.lower().endswith(('.pdf', '.md')):
-        # Build the full path
-        old_path = os.path.join(directory, filename)
-        
+    if file_path.suffix.lower() in {'.pdf', '.md', '.txt', '.docx', '.jpg', '.jpeg', '.png', '.gif'}:
         # Convert the file name
-        name, ext = os.path.splitext(filename)
+        name, ext = file_path.stem, file_path.suffix
         new_filename = add_dashes(name) + ext.lower()  # Apply transformations to the filename and convert extension to lowercase
         
         # Remove extra dashes
         new_filename = remove_extra_dash(new_filename)
         
-        new_path = os.path.join(directory, new_filename)
+        new_path = file_path.parent / new_filename
         
         # Rename the file
-        os.rename(old_path, new_path)
-        print(f"Renamed: {filename} -> {new_filename}")
+        file_path.rename(new_path)
+        print(f"Renamed: {file_path.name} -> {new_filename}")

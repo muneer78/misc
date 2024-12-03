@@ -34,7 +34,7 @@ move_files() {
 }
 
 # Organize files
-move_files "docs" txt pdf md
+move_files "docs" txt pdf md docx
 move_files "images" jpg jpeg gif png
 move_files "convert-images" webp
 move_files "videos" mp4 mov
