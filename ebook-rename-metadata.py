@@ -2,7 +2,7 @@ from pathlib import Path
 from ebooklib import epub
 
 # Specify the directory containing the EPUB files
-directory = Path("/Users/muneer78/Downloads/test")
+directory = Path("/Users/muneer78/Downloads/convert")
 
 # Loop through all EPUB files in the directory
 for file in directory.glob("*.epub"):
