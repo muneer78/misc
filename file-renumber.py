@@ -31,5 +31,5 @@ def renumber_files(directory):
             print(f"Renamed: {old_file.name} -> {new_file.name}")
 
 # Directory to process
-directory = "/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/images/"  # Replace with your directory path
+directory = "/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos/"  # Replace with your directory path
 renumber_files(directory)
