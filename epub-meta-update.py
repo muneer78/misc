@@ -48,9 +48,9 @@ def update_epub_metadata(file_path, new_author=None, new_title=None):
         print(f"Error processing '{file_path}': {e}")
 
 # Input file path and metadata values
-file_path = Path('/Users/muneer78/reading/ebooks/python-interviews.epub')
-new_author = "Mike Driscoll"
-new_title = "Python Interviews"
+file_path = Path('/Users/muneer78/reading/ebooks/valens-tumblr-porn.epub')
+new_author = "Ana Valens"
+new_title = "Tumblr Porn"
 
 # Ensure the file exists
 if file_path.exists() and file_path.is_file():
