@@ -40,8 +40,8 @@ def resize_image_to_target_size(input_path, output_path, target_size_kb, step=5,
 
 if __name__ == "__main__":
     # Example usage
-    input_image_path = "/Users/muneer78/Downloads/MidlandEyeCare-Ahma-20250114.png"
-    output_image_path = "/Users/muneer78/Downloads/MidlandEyeCare-Ahma-20250114-reduced.png"
+    input_image_path = "/Users/muneer78/Downloads/Costco-Ahmad-20250115.png"
+    output_image_path = f"{input_image_path}-reduced.png"
     target_file_size_kb = 2000  # Target file size in KB
 
     resize_image_to_target_size(input_image_path, output_image_path, target_file_size_kb)
