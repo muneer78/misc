@@ -37,6 +37,6 @@ def clean_markdown(file_path):
     new_file_path.write_text('\n'.join(cleaned_lines))
 
 # Replace with the path to your markdown file
-clean_markdown(r'/Users/muneer78/Downloads/I placed my first wager when I was 10. I’ve gambled more than $1 million since. - Macleans.ca.md')
+clean_markdown(r'/Users/muneer78/Downloads/The Singular Mind of Terry Tao - The New York Times.md')
 
 print("Markdown file cleaned successfully!")
