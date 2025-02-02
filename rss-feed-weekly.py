@@ -6,7 +6,6 @@ from datetime import datetime
 from tqdm import tqdm
 
 rss_feeds = {
-    '404 Media': 'https://www.404media.co/rss/',
     'Andscape': 'https://andscape.com/feed',
     'Supreme Court – The Nation': 'https://www.thenation.com/feed/?post_type=article&subject=supreme-court',
     'Electoral Reform – The Nation': 'https://www.thenation.com/feed/?post_type=article&subject=electoral-reform',
@@ -19,9 +18,9 @@ rss_feeds = {
     'Balls and Strikes': 'https://ballsandstrikes.org/feed/',
     'Baseball America': 'https://feeds.redcircle.com/54051e90-c6e1-43ac-9a01-4c8fc92bc79d',
     'Baseball Prospectus': 'https://www.baseballprospectus.com/feed/',
-    'baseballmusings.com': 'http://feeds2.feedburner.com/Baseballmusingscom',
+    'Baseballmusings.com': 'http://feeds2.feedburner.com/Baseballmusingscom',
     'Boing Boing': 'http://feeds.boingboing.net/boingboing/iBag',
-    'Book Marks Features | Book Marks': 'https://bookmarks.reviews/category/features/feed/',
+    'Book Marks': 'https://bookmarks.reviews/category/features/feed/',
     'Brand Eating': 'https://www.brandeating.com/feeds/posts/default',
     'Teen Vogue': 'https://politepol.com/fd/Vjc601sG0jpO.xml',
     'Brian Moylan Author Archive': 'https://politepol.com/fd/VoicyDwzX43M.xml',
@@ -51,7 +50,7 @@ rss_feeds = {
     'Laughing Squid': 'http://laughingsquid.com/feed/',
     'Legal Profession Blog': 'http://feeds.feedburner.com/LegalProfessionBlog',
     'LifeHacker': 'https://lifehacker.com/feed/rss',
-    'local ': 'https://www.kcur.org/tags/local-food.rss',
+    'KCUR- Local Food ': 'https://www.kcur.org/tags/local-food.rss',
     'Longreads': 'https://longreads.com/feed/',
     'Lowering the Bar': 'http://feeds.feedblitz.com/loweringthebar&x=1',
     'Marginal REVOLUTION': 'http://marginalrevolution.com/feed',
@@ -59,7 +58,7 @@ rss_feeds = {
     'Mental Floss': 'https://www.mentalfloss.com/rss.xml',
     'Misc Newsletters': 'https://kill-the-newsletter.com/feeds/5mr68b7cb43ac2h04ai5.xml',
     'Neatorama': 'http://www.neatorama.com/feed',
-    'News Archives | The Pitch': 'https://www.thepitchkc.com/category/news-52777/feed/',
+    'The Pitch': 'https://www.thepitchkc.com/category/news-52777/feed/',
     'Open Culture': 'https://www.openculture.com/feed',
     'Paul Krugman': 'https://paulkrugman.substack.com/feed',
     'Pitch Weekly': 'https://www.thepitchkc.com/feed/',
@@ -89,11 +88,11 @@ rss_feeds = {
     'Whatever': 'https://whatever.scalzi.com/feed/',
     'Wonkette': 'http://wonkette.com/feed',
     'Work Stories, Humor, Memes, News | Pleated Jeans': 'https://pleated-jeans.com/category/work/feed/',
-    'xkcd.com': 'http://xkcd.com/rss.xml',
+    'Xkcd.com': 'http://xkcd.com/rss.xml',
     'Antiwork - Ruin My Week': 'https://ruinmyweek.com/search/antiwork/feed/rss2/',
-    'Current Affairs': 'https://www.currentaffairs.org/news/rss.xml'
+    'Current Affairs': 'https://www.currentaffairs.org/news/rss.xml',
     'Bitecode': 'https://www.bitecode.dev/feed',
-    'Blogofthe.Day': 'https://www.bitecode.dev/feed',
+    'Blogofthe.Day': 'https://blogofthe.day/feed.xml',
     'Danny Funt+': 'https://dannyfunt.substack.com/feed',
     'Invent with Python': 'https:/inventwithpython.com/blog/feeds/all.atom.xml',
     'Mouse vs. Python': 'https://www.blog.pythonlibrary.org/feed/',
@@ -101,14 +100,24 @@ rss_feeds = {
     'Planet Python': 'https://planetpython.org/rss20.xml',
     'Pudding.cool': 'https://pudding.cool/feed.xml',
     'Python Insider': 'https://blog.python.org/feeds/posts/default',
-    'Perl Hacks': 'https://perlhacks.com/feed/'
+    'Perl Hacks': 'https://perlhacks.com/feed/',
     'PyBites': 'https://pybit.es/feed/',
     'PyCoders Weekly': 'https://pycoders.com/feed/T8SjZAIK',
     'Python Morsels': 'https://www.pythonmorsels.com/topics/feed/',
     'The Python Papers': 'https://www.pythonpapers.com/feed',
     'The Python Rabbithole': 'https://zlliu.substack.com/feed',
     'Trades Ten Years Later': 'https://tradestenyearslater.substack.com/feed',
-    'Trey Hunner': 'https://treyhunner.com/feed/',
+    'Someecards': 'https://www.someecards.com/rss/homepage.xml',
+    'Not Always Legal': 'https://notalwaysright.com/legal/feed/',
+    'Not Always Right- Inspirational': 'https://notalwaysright.com/tag/inspirational/feed/',
+    'Sandwich Tribunal': 'https://www.sandwichtribunal.com/feed/',
+    'WebCurios': 'https://webcurios.co.uk/feed/', 
+    'Recomendo': 'https://www.recomendo.com/feed',
+    'McFilter': 'http://www.mcqn.net/mcfilter/index.xml',
+    'Robin Sloan': 'https://www.robinsloan.com/feed.xml',
+    'One Point Zero': 'https://onepointzero.com/feed/basic',
+    
+
 }
 
 def fetch_feed(site_name, url):
