@@ -2,7 +2,7 @@ import requests
 import feedparser
 import pandas as pd
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 from tqdm import tqdm
 
 rss_feeds = {
@@ -10,7 +10,7 @@ rss_feeds = {
     'Supreme Court – The Nation': 'https://www.thenation.com/feed/?post_type=article&subject=supreme-court',
     'Electoral Reform – The Nation': 'https://www.thenation.com/feed/?post_type=article&subject=electoral-reform',
     'ProPublica': 'https://www.propublica.org/feeds/54Ghome',
-    'Arts & Letters Daily': 'http://ftr.fivefilters.org/makefulltextfeed.php?url=www.aldaily.com/feed/&max=3&links=preserve',
+    # 'Arts & Letters Daily': 'http://ftr.fivefilters.org/makefulltextfeed.php?url=www.aldaily.com/feed/&max=3&links=preserve',
     'Atlas Obscura': 'https://www.atlasobscura.com/feeds/latest',
     'Attack of the 50 Foot Blockchain': 'https://davidgerard.co.uk/blockchain/feed/',
     'Awesome Python Weekly': 'https://python.libhunt.com/newsletter/feed',
@@ -45,7 +45,7 @@ rss_feeds = {
     'Hatewatch | Southern Poverty Law Center': 'https://www.splcenter.org/hatewatch/rss.xml',
     'HolyPython.com': 'https://holypython.com/feed/',
     'Kansas City Royals – MLB Trade Rumors': 'https://www.mlbtraderumors.com/kansas-city-royals/feed/atom',
-    'kottke.org': 'http://feeds.kottke.org/main',
+    'Kottke.org': 'http://feeds.kottke.org/main',
     'Lamebook - Funny Facebook Statuses, Fails, LOLs and More - The Original': 'http://feeds.feedburner.com/Lamebook',
     'Laughing Squid': 'http://laughingsquid.com/feed/',
     'Legal Profession Blog': 'http://feeds.feedburner.com/LegalProfessionBlog',
@@ -116,8 +116,6 @@ rss_feeds = {
     'McFilter': 'http://www.mcqn.net/mcfilter/index.xml',
     'Robin Sloan': 'https://www.robinsloan.com/feed.xml',
     'One Point Zero': 'https://onepointzero.com/feed/basic',
-    
-
 }
 
 def fetch_feed(site_name, url):
@@ -137,8 +135,16 @@ def fetch_feed(site_name, url):
             print(f"No entries found for {site_name}.")
             return pd.DataFrame()
 
+        # Filter entries from the last 2 weeks
+        one_week_ago = datetime.now() - timedelta(weeks=1)
+        recent_entries = [entry for entry in entries if 'published_parsed' in entry and datetime(*entry.published_parsed[:6]) > one_week_ago]
+
+        if not recent_entries:
+            print(f"No recent entries found for {site_name}.")
+            return pd.DataFrame()
+
         # Convert entries to a DataFrame
-        df = pd.DataFrame(entries)
+        df = pd.DataFrame(recent_entries)
         df['site_name'] = site_name
 
         # Ensure required fields exist, fill missing with placeholders
@@ -174,16 +180,9 @@ def rss_df_to_html(df, output_file):
 
         file.write('</body>\n</html>\n')
 
-
-
 # Process feeds
 output_dir = Path("/Users/muneer78/Downloads")
 output_file = output_dir / "rss_feeds.html"
-
-# dfs = [fetch_feed(site_name, url) for site_name, url in rss_feeds.items()]
-# df = pd.concat(dfs, ignore_index=True)
-# rss_df_to_html(df, output_file)
-# print(f"HTML saved to: {output_file}")
 
 # Initialize an empty list to store the feed data
 feed_data = []
