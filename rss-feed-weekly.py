@@ -257,7 +257,7 @@ def fetch_feed(site_name, url):
 
         # Filter entries from the last 2 weeks
         one_week_ago = datetime.now() - timedelta(weeks=1)
-        recent_entries = [entry for entry in entries if 'published_parsed' in entry and datetime(*entry.published_parsed[:6]) > one_week_ago]
+        recent_entries = [entry for entry in entries if 'published_parsed' in entry and entry.published_parsed and datetime(*entry.published_parsed[:6]) > one_week_ago]
 
         if not recent_entries:
             print(f"No recent entries found for {site_name}.")
@@ -280,7 +280,6 @@ def fetch_feed(site_name, url):
     except requests.exceptions.RequestException as e:
         print(f"Error for {site_name}: {e}")
     return pd.DataFrame()
-
 
 def rss_df_to_html(df, output_file):
     with open(output_file, 'w') as file:
