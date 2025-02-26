@@ -234,8 +234,9 @@ rss_feeds = {
     'Standard Ebooks - New Releases': 'https://standardebooks.org/rss/new-releases',
     'The Status Kuo': 'https://statuskuo.substack.com/feed',
     'Steven A. Guccione': 'https://stevesaltfacebook.blog/feed/',
-    'Talking Points Memo': 'https://talkingpointsmemo.com/feed',
+    'The Sunday Long Read': 'https://us9.campaign-archive.com/feed?id=67e6e8a504&u=6e1ae4ac632498a38c1d57c54'
     'Supreme Court – The Nation': 'https://www.thenation.com/feed/?post_type=article&subject=supreme-court',
+    'Talking Points Memo': 'https://talkingpointsmemo.com/feed',
     'Tantek Çelik': 'https://tantek.com/updates.atom',
     'Tastefully Offensive': 'https://www.tastefullyoffensive.com/feed/',
     'Tech': 'https://kill-the-newsletter.com/feeds/527km9xxoq0vonzops4m.xml',
