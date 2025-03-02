@@ -1,7 +1,7 @@
 import re
 
 # File path to your .md file
-file_path = "/Users/muneer78/Documents/Projects/books.md"
+file_path = "/Users/muneer78/Downloads/tv.md"
 
 # Function to remove "The " from the start of a title for sorting purposes
 def sort_key(line):
