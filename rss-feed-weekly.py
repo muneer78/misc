@@ -52,6 +52,7 @@ rss_feeds = {
     'Chris Glass': 'https://chrisglass.com/feed/',
     'Chris Shaw': 'https://thoughts.uncountable.uk/feed',
     'Chriss Wiki :: blog': 'https://utcc.utoronto.ca/~cks/space/blog/?atom',
+    'Club Sportico': 'https://club.sportico.com/feed',
     'Computers, internet, tech: Recently added blogs and sub-categories at ooh.directory': 'https://ooh.directory/feeds/cats/b7q2w7/rss/technology.xml',
     'Cool Tools': 'https://feedpress.me/cooltoolsshow',
     'CROW’s Substack': 'https://crownewsletter.substack.com/feed',
