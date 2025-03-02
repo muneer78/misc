@@ -98,7 +98,7 @@ rss_feeds = {
     'Hatewatch | Southern Poverty Law Center': 'https://www.splcenter.org/resources/hate-watch/feed/',
     'Heather Bryant — @HBCompass': 'https://www.hbcompass.io/rss/',
     'Hell Gate': 'https://hellgatenyc.com/all-posts/rss/',
-    'Hopium Chronicles By Simon Rosenberg': 'https://www.hopiumchronic
+    'Hopium Chronicles By Simon Rosenberg': 'https://www.hopiumchronicles.com/feed',
     'hjr265.me': 'https://hjr265.me/blog/index.xml',
     'How Things Work': 'https://www.hamiltonnolan.com/feed',
     'Hyperfocus and ADHD Articles | ADDitude': 'https://www.additudemag.com/tag/hyperfocus/feed/',
