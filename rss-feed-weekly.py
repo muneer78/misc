@@ -123,7 +123,7 @@ rss_feeds = {
     'Kansas Reflector': 'https://kansasreflector.com/feed/',
     'Katherine Yang': 'https://kayserifserif.place/feed.xml',
     'KCUR- Local Food ': 'https://www.kcur.org/tags/local-food.rss',
-    'kenpom's thoughts': 'https://kenpom.substack.com/feed',
+    'kenpoms thoughts': 'https://kenpom.substack.com/feed/',
     'Kev Quirk': 'https://kevquirk.com/feed',
     'Kicks Condor': 'https://www.kickscondor.com/feed.xml',
     'kottke.org': 'http://feeds.kottke.org/main',
