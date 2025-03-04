@@ -1,7 +1,7 @@
 import os
 
 # Specify the directory you want to rename files in
-directory = '/Users/muneer78/EagleFiler/Main/images/Files/Watches/'
+directory = '/Users/muneer78/Downloads/videos'
 
 # Loop through all files in the directory
 for filename in os.listdir(directory):

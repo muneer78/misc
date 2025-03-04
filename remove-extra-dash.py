@@ -10,5 +10,5 @@ def remove_extra_dash(directory):
             print(f'Renamed: {filename} -> {new_filename}')
 
 # Specify the directory
-directory = '/Users/muneer78/EagleFiler/Main/reading/Files/'
+directory = '/Users/muneer78/Downloads/videos'
 remove_extra_dash(directory)

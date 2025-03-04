@@ -80,5 +80,5 @@ def rename_mp3_files(directory):
             print(f"No match in '{mp3_file}'")
 
 if __name__ == "__main__":
-    target_directory = "/Users/muneer78/Downloads/rename"
+    target_directory = "/Users/muneer78/Downloads/videos"
     rename_mp3_files(target_directory)

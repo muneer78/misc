@@ -26,10 +26,10 @@ import os
 import re
 
 # Directory where the files are located
-directory = "/Users/muneer78/Downloads/rename"
+directory = "/Users/muneer78/Downloads/videos"
 
 # Regular expression to match 'githubpages' in the filename
-name_pattern1 = re.compile(r'Tor  ')
+name_pattern1 = re.compile(r'tagmp3_')
 name_pattern2 = ''
 
 # Loop through each file in the directory
