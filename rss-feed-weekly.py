@@ -51,6 +51,7 @@ rss_feeds = {
     'but shes a girl...': 'https://www.rousette.org.uk/index.xml',
     'Buzz Machine': 'https://buzzmachine.com/feed/',
     'CaptainAwkward.com': 'https://captainawkward.com/feed/',
+    'The Cassandra Collective': 'https://cassandracollective.ghost.io/rss/',
     'Cerealously': 'http://www.cerealously.net/feed/',
     'Chefie Data Newsletter': 'https://nouman10.substack.com/feed',
     'Chop Wood, Carry Water': 'https://chopwoodcarrywaterdailyactions.substack.com/feed',
@@ -62,6 +63,7 @@ rss_feeds = {
     'Club Sportico': 'https://club.sportico.com/feed',
     'Computers, internet, tech: Recently added blogs and sub-categories at ooh.directory': 'https://ooh.directory/feeds/cats/b7q2w7/rss/technology.xml',
     'ContraBandCamp': 'https://www.contrabandcamp.com/feed',
+    'Counting Stuff': 'https://www.counting-stuff.com/rss/',
     'CROW’s Substack': 'https://crownewsletter.substack.com/feed',
     'Current Affairs': 'https://www.currentaffairs.org/news/rss.xml',
     'Current Events': 'https://kill-the-newsletter.com/feeds/jnggh1214ov2zpew9383.xml',
@@ -70,6 +72,7 @@ rss_feeds = {
     'Danny Funt+': 'https://dannyfunt.substack.com/feed',
     'Daring Fireball': 'https://daringfireball.net/feeds/main',
     'daverupert.com': 'https://daverupert.com/atom.xml',
+    'default.blog': 'https://www.counting-stuff.com/rss/',
     'Democracy Docket': 'https://www.democracydocket.com/feed/',
     'DepthHub': 'https://www.reddit.com/r/DepthHub/.rss',
     'Discourse Blog': 'https://www.discourseblog.com/feed',
@@ -258,6 +261,7 @@ rss_feeds = {
     'Terence Eden’s Blog': 'https://shkspr.mobi/blog/feed/atom/',
     'Texas Monthly': 'https://www.texasmonthly.com//feed',
     'Texts From Last Night': 'http://feeds.feedburner.com/tfln',
+    'The Beautiful Mess': 'https://cutlefish.substack.com/feed',
     'The Bored Horse': 'https://bored.horse/feed.xml',
     'The Bulwark': 'https://thebulwark.com/feed/',
     'The Candybox Blog': 'http://www.nathalielawhead.com/candybox/feed',
@@ -293,6 +297,7 @@ rss_feeds = {
     'what are the haps': 'https://ryannorth.tumblr.com/rss',
     'Whatever': 'https://whatever.scalzi.com/feed/',
     'Whats Good at Trader Joes': 'http://www.whatsgoodattraderjoes.com/feeds/posts/default',
+    'Wired':"https://www.wired.com/feed/rss",
     'Wonkette': 'http://wonkette.com/feed',
     'Work Stories, Humor, Memes, News | Pleated Jeans': 'https://pleated-jeans.com/category/work/feed/',
     'x-log': 'https://blog.x-way.org/atom.xml',
@@ -333,9 +338,11 @@ def fetch_feed(site_name, url):
             df['link'] = None
         if 'title' not in df.columns:
             df['title'] = "Untitled"
+        if 'published' not in df.columns:
+            df['published'] = "Unknown Date"
 
         # Return only the last 10 items
-        return df[['title', 'link', 'site_name']].head(10)
+        return df[['title', 'link', 'site_name', 'published']].head(10)
     except requests.exceptions.HTTPError as e:
         print(f"HTTP Error for {site_name}: {e}")
     except requests.exceptions.RequestException as e:
@@ -355,10 +362,10 @@ def rss_df_to_html(df, output_file):
         for site_name, group in df.groupby('site_name'):
             file.write(f'<h2>{site_name}</h2>\n<ul>\n')
             for _, row in group.iterrows():
-                file.write(f'<li><a href="{row.link}">{row.title}</a></li>\n')
+                file.write(f'<li><a href="{row.link}">{row.title}</a> - {row.published}</li>\n')
             file.write('</ul>\n')
 
-        file.write('</body>\n</html>\n')
+        file.write('</body>\n</html>\n')90
 
 # Sort the rss_feeds dictionary by keys without paying attention to capitalization
 sorted_rss_feeds = dict(sorted(rss_feeds.items(), key=lambda item: item[0].lower()))
