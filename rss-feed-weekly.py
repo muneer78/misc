@@ -128,6 +128,7 @@ rss_feeds = {
     'Julia Evans': 'https://jvns.ca/atom.xml',
     'Junk Banter': 'http://junkbanter.com/feed/',
     'The Junk Food Aisle': 'https://www.thejunkfoodaisle.com/feed/',
+    'jwz': 'https://cdn.jwz.org/blog/feed/,
     'Kansas City Royals – MLB Trade Rumors': 'https://www.mlbtraderumors.com/kansas-city-royals/feed/atom',
     'Kansas Reflector': 'https://kansasreflector.com/feed/',
     'Katherine Yang': 'https://kayserifserif.place/feed.xml',
