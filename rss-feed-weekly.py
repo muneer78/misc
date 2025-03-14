@@ -128,7 +128,7 @@ rss_feeds = {
     'Julia Evans': 'https://jvns.ca/atom.xml',
     'Junk Banter': 'http://junkbanter.com/feed/',
     'The Junk Food Aisle': 'https://www.thejunkfoodaisle.com/feed/',
-    'jwz': 'https://cdn.jwz.org/blog/feed/,
+    'jwz': 'https://cdn.jwz.org/blog/feed/',
     'Kansas City Royals – MLB Trade Rumors': 'https://www.mlbtraderumors.com/kansas-city-royals/feed/atom',
     'Kansas Reflector': 'https://kansasreflector.com/feed/',
     'Katherine Yang': 'https://kayserifserif.place/feed.xml',
@@ -141,6 +141,7 @@ rss_feeds = {
     'Lamebook - Funny Facebook Statuses, Fails, LOLs and More - The Original': 'http://feeds.feedburner.com/Lamebook',
     'Laughing Squid': 'http://laughingsquid.com/feed/',
     'Law Dork': 'https://www.lawdork.com/feed',
+    'Laura Olin': 'https://buttondown.com/lauraolin/rss',
     'Lazybear': 'https://lazybea.rs/index.xml',
     'Legal Profession Blog': 'http://feeds.feedburner.com/LegalProfessionBlog',
     'Letters from an American': 'https://heathercoxrichardson.substack.com/feed',
@@ -366,7 +367,7 @@ def rss_df_to_html(df, output_file):
                 file.write(f'<li><a href="{row.link}">{row.title}</a> - {row.published}</li>\n')
             file.write('</ul>\n')
 
-        file.write('</body>\n</html>\n')90
+        file.write('</body>\n</html>\n')
 
 # Sort the rss_feeds dictionary by keys without paying attention to capitalization
 sorted_rss_feeds = dict(sorted(rss_feeds.items(), key=lambda item: item[0].lower()))
