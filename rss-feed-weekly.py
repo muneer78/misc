@@ -74,6 +74,7 @@ rss_feeds = {
     'CROW’s Substack': 'https://crownewsletter.substack.com/feed',
     'Current Affairs': 'https://www.currentaffairs.org/news/rss.xml',
     'Current Events': 'https://kill-the-newsletter.com/feeds/jnggh1214ov2zpew9383.xml',
+    'Curtis McHale': 'https://curtismchale.ca/feed/',
     'Damn Interesting': 'http://www.damninteresting.com/?feed=rss2',
     'Dan Sinkers Blog': 'https://dansinker.com/feed.xml',
     'Danny Funt+': 'https://dannyfunt.substack.com/feed',
