@@ -1,0 +1,8 @@
+If rvm throwing:
+Checking requirements for osx.
+Installing requirements for osx.
+mkdir: /usr/local/rvm/log/1726282817_ruby-3.4.0-preview1: Permission denied
+
+run the following commands
+rvm fix-permissions system;
+rvm fix-permissions user

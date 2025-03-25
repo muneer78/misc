@@ -1,0 +1,18 @@
+remove double quotes from title tag
+
+sed -i.bak 's/^title: "\([^"]*\)"/title: \1/' *.md
+sed -i.bak 's/^date: "\([^"]*\)"/title: \1/' *.md
+rm *.bak
+
+--
+
+Add new line to front matter
+
+sed -i.bak '/^tags:/a\
+layout: post
+' *.md
+
+---
+
+To remove bak files
+rm *.bak

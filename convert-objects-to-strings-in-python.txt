@@ -1,0 +1,152 @@
+Hi there,
+
+Some programming languages make it difficult to see what an object looks like when debugging your code. Python tries to make this as easy as possible.
+ 
+Programmer-readable string representation
+If you type some code in the Python REPL (the interactive Python prompt) that returns an object, Python will show you the string representation for that object:
+>>> 3 + 4
+7
+Most Python objects have a friendly string representation that looks like the code you'd type to create that object.
+
+For example the string representation for lists, tuples, and dictionaries usually look like the code you could type to create an equivalent object:
+>>> color_counts = {"purple": 5, "blue": 1, "green": 3, "pink": 2}
+>>> color_counts
+{'purple': 5, 'blue': 1, 'green': 3, 'pink': 2}
+>>> list(color_counts.items())
+[('purple', 5), ('blue', 1), ('green', 3), ('pink', 2)]
+>>> set(color_counts.keys())
+{'blue', 'purple', 'green', 'pink'}
+
+This string representation is often called the "programmer-readable string representation" because it's intended for Python programmers who are debugging our code (rather than for the users of our code, who may not understand Python code).
+
+You can get a string that uses this representation by using Python's built-in repr function:
+>>> numbers = [2, 1, 3, 4, 7, 11, 18]
+>>> repr(numbers)
+'[2, 1, 3, 4, 7, 11, 18]'
+ 
+Human-readable string representation
+Python also allows objects to specify a "human-readable string representation". When you use the print function to print an object, you'll see this representation used.
+
+Python's datetime.datetime objects have this programmer-readable string representation:
+>>> from datetime import datetime
+>>> python2_eol_date = datetime(2020, 1, 1)
+>>> python2_eol_date
+datetime.datetime(2020, 1, 1, 0, 0)
+
+And this human-readable string representation:
+>>> print(python2_eol_date)
+2020-01-01 00:00:00
+
+You can get a string that uses this representation by using Python's built-in str function:
+>>> str(python2_eol_date)
+'2020-01-01 00:00:00'
+ 
+str does the same thing as repr for most objects
+Every object in works with the built-in repr and str functions. But most objects return the same string when passed to repr and str.
+
+When you ask for the human-readable string representation of lists, sets, dictionaries, tuples, and numbers you'll see the programmer-readable string representation instead:
+>>> color_counts = {"purple": 5, "blue": 1, "green": 3, "pink": 2}
+>>> str(color_counts)
+"{'purple': 5, 'blue': 1, 'green': 3, 'pink': 2}"
+>>> str(list(color_counts.items()))
+"[('purple', 5), ('blue', 1), ('green', 3), ('pink', 2)]"
+>>> str(set(color_counts.keys()))
+"{'blue', 'purple', 'green', 'pink'}"
+>>> str(color_counts["purple"])
+'5'
+Most objects define a programmer-readable string representation but not a human-readable string representation. And if a human-readable string representation isn't defined, the programmer-readable one will be used instead.
+
+For more on these two string representations, see Python's 2 string representations.
+ 
+What about the humans?
+When converting complex objects to strings, we probably shouldn't show our end users a programmer-readable representation because it's often not very friendly
+>>> numbers = [2, 1, 3, 4, 7, 11, 18]
+>>> print(numbers)
+[2, 1, 3, 4, 7, 11, 18]
+This is most often a problem for lists, dictionaries, and pretty much anything you can loop over.
+
+How could we display a friendly string representing a data structure?
+ 
+Converting lists to strings
+In Python, the string join method is the usual way we convert lists to strings.
+>>> colors = ["purple", "blue", "green", "pink"]
+>>> joined_colors = ", ".join(colors)
+>>> joined_colors
+'purple, blue, green, pink'
+Note that the join syntax in Python is different from many programming languages.
+In Python the join method doesn't live on lists, but on strings:
+>>> colors.join(", ")  # This doesn't work
+>>> ", ".join(colors)  # This does work
+The Python core developers stored this method on strings so that we can join any iterable. For example we could join a set of colors:
+>>> colors = {"purple", "blue", "green", "pink"}
+>>> joined_colors = ", ".join(colors)
+Or we could join the keys in a dictionary:
+>>> color_counts = {"purple": 5, "blue": 1, "green": 3, "pink": 2}
+>>> joined_colors = ", ".join(color_counts.keys())
+The string join method works on all iterables... as long as they're iterables of strings.
+ 
+Joining non-strings
+If you try to call the join method on an iterable of numbers, you'll get an exception:
+>>> numbers = [2, 1, 3, 4, 7, 11, 18]
+>>> joined_numbers = ", ".join(numbers)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: sequence item 0: expected str instance, int found
+The string join method only works on iterables of strings. To use it on non-strings, we'll need to convert them all to strings first. Usually that means calling the built-in str function on each item.
+
+We could do that with a list comprehension:
+>>> joined_numbers = ", ".join([str(n) for n in numbers])
+>>> joined_numbers
+'2, 1, 3, 4, 7, 11, 18'
+If you've heard of generator expressions before, you might think this would be a good opportunity to use one. Interestingly because the string join method uses a two-pass algorithm, it ends up converting anything we give it to a list anyway. So a generator expression is slightly slower than a comprehension in this case. But if you prefer it for stylistic reasons, I won't fault you. :)
+ 
+A shortcut for joining while printing
+We've been using comma and space (", ") to join our iterables of strings. But you can join iterables of strings together in many different ways.
+
+For example we could put newlines between our items:
+>>> colors = ["purple", "blue", "green", "pink"]
+>>> joined_colors = "\n".join(colors)
+>>> print(joined_colors)
+blue
+purple
+green
+pink
+
+We can also join complex iterables. For example here we're displaying key-value pairs from a dictionary with each on their own line by using a list comprehension:
+>>> color_counts = {"purple": 5, "blue": 1, "green": 3, "pink": 2}
+>>> print("\n".join([
+...     f"{color}: {count}"
+...     for color, count in color_counts.items()
+... ]))
+purple: 5
+blue: 1
+green: 3
+pink: 2
+
+Regardless of how we're joining, if our end goal is printing then there might be an even simpler way to join the items in our iterable.
+
+Python's print function accepts any number of items, converts those items to strings, and then joins them together with a separator (a space character by default).
+
+Instead of this join call:
+>>> numbers = [2, 1, 3, 4, 7, 11, 18]
+>>> print(", ".join([str(n) for n in numbers]))
+We could use this print call:
+>>> numbers = [2, 1, 3, 4, 7, 11, 18]
+>>> print(*numbers, sep=", ")
+
+The print function converts everything to a string and joins. For more on that * syntax, see my article on asterisks in Python or watch my short Python Morsels premium screencast on unpacking iterables into function arguments.
+ 
+Converting to a string, a summary
+If you need to display a string representation of an object, first try out Python's built-in str function.
+
+But if you're working with a data structure, you'll probably want to loop over your object, convert each item to a string individually, and then join those items together using the string join method.
+
+If you don't need any extra processing, you might even be able to get away with using the built-in print function along with a separator and a * to unpack your iterable into separate arguments passed to print.
+
+Happy stringifying!
+
+P.S. If you'd like to improve your Python skills every week, activate your Python Morsels subscription. I send new exercise recommendations each week and there's a Novice track for newer Pythonistas.
+To make sure you keep getting these emails, please add <a href="mailto:trey@truthful.technology">trey@truthful.technology</a> to your address book. Want out of the loop? Unsubscribe.
+
+Postal address: 12651 Monterey Cypress Way, San Diego, CA 92130 
+￼ 
