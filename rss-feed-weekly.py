@@ -303,6 +303,7 @@ rss_feeds = {
     'Sandwich Tribunal': 'https://www.sandwichtribunal.com/feed/',
     'Scott Aaronson': 'https://scottaaronson.blog/?feed=rss2',
     'Scriveners Error': 'https://scrivenerserror.blogspot.com/feeds/posts/default?alt=rss',
+    'seize the dev': 'https://akr.am/blog/feed.xml',
     'Sergis writing': 'https://sergiswriting.com/atom.xml',
     'Shellsharks Feeds': 'https://shellsharks.com/feeds/feed.xml',
     'Shellsharks Links': 'https://shellsharks.com/feeds/link-feed.xml',
