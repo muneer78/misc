@@ -45,6 +45,7 @@ rss_feeds = {
     'The Beacon': 'https://thebeaconnews.org/feed/',
     'The Beautiful Mess': 'https://cutlefish.substack.com/feed',
     'The Belly of the Beast': 'https://thelawyerbubble.com/feed/',
+    'Ben Boyter': 'https://boyter.org/index.xml',
     'Bicycle For Your Mind': 'https://bicycleforyourmind.com/feed.rss',
     'Birchtree': 'https://birchtree.me/rss/',
     'bitches gotta eat!': 'https://bitchesgottaeat.substack.com/feed',
