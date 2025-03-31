@@ -131,7 +131,7 @@ rss_feeds = {
     'Flatland KC': 'https://flatlandkc.org/feed/',
     'Flow State': 'https://www.flowstate.fm/feed',
     'The Flytrap': 'https://rss.beehiiv.com/feeds/OmyX5EL51W.xml',
-    'Foodbeast': 'https://www.foodbeast.com/products/feed/',
+    'Foodbeast': 'https://www.foodbeast.com/feed/',
     'FoxTrot Comics by Bill Amend': 'https://foxtrot.com/feed/',
     'Freddie deBoer': 'https://freddiedeboer.substack.com/feed',
     'Futility Closet': 'http://feeds.feedburner.com/FutilityCloset',
