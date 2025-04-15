@@ -60,6 +60,7 @@ rss_feeds = {
     'Brand Eating': 'https://www.brandeating.com/feeds/posts/default',
     'Brian Moylan Author Archive': 'https://politepol.com/fd/VoicyDwzX43M.xml',
     'brr- Antarctica': 'https://brr.fyi/feed.xml',
+    'Bryan Maniotakis': 'https://bryanmanio.com/feed/',
     'bt': 'https://btxx.org/index.rss',
     'The Bulwark': 'https://thebulwark.com/feed/',
     'but shes a girl...': 'https://www.rousette.org.uk/index.xml',
