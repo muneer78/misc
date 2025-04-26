@@ -8,6 +8,7 @@ from tqdm import tqdm
 rss_feeds = {
     '/dev/lawyer': 'https://writing.kemitchell.com/feed.xml',
     '3 Quarks Daily': 'https://3quarksdaily.com/feed',
+    '404 Media': 'https://www.404media.co/rss/',
     'The 19th': 'https://19thnews.org/feed',
     'A Collection of Unmitigated Pedantry': 'https://acoup.blog/feed/',
     'ADDitude: Hyperfocus and ADHD Articles': 'https://www.additudemag.com/tag/hyperfocus/feed/',
@@ -30,6 +31,7 @@ rss_feeds = {
     'Andy Bell': 'https://bell.bz/feed.xml',
     'Anil Dash': 'https://www.anildash.com/feed.xml',
     'Ann Friedman': 'https://us7.campaign-archive.com/feed?u=4a77dae67a768bc3b920d4961&id=e8184bf53a',
+    'Antipope': 'http://www.antipope.org/charlie/blog-static/atom.xml',
     'Anya Prosvetova': 'https://www.anyalitica.dev/feed.xml',
     'antirez': 'https://antirez.com/rss',
     'App Defaults': 'https://defaults.rknight.me/feed.xml',
@@ -58,6 +60,8 @@ rss_feeds = {
     'Ben Boyter': 'https://boyter.org/index.xml',
     'Benji.dog': 'https://www.benji.dog/bookmarks.xml',
     'Bicycle For Your Mind': 'https://bicycleforyourmind.com/feed.rss',
+    'BIG by Matt Stoller': 'https://www.thebignewsletter.com/feed',
+    'Bill McKibben': 'https://billmckibben.substack.com/feed',
     'Birchtree': 'https://birchtree.me/rss/',
     'bitches gotta eat!': 'https://bitchesgottaeat.substack.com/feed',
     'bitecode': 'https://www.bitecode.dev/feed',
@@ -98,6 +102,7 @@ rss_feeds = {
     'Corey Robin': 'https://coreyrobin.com/feed',
     'Counting Stuff': 'https://www.counting-stuff.com/rss/',
     'CREW': 'https://www.citizensforethics.org/feed',
+    'Crooked Timber': 'https://crookedtimber.org/feed/',
     'CROW’s Substack': 'https://crownewsletter.substack.com/feed',
     'Culture Study- Anne Helen Petersen': 'https://annehelen.substack.com/feed',
     'Current Affairs': 'https://www.currentaffairs.org/news/rss.xml',
@@ -126,6 +131,7 @@ rss_feeds = {
     'Doc Searls': 'https://doc.searls.com/feed/',
     'Documented': 'https://documentedny.com/feed',
     'Drew deVault': 'https://drewdevault.com/blog/index.xml',
+    'Dropsite News': 'https://www.dropsitenews.com/feed?sectionId=136117',
     'The Dry Down': 'https://thedrydown.substack.com/feed/',
     'Dynomight': 'https://dynomight.net/feed.xml',
     'Eater -  Kansas City': 'https://www.eater.com/rss/kansas-city/index.xml',
@@ -397,7 +403,14 @@ rss_feeds = {
     'ℤ→ℤ': 'https://ztoz.blog/index.xml',
     'Zserge': 'https://zserge.com/rss.xml',
     'Indieblog': ' 	https://indieblog.page/rss',
-
+    'The Public Domain': 'https://www.thepublicdomain.org/feed/',
+    'The Waiting Room': 'https://ameliatait.substack.com/feed',
+    'The Sling': 'https://www.thesling.org/feed',
+    'Lawfare- Courts & Litigation': 'https://www.lawfaremedia.org/feeds/courts-litigation',
+    'Lawfare- Congress': 'https://www.lawfaremedia.org/feeds/congress',
+    'Lawfare- Democracy & Elections': 'https://www.lawfaremedia.org/feeds/democracy-elections',
+    'Lawfare- Executive Branch': 'https://www.lawfaremedia.org/feeds/executive-branch',
+    'Asterisk Mag': 'https://asteriskmag.com/feed',
 }
 
 
