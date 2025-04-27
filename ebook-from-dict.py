@@ -35,19 +35,14 @@ def create_epub(urls, output_file):
 
 # Example usage
 urls = [
-	'https://medium.com/@tomwhitwell/52-things-i-learned-in-2014-91fb546741cc',
-   'https://medium.com/magnetic/52-things-i-learned-in-2015-c5c74eed24e0',
-   'https://medium.com/magnetic/31-things-fluxx-learned-in-march-2016-b64768bb388',
-	'https://medium.com/magnetic/i-spent-two-hours-with-a-mobile-video-genius-and-learned-26-useful-things-1a0b233ce453',
-	'https://medium.com/magnetic/52-things-i-learned-in-2016-299fd1e6a62b',
-	'https://medium.com/magnetic/52-things-i-learned-in-2017-d9fb0040bdcb',
-	'https://medium.com/magnetic/52-things-i-learned-in-2018-b07fc110d8e1',
-	'https://medium.com/magnetic/52-things-i-learned-in-2019-8ee483e6c816',
-	'https://medium.com/magnetic/52-things-i-learned-in-2020-6a380692dbb8',
-	'https://medium.com/magnetic/52-things-i-learned-in-2021-8481c4e0d409',
-	'https://medium.com/magnetic/52-things-i-learned-in-2022-db5fcd4aea6e'
+'https://newsletter.sarahhaider.com/p/is-the-culture-war-lost',
+'https://newsletter.sarahhaider.com/p/the-woke-have-won-and-decisively',
+'https://newsletter.sarahhaider.com/p/liberalism-is-resilient-the-battle',
+'https://newsletter.sarahhaider.com/p/liberalism-is-easy-to-abandon-wokeism',
+'https://newsletter.sarahhaider.com/p/we-can-come-back-from-the-brink',
+'https://newsletter.sarahhaider.com/p/the-deep-slumber-of-a-decided-opinion',
 ]
 
-output_file = 'Things I Learned.epub'
+output_file = 'Haider.epub'
 create_epub(urls, output_file)
 print(f'EPUB file "{output_file}" created successfully.')
