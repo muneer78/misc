@@ -20,7 +20,12 @@ try:
 
     # Copy the extracted text to the clipboard
     pyperclip.copy(body_text)
-    print("The extracted text has been copied to the clipboard.")
+
+    # Count the number of characters in the extracted text
+    char_count = len(body_text)
+
+    # Output message
+    print(f"The extracted text has been copied to the clipboard. (Character count: {char_count})")
 
 except requests.exceptions.RequestException as e:
     print(f"Error fetching {url}: {e}")
