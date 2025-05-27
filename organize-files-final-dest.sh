@@ -4,16 +4,20 @@
 declare -A SOURCE_DIRECTORIES=(
     [docs]="/Users/muneer78/Downloads/docs"
     [ebooks]="/Users/muneer78/Downloads/docs"
-    [images]="/Users/muneer78/Downloads/images"
+    [pics]="/Users/muneer78/Downloads/pics"
     [videos]="/Users/muneer78/Downloads/videos"
+    [pics-2]="/Users/muneer78/Downloads/pics-2"
+    [data]="/Users/muneer78/Downloads/data"
 )
 
 # Define target directories and file extensions
 declare -A FILE_CATEGORIES=(
     [docs]="/Users/muneer78/reading/docs:txt pdf md docx"
     [ebooks]="/Users/muneer78/reading/ebooks:epub"
-    [images]="/Users/muneer78/images:jpg jpeg gif png"
+    [pics]="/Users/muneer78/pics:jpg jpeg gif png"
     [videos]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos:mp4 mov"
+    [pics-2]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/images:jpg jpeg gif png"
+    [data]="/Users/muneer78/data:csv xml json html xlsx opml zip"
 )
 
 # Function to move files by extension
@@ -37,7 +41,7 @@ move_files() {
 for category in ${(k)FILE_CATEGORIES}; do
     target_and_extensions=(${(s/:/)FILE_CATEGORIES[$category]}) # Split target and extensions
     target_dir=$target_and_extensions[1]
-    extensions=(${(@s/ /)target_and_extensions[2]}) # Get all extensions
+    extensions=(${(z)target_and_extensions[2]}) # Split extensions by space
     source_dir=$SOURCE_DIRECTORIES[$category] # Get source directory
 
     # Ensure the source directory exists
