@@ -62,6 +62,7 @@ rss_feeds = {
     'Bill McKibben': 'https://billmckibben.substack.com/feed',
     'Birchtree': 'https://birchtree.me/rss/',
     'bitches gotta eat!': 'https://bitchesgottaeat.substack.com/feed',
+    'BitDoze': 'https://www.bitdoze.com/rss.xml',
     'bitecode': 'https://www.bitecode.dev/feed',
     'Bitfield consulting': 'https://bitfieldconsulting.com/posts?format=rss',
     'Bits About Money': 'https://www.bitsaboutmoney.com/archive/rss/',
