@@ -38,6 +38,7 @@ rss_feeds = {
     'The Appeal': 'https://theappeal.org/theappeal',
     'Armin Ronacher': 'https://lucumr.pocoo.org/feed.atom',
     'ArtButMakeItSports': 'https://www.artbutmakeitsports.com/feed',
+    'Artyoms Chaotic Blog': 'https://aartaka.me/rss.xml',
     'arun.is': 'https://arun.is/rss.xml',
     'Asterisk Mag': 'https://asteriskmag.com/feed',
     'Attack of the 50 Foot Blockchain': 'https://davidgerard.co.uk/blockchain/feed/',
@@ -411,6 +412,15 @@ rss_feeds = {
     'Zeldman': 'https://zeldman.com/feed/',
     'Zserge': 'https://zserge.com/rss.xml',
     'ℤ→ℤ': 'https://ztoz.blog/index.xml',
+    'stfn.pl': 'https://stfn.pl/rss.xml',
+    'starbreaker': 'https://starbreaker.org/index.html/./follow/everything.xml',
+    'uncountable.uk': 'https://thoughts.uncountable.uk/feed',
+    'Essential Thinker': 'https://essentialthinker.com/feed/',
+    'ivndbt': 'https://ivndbt.com/rss.xml',
+    'boretti': 'https://borretti.me/feed',
+    'everything changes' : 'https://everythingchanges.us/feed.xml',
+    'Tall Snarky Canadian': 'https://snarky.ca/rss/',
+    'The Python Coding Stack': 'https://www.thepythoncodingstack.com/feed',
 }
 
 def fetch_feed(site_name, url):
