@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 timezones=("America/Chicago" "Asia/Dhaka" "Asia/Karachi" "Asia/Riyadh")
 
 for tz in "${timezones[@]}"; do
