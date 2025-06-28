@@ -440,7 +440,12 @@ rss_feeds = {
     'Tall Snarky Canadian': 'https://snarky.ca/rss/',
     'The Python Coding Stack': 'https://www.thepythoncodingstack.com/feed',
     'Hugh Rundle': 'https://www.hughrundle.net/atom.xml',
-    'Harsh Shandya': 'https://msfjarvis.dev/index.xml'
+    'Harsh Shandya': 'https://msfjarvis.dev/index.xml',
+    'koaning': 'https://koaning.io/feed.xml',
+    'cottongeeks': 'https://www.cottongeeks.com/rss.xml',
+    'The Checkout': 'https://grocerynerd.substack.com/feed',
+    'Hugo van Kemenade': 'https://hugovk.dev/blog/index.xml',
+    'Luke Plant- Python': 'https://lukeplant.me.uk/blog/categories/python//../python.xml',
 }
 
 def fetch_feed(site_name, url):

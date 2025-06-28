@@ -2,7 +2,8 @@ import os
 import re
 
 # Specify the directory you want to rename files in
-directory = '/Users/muneer78/Downloads/docs'
+directory = '/Users/muneer78/Downloads/convert'
+
 
 # Function to add dashes before letters, remove special characters, and replace whitespace with dashes
 def add_dashes(name):
@@ -23,7 +24,7 @@ def remove_extra_dash(filename):
 # Loop through all files in the directory
 for filename in os.listdir(directory):
     # Check if the file has the specified image extensions
-    if filename.lower().endswith(('.rtfd', '.jpg','.md','.epub')):
+    if filename.lower():
         # Build the full path
         old_path = os.path.join(directory, filename)
         
