@@ -446,6 +446,7 @@ rss_feeds = {
     'The Checkout': 'https://grocerynerd.substack.com/feed',
     'Hugo van Kemenade': 'https://hugovk.dev/blog/index.xml',
     'Lukes Wild Website': 'https://www.lkhrs.com/blog/index.xml',
+    'Pointers Gone Wild': 'https://pointersgonewild.com/rss.xml',
 }
 
 def fetch_feed(site_name, url):
