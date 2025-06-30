@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/GitHub/dotfiles-jf" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/GitHub/jacquesfunk.github.io" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/GitHub/personal-site" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/GitHub/reenum-blog" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/betlog" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/fantasy-sports" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/misc" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/misc-jf" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/mortgagepayoff" vcs="Git" />
+    <mapping directory="$USER_HOME$/Documents/Projects/utils" vcs="Git" />
   </component>
 </project>

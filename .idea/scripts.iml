@@ -6,5 +6,7 @@
     </content>
     <orderEntry type="jdk" jdkName="uv (scripts)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="betlog" />
+    <orderEntry type="module" module-name="Documents" />
   </component>
 </module>
