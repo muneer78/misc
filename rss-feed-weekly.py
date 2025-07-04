@@ -447,6 +447,7 @@ rss_feeds = {
     'Hugo van Kemenade': 'https://hugovk.dev/blog/index.xml',
     'Lukes Wild Website': 'https://www.lkhrs.com/blog/index.xml',
     'Pointers Gone Wild': 'https://pointersgonewild.com/rss.xml',
+    'Legal LOLz Unfiltered': 'https://lolzunfiltered.substack.com/feed',
 }
 
 def fetch_feed(site_name, url):
