@@ -75,6 +75,7 @@ rss_feeds = {
     'Blogroll.org': 'https://blogroll.org/feed',
     'The Bored Horse': 'https://bored.horse/feed.xml',
     'Brandon Young': 'https://brandonyoung.dev/rss.xml',
+    'Brett Terpstra': 'http://brett.trpstra.net/brettterpstra',
     'Brian Moylan Author Archive': 'https://politepol.com/fd/VoicyDwzX43M.xml',
     'brr- Antarctica': 'https://brr.fyi/feed.xml',
     'Bruce Sterling': 'https://bruces.medium.com/feed',
