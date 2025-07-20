@@ -60,7 +60,7 @@ class SSGGenerator:
         self.template_dir = Path(template_dir)
         self.posts = []
         self.collections = {}
-        self.excluded_from_archive = ['personal', 'spicy']
+        self.included_in_archive = ['posts']
 
         self.site_config = {
             'name': 'Encyclopedia Muneerica',
@@ -71,6 +71,7 @@ class SSGGenerator:
             'twitter': 'reenum',
             'navigation': [
                 {'name': 'Archive', 'url': '/archive.html'},
+                {'name': 'Tags', 'url': '/tags/'},
             ]
         }
 
@@ -103,6 +104,34 @@ class SSGGenerator:
             return date_obj
         else:
             return datetime.min
+
+    def slugify_tag(self, tag: str) -> str:
+        """Convert tag name to URL-safe slug"""
+        # Convert to lowercase and replace spaces/special chars with hyphens
+        slug = re.sub(r'[^\w\s-]', '', tag.lower())
+        slug = re.sub(r'[-\s]+', '-', slug)
+        return slug.strip('-')
+
+    def collect_tags(self):
+        """Collect and organize posts by tags"""
+        self.tag_collections = {}
+        self.all_tags = set()
+
+        for post in self.posts:
+            post_tags = post.get('tags', [])
+            for tag in post_tags:
+                if tag:  # Skip empty tags
+                    self.all_tags.add(tag)
+                    tag_slug = self.slugify_tag(tag)
+
+                    if tag not in self.tag_collections:
+                        self.tag_collections[tag] = {
+                            'slug': tag_slug,
+                            'posts': []
+                        }
+                    self.tag_collections[tag]['posts'].append(post)
+
+        print(f"🏷️  Found {len(self.all_tags)} unique tags")
 
     def parse_frontmatter(self, file_path: Path) -> Optional[Dict]:
         try:
@@ -279,15 +308,87 @@ class SSGGenerator:
         if self.jinja_env and hasattr(template, 'render'):
             return template.render(**kwargs)
         else:
+            # Improved basic template rendering
             result = template if isinstance(template, str) else ""
+
+            # Handle simple variable substitution
             for key, value in kwargs.items():
                 placeholder = f"{{{{ {key} }}}}"
                 if isinstance(value, list):
-                    result = result.replace(placeholder, ', '.join(str(v) for v in value))
+                    if key == 'tags':
+                        # For tags, join without escaping HTML since they contain links
+                        result = result.replace(placeholder, ' '.join(str(v) for v in value))
+                    else:
+                        result = result.replace(placeholder, ', '.join(str(v) for v in value))
                 else:
                     result = result.replace(placeholder, str(value) if value is not None else '')
+
+            # Handle basic if statements for post_count pluralization
+            result = re.sub(r'{%\s*if\s+post_count\s*!=\s*1\s*%}s{%\s*endif\s*%}',
+                            's' if kwargs.get('post_count', 1) != 1 else '', result)
+
+            # Handle basic if statements for total_tags pluralization
+            result = re.sub(r'{%\s*if\s+total_tags\s*!=\s*1\s*%}s{%\s*endif\s*%}',
+                            's' if kwargs.get('total_tags', 1) != 1 else '', result)
+
+            # Handle basic for loops for tag_list
+            if 'tag_list' in kwargs and kwargs['tag_list']:
+                tag_items = ""
+                for tag in kwargs['tag_list']:
+                    tag_item = '''<a href="/tags/{slug}/" class="tag-link">
+              {name} <span class="tag-count">({count})</span>
+            </a>'''.format(
+                        slug=tag['slug'],
+                        name=tag['name'],
+                        count=tag['count']
+                    )
+                    tag_items += tag_item + "\n        "
+                result = re.sub(r'{%\s*for\s+tag\s+in\s+tag_list\s*%}.*?{%\s*endfor\s*%}',
+                                tag_items.rstrip(), result, flags=re.DOTALL)
+
+            # Handle basic for loops for tag_posts
+            if 'tag_posts' in kwargs and kwargs['tag_posts']:
+                post_items = ""
+                for i, post in enumerate(kwargs['tag_posts']):
+                    post_date = post['date'].strftime('%B %d, %Y') if post['date'] else ''
+                    tags_str = ', '.join([f'<span class="tag">{tag}</span>' for tag in post.get('tags', [])])
+
+                    post_item = f'''<article class="post-preview">
+            <h3><a href="/{post['url']}">{post['title']}</a></h3>
+            <div class="post-meta">
+              {post_date}
+              {f'<span class="tags">{tags_str}</span>' if tags_str else ''}
+            </div>
+            <div class="post-excerpt">{post['excerpt']}</div>
+            <p><a href="/{post['url']}" class="read-more">Read More →</a></p>
+          </article>'''
+                    if i < len(kwargs['tag_posts']) - 1:
+                        post_item += "\n      <hr>"
+                    post_items += post_item + "\n      "
+                result = re.sub(r'{%\s*for\s+post\s+in\s+tag_posts\s*%}.*?{%\s*endfor\s*%}',
+                                post_items.rstrip(), result, flags=re.DOTALL)
+
+            # Handle conditional blocks
+            if 'tag_posts' in kwargs:
+                if kwargs['tag_posts']:
+                    result = re.sub(r'{%\s*if\s+tag_posts\s*%}(.*?){%\s*else\s*%}.*?{%\s*endif\s*%}',
+                                    r'\1', result, flags=re.DOTALL)
+                else:
+                    result = re.sub(r'{%\s*if\s+tag_posts\s*%}.*?{%\s*else\s*%}(.*?){%\s*endif\s*%}',
+                                    r'\1', result, flags=re.DOTALL)
+
+            if 'tag_list' in kwargs:
+                if kwargs['tag_list']:
+                    result = re.sub(r'{%\s*if\s+tag_list\s*%}(.*?){%\s*else\s*%}.*?{%\s*endif\s*%}',
+                                    r'\1', result, flags=re.DOTALL)
+                else:
+                    result = re.sub(r'{%\s*if\s+tag_list\s*%}.*?{%\s*else\s*%}(.*?){%\s*endif\s*%}',
+                                    r'\1', result, flags=re.DOTALL)
+
+            # Clean up remaining template syntax
             result = re.sub(r'{%.*?%}', '', result, flags=re.DOTALL)
             result = re.sub(r'{{.*?}}', '', result)
+
             return result
 
     def convert_markdown_to_html(self, markdown_text: str) -> str:
@@ -452,8 +553,12 @@ class SSGGenerator:
             return f"{collection_name}/{name}.html"
 
     def list_tags(self, tags):
-        # Return tags as plain text, not links or spans
-        return [str(tag) for tag in tags]
+        # Return tags as clickable HTML links instead of plain text
+        tag_links = []
+        for tag in tags:
+            tag_slug = self.slugify_tag(str(tag))
+            tag_links.append(f'<a href="/tags/{tag_slug}/" class="tag-link">{tag}</a>')
+        return tag_links
 
     def generate_posts(self):
         post_template = self.load_template('post.html')
@@ -540,10 +645,10 @@ class SSGGenerator:
         print(f"✅ Generated: index.html with {len(recent_posts)} recent entries")
 
     def generate_archive(self):
-        # Filter out posts from excluded collections
+        # Include posts in included collections
         filtered_posts = [
             post for post in self.posts 
-            if post.get('collection', 'posts') not in self.excluded_from_archive
+            if post.get('collection', 'posts') in self.included_in_archive
         ]
         
         # Sort the filtered posts using normalize_date
@@ -552,10 +657,10 @@ class SSGGenerator:
         for post in all_posts:
             post['tags'] = self.list_tags(post.get('tags', []))
         
-        # Filter collections for template context (excluding personal and spicy)
+        # Filter collections for template context
         filtered_collections = {
             name: posts for name, posts in self.collections.items() 
-            if name not in self.excluded_from_archive
+            if name in self.included_in_archive
         }
         
         archive_template = self.load_template('archive.html')
@@ -569,7 +674,206 @@ class SSGGenerator:
         archive_path = self.output_dir / 'archive.html'
         with open(archive_path, 'w', encoding='utf-8') as f:
             f.write(rendered)
-        print(f"✅ Generated: archive.html with {len(all_posts)} posts across {len(filtered_collections)} collections (excluding personal/spicy)")
+        print(f"✅ Generated: archive.html with {len(all_posts)} posts across {len(filtered_collections)} collections")
+
+    def generate_tag_pages(self):
+        """Generate individual pages for each tag"""
+        # Create tags directory first
+        tags_dir = self.output_dir / 'tags'
+        tags_dir.mkdir(parents=True, exist_ok=True)
+
+        # Try to load the tag template
+        try:
+            if self.jinja_env:
+                tag_template = self.jinja_env.get_template('tag.html')
+            else:
+                # Use a fallback template if Jinja2 fails
+                tag_template = self.get_fallback_tag_template()
+        except Exception as e:
+            print(f"⚠️  Could not load tag.html template: {e}")
+            tag_template = self.get_fallback_tag_template()
+
+        for tag_name, tag_data in self.tag_collections.items():
+            tag_slug = tag_data['slug']
+            tag_posts = sorted(tag_data['posts'], key=lambda x: self.normalize_date(x['date']), reverse=True)
+
+            # Process tags for each post
+            for post in tag_posts:
+                post['tags'] = self.list_tags(post.get('tags', []))
+
+            rendered = self.render_template(
+                tag_template,
+                tag_name=tag_name,
+                tag_slug=tag_slug,
+                tag_posts=tag_posts,
+                post_count=len(tag_posts)
+            )
+
+            # Create tag directory and index file
+            tag_dir = tags_dir / tag_slug
+            tag_dir.mkdir(parents=True, exist_ok=True)
+            tag_file = tag_dir / 'index.html'
+
+            with open(tag_file, 'w', encoding='utf-8') as f:
+                f.write(rendered)
+
+            print(f"✅ Generated: tags/{tag_slug}/index.html ({len(tag_posts)} posts)")
+
+    def get_fallback_tag_template(self):
+        """Return a fallback tag template if the file doesn't exist"""
+        return '''<!DOCTYPE html>
+    <html>
+      <head>
+        <title>{{ tag_name }} - Encyclopedia Muneerica</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/mun.css" />
+      </head>
+      <body>
+        <div class="wrapper-masthead">
+          <div class="container">
+            <header class="masthead clearfix">
+              <div class="site-info">
+                <h1 class="site-name"><a href="/">Encylopedia Muneerica</a></h1>
+                <p class="site-description">A YungMun Joint</p>
+              </div>
+              <nav>
+                <a href="/archive.html">Archive</a>
+                <a href="/cities/index.html">Cities</a>
+                <a href="/strange_researches/index.html">Strange Researches</a>
+                <a href="/newsletter/index.html">Newsletter</a>
+                <a href="/tags/index.html">Tags</a>
+                <a href="/rss.xml">RSS</a>
+              </nav>
+            </header>
+          </div>
+        </div>
+        <div id="main" role="main" class="container">
+          <h1>Posts tagged with "{{ tag_name }}"</h1>
+          <p>{{ post_count }} post{% if post_count != 1 %}s{% endif %} found</p>
+          {% if tag_posts %}
+          {% for post in tag_posts %}
+          <article class="post-preview">
+            <h3><a href="/{{ post.url }}">{{ post.title }}</a></h3>
+            <div class="post-meta">{{ post.date.strftime('%B %d, %Y') if post.date else '' }}</div>
+            <div class="post-excerpt">{{ post.excerpt }}</div>
+            <p><a href="/{{ post.url }}" class="read-more">Read More →</a></p>
+          </article>
+          {% if not loop.last %}<hr>{% endif %}
+          {% endfor %}
+          {% else %}
+          <p>No posts found for this tag.</p>
+          {% endif %}
+          <p><a href="/tags/">← Back to All Tags</a></p>
+        </div>
+        <div class="wrapper-footer">
+          <div class="container">
+            <footer class="footer">
+              <p>If you want to copy anything here, tell me.</p>
+            </footer>
+          </div>
+        </div>
+      </body>
+    </html>'''
+
+    def get_fallback_tags_index_template(self):
+        """Return a fallback tags index template"""
+        return '''<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Tags - Encyclopedia Muneerica</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/mun.css" />
+      </head>
+      <body>
+        <div class="wrapper-masthead">
+          <div class="container">
+            <header class="masthead clearfix">
+              <div class="site-info">
+                <h1 class="site-name"><a href="/">Encylopedia Muneerica</a></h1>
+                <p class="site-description">A YungMun Joint</p>
+              </div>
+              <nav>
+                <a href="/archive.html">Archive</a>
+                <a href="/cities/index.html">Cities</a>
+                <a href="/strange_researches/index.html">Strange Researches</a>
+                <a href="/newsletter/index.html">Newsletter</a>
+                <a href="/tags/index.html">Tags</a>
+                <a href="/rss.xml">RSS</a>
+              </nav>
+            </header>
+          </div>
+        </div>
+        <div id="main" role="main" class="container">
+          <h1>All Tags</h1>
+          <p>{{ total_tags }} tag{% if total_tags != 1 %}s{% endif %} found</p>
+          {% if tag_list %}
+          <div class="tag-cloud">
+            {% for tag in tag_list %}
+            <a href="/tags/{{ tag.slug }}/" class="tag-link">{{ tag.name }} ({{ tag.count }})</a>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No tags found.</p>
+          {% endif %}
+        </div>
+        <div class="wrapper-footer">
+          <div class="container">
+            <footer class="footer">
+              <p>If you want to copy anything here, tell me.</p>
+            </footer>
+          </div>
+        </div>
+        <style>
+        .tag-cloud { margin: 2em 0; }
+        .tag-link { 
+          display: inline-block; margin: 0.5em 1em 0.5em 0; padding: 0.5em 1em;
+          background: #f5f5f5; border-radius: 4px; text-decoration: none; color: #333;
+          border: 1px solid #ddd; transition: background-color 0.2s;
+        }
+        .tag-link:hover { background: #e0e0e0; }
+        </style>
+      </body>
+    </html>'''
+
+    def generate_tags_index(self):
+        """Generate index page showing all tags"""
+        # Create tags directory first
+        tags_dir = self.output_dir / 'tags'
+        tags_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            if self.jinja_env:
+                tags_index_template = self.jinja_env.get_template('tags-index.html')
+            else:
+                tags_index_template = self.get_fallback_tags_index_template()
+        except Exception as e:
+            print(f"⚠️  Could not load tags-index.html template: {e}")
+            tags_index_template = self.get_fallback_tags_index_template()
+
+        # Sort tags by post count (descending) then alphabetically
+        tag_list = []
+        for tag_name, tag_data in self.tag_collections.items():
+            tag_list.append({
+                'name': tag_name,
+                'slug': tag_data['slug'],
+                'count': len(tag_data['posts'])
+            })
+
+        tag_list.sort(key=lambda x: (-x['count'], x['name'].lower()))
+
+        rendered = self.render_template(
+            tags_index_template,
+            tag_list=tag_list,
+            total_tags=len(tag_list)
+        )
+
+        tags_index_file = tags_dir / 'index.html'
+        with open(tags_index_file, 'w', encoding='utf-8') as f:
+            f.write(rendered)
+
+        print(f"✅ Generated: tags/index.html ({len(tag_list)} tags)")
 
     def generate_rss_feed(self):
         # Prepare posts for RSS (limit to recent 20) using normalize_date
@@ -615,14 +919,19 @@ class SSGGenerator:
         if not self.posts:
             print("❌ No posts found! Check your content files.")
             return
+
+        self.collect_tags()  # New: Collect tags after posts
         self.generate_posts()
         self.generate_index()
         self.generate_collection_indexes()
         self.generate_archive()
+        self.generate_tag_pages()  # New: Generate tag pages
+        self.generate_tags_index()  # New: Generate tags index
         self.generate_rss_feed()
         self.copy_static_files()
         print(f"🎉 Site generated successfully!")
         print(f"📊 Generated {len(self.posts)} posts across {len(self.collections)} collections")
+        print(f"🏷️  Generated {len(self.tag_collections)} tag pages")
         print(f"📁 Output directory: {self.output_dir}")
 
 def main():

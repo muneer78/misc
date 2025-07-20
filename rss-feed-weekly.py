@@ -153,6 +153,7 @@ rss_feeds = {
     'The Electric Typewriter': 'https://electrictype.substack.com/feed',
     'Ellane W': 'https://ellanew.com/feed.rss',
     'Email is good.': 'https://email-is-good.com/feed/',
+    'Eric Ma': 'https://ericmjl.github.io/blog/',
     'Ethan Persoff': 'https://www.ep.tc/rss.xml',
     'Evan Miller': 'https://www.evanmiller.org/news.xml',
     'Farm to Fountains': 'https://farmtofountains.com/feed/',
@@ -333,7 +334,7 @@ rss_feeds = {
     'Raymond Camden': 'https://www.raymondcamden.com/feed.xml',
     'Read Rodge': 'https://rodgersherman.substack.com/feed',
     'read-only': 'https://read-only.net/feed.xml',
-    'Recomendo': 'https://www.recomendo.com/feed',f
+    'Recomendo': 'https://www.recomendo.com/feed',
     'ReedyBears Blog': 'https://reedybear.bearblog.dev/feed/',
     'Reilly Spitzfaden': 'https://reillyspitzfaden.com/blog/feed.xml',
     'Renga In Blue': 'https://bluerenga.blog/feed/',
