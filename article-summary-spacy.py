@@ -42,7 +42,7 @@ def summarize_paragraph(paragraph, sentences_count=3):
     return summary
 
 if __name__ == "__main__":
-    url = "https://www.gelliottmorris.com/p/the-myth-of-republican-isolationism"
+    url = "https://www.wheresyoured.at/make-fun-of-them/"
     article = extract_text_from_url(url)
     sentences_count = 3
     summary = summarize_paragraph(article, sentences_count)
