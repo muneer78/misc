@@ -251,14 +251,14 @@ class SSGGenerator:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/mun.css" />
-    <link rel="alternate" type="application/rss+xml" title="Encylopedia Muneerica" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Encyclopedia Muneerica" href="/rss.xml" />
   </head>
   <body>
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
           <div class="site-info">
-            <h1 class="site-name"><a href="/">Encylopedia Muneerica</a></h1>
+            <h1 class="site-name"><a href="/">Encyclopedia Muneerica</a></h1>
             <p class="site-description">A YungMun Joint</p>
           </div>
           <nav>
@@ -734,7 +734,7 @@ class SSGGenerator:
           <div class="container">
             <header class="masthead clearfix">
               <div class="site-info">
-                <h1 class="site-name"><a href="/">Encylopedia Muneerica</a></h1>
+                <h1 class="site-name"><a href="/">Encyclopedia Muneerica</a></h1>
                 <p class="site-description">A YungMun Joint</p>
               </div>
               <nav>
@@ -791,15 +791,15 @@ class SSGGenerator:
           <div class="container">
             <header class="masthead clearfix">
               <div class="site-info">
-                <h1 class="site-name"><a href="/">Encylopedia Muneerica</a></h1>
+                <h1 class="site-name"><a href="/">Encyclopedia Muneerica</a></h1>
                 <p class="site-description">A YungMun Joint</p>
               </div>
               <nav>
                 <a href="/archive.html">Archive</a>
+                <a href="/tags/index.html">Tags</a>
                 <a href="/cities/index.html">Cities</a>
                 <a href="/strange_researches/index.html">Strange Researches</a>
                 <a href="/newsletter/index.html">Newsletter</a>
-                <a href="/tags/index.html">Tags</a>
                 <a href="/rss.xml">RSS</a>
               </nav>
             </header>
@@ -914,6 +914,26 @@ class SSGGenerator:
 
     def generate(self):
         print("🏗️  Starting site generation...")
+
+        # Move existing output directory to trash
+        if self.output_dir.exists():
+            try:
+                # Try using send2trash if available
+                try:
+                    import send2trash
+                    send2trash.send2trash(str(self.output_dir))
+                    print(f"🗑️  Moved existing {self.output_dir} to trash")
+                except ImportError:
+                    # Fallback to creating a backup with timestamp
+                    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                    backup_name = f"{self.output_dir.name}_backup_{timestamp}"
+                    backup_path = self.output_dir.parent / backup_name
+                    shutil.move(str(self.output_dir), str(backup_path))
+                    print(f"📦 Moved existing {self.output_dir} to {backup_path}")
+            except Exception as e:
+                print(f"⚠️  Could not move to trash, removing directory: {e}")
+                shutil.rmtree(self.output_dir)
+
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.collect_posts()
         if not self.posts:
