@@ -204,6 +204,7 @@ rss_feeds = {
     'Pointers Gone Wild': 'https://pointersgonewild.com/rss.xml',
     'Legal LOLz Unfiltered': 'https://lolzunfiltered.substack.com/feed',
     'Ludic': 'https://ludic.mataroa.blog/rss/',
+    'Gordons Notes': 'https://notes.kateva.org/feeds/posts/default'
 }
 
 def fetch_feed(site_name, url):

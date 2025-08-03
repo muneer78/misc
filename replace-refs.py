@@ -1,7 +1,7 @@
 import pathlib
 
-search = "../../assets/"
-replace = "../../static/assets/"
+search = "layout: post"
+replace = ""
 
 for path in pathlib.Path("/Users/muneer78/Documents/GitHub/personal-site").rglob("*"):
     if path.is_file():
