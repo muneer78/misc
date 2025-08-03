@@ -43,7 +43,7 @@ def add_blockquote_to_md(file_path):
 # Example usage:
 # If your markdown file is named 'my_document.md' and is in the same directory
 # as this script, you would call:
-add_blockquote_to_md('/Users/muneer78/Documents/GitHub/mun-ssg/content/personal/2025-02-08-who-goes-maga-1.md')
+add_blockquote_to_md('')
 
 # If your file is in a different path, provide the full path:
 # add_blockquote_to_md('/path/to/your/documents/another_file.md')
