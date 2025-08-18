@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 rss_feeds = {
     '/dev/lawyer': 'https://writing.kemitchell.com/feed.xml',
+    'Aaron Blackshear': 'https://strictlyforbuckets.com/blog/index.xml',
     'Alexwlchan': 'https://alexwlchan.net/atom.xml',
     'Ali Barthwell Author Archive': 'https://politepol.com/fd/Z7RsuNu72Zc4.xml',
     'The American Pamphleteer': 'https://ladylibertie.substack.com/feed',
@@ -19,6 +20,7 @@ rss_feeds = {
     'bitches gotta eat!': 'https://bitchesgottaeat.substack.com/feed',
     'Brett Terpstra': 'http://brett.trpstra.net/brettterpstra',
     'Brian Moylan Author Archive': 'https://politepol.com/fd/VoicyDwzX43M.xml',
+    'Dan Hon': 'https://newsletter.danhon.com/rss.xml',
     'Dan Sinkers Blog': 'https://dansinker.com/feed.xml',
     'Danny Funt+': 'https://dannyfunt.substack.com/feed',
     'DepthHub': 'https://www.reddit.com/r/DepthHub/.rss',
@@ -51,6 +53,7 @@ rss_feeds = {
     'Royals Farm Report': 'https://royalsfarmreport.com/feed/',
     'Royals Review -  All Posts': 'https://www.royalsreview.com/rss/index.xml',
     'Royals – FanGraphs Baseball': 'https://www.fangraphs.com/blogs/category/teams/royals/feed/',
+    'Royals Data Dugout': 'https://royalsdatadugout.substack.com/feed',
     'Salon.com > amanda_marcotte': 'https://www.salon.com/writer/amanda_marcotte/feed',
     'Shellsharks Feeds': 'https://shellsharks.com/feeds/feed.xml',
     'SportsLogos.Net News': 'https://news.sportslogos.net/feed/',
