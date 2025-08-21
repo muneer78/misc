@@ -54,6 +54,7 @@ rss_feeds = {
     'Royals Review -  All Posts': 'https://www.royalsreview.com/rss/index.xml',
     'Royals – FanGraphs Baseball': 'https://www.fangraphs.com/blogs/category/teams/royals/feed/',
     'Royals Data Dugout': 'https://royalsdatadugout.substack.com/feed',
+    'Sabatos Crystal Ball': 'https://centerforpolitics.org/crystalball/feed/',
     'Salon.com > amanda_marcotte': 'https://www.salon.com/writer/amanda_marcotte/feed',
     'Shellsharks Feeds': 'https://shellsharks.com/feeds/feed.xml',
     'SportsLogos.Net News': 'https://news.sportslogos.net/feed/',
