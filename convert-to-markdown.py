@@ -1,7 +1,9 @@
 from markitdown import MarkItDown
 
 markitdown = MarkItDown()
-result = markitdown.convert("/Users/muneer78/Downloads/convert/3-pandas-functions-for-dataframe-merging-by-cornellius-yudha-wijaya-aug-2023-towards-ai.pdf")
+result = markitdown.convert(
+    "/Users/muneer78/Downloads/convert/3-pandas-functions-for-dataframe-merging-by-cornellius-yudha-wijaya-aug-2023-towards-ai.pdf"
+)
 
 print(result.text_content)
 # output_file = "/Users/muneer78/Downloads/convert/result.md"

@@ -52,27 +52,28 @@
 import os
 import re
 
+
 def update_markdown_files(directory):
     # Define the pattern to search for "categories"
     categories_pattern = re.compile(r".*", re.IGNORECASE)
 
     # Iterate over all files in the given directory
     for filename in os.listdir(directory):
-        if filename.endswith('.mp3'):
+        if filename.endswith(".mp3"):
             filepath = os.path.join(directory, filename)
 
             # Read the content of the file
-            with open(filepath, 'r', encoding='utf-8') as file:
+            with open(filepath, "r", encoding="utf-8") as file:
                 content = file.read()
 
             # Replace "categories" with "tags"
-            updated_content = re.sub(categories_pattern, '', content)
+            updated_content = re.sub(categories_pattern, "", content)
 
             # Write the modified content back to the file
-            with open(filepath, 'w', encoding='utf-8') as file:
+            with open(filepath, "w", encoding="utf-8") as file:
                 file.write(updated_content)
 
-if __name__ == "__main__":
-    directory = '/Users/muneer78/Downloads/rename'  # Set your specific directory here
-    update_markdown_files(directory)
 
+if __name__ == "__main__":
+    directory = "/Users/muneer78/Downloads/rename"  # Set your specific directory here
+    update_markdown_files(directory)

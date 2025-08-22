@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+
 
 def add_blockquote_to_md(file_path):
     """
@@ -24,14 +24,14 @@ def add_blockquote_to_md(file_path):
         new_file_path = original_path.parent / new_file_name
 
         # Read the original content of the file
-        with open(original_path, 'r', encoding='utf-8') as f:
+        with open(original_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
         # Prepend '> ' to each line
         modified_lines = [f"> {line}" for line in lines]
 
         # Write the modified content to the new file
-        with open(new_file_path, 'w', encoding='utf-8') as f:
+        with open(new_file_path, "w", encoding="utf-8") as f:
             f.writelines(modified_lines)
 
         print(f"Successfully added blockquotes and saved to '{new_file_path}'.")
@@ -39,11 +39,12 @@ def add_blockquote_to_md(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # --- How to use this script ---
 # Example usage:
 # If your markdown file is named 'my_document.md' and is in the same directory
 # as this script, you would call:
-add_blockquote_to_md('')
+add_blockquote_to_md("")
 
 # If your file is in a different path, provide the full path:
 # add_blockquote_to_md('/path/to/your/documents/another_file.md')

@@ -11,7 +11,9 @@ chars_to_remove = "'`()_|#?%\/,&"
 for file in directory.iterdir():
     if file.is_file():
         # Remove specified characters from the filename (stem + extension)
-        cleaned_name = ''.join(char for char in file.name if char not in chars_to_remove)
+        cleaned_name = "".join(
+            char for char in file.name if char not in chars_to_remove
+        )
         new_path = file.with_name(cleaned_name)
         # Rename the file
         file.rename(new_path)

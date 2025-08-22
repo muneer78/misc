@@ -4,7 +4,6 @@ Script to recursively replace 'uplifting' with 'positive' on lines starting with
 """
 
 import os
-import re
 import argparse
 from pathlib import Path
 
@@ -12,7 +11,7 @@ from pathlib import Path
 def process_file(file_path, dry_run=False):
     """Process a single file to replace 'uplifting' with 'positive' on tags: lines"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
         modified = False
@@ -20,8 +19,8 @@ def process_file(file_path, dry_run=False):
 
         for line in lines:
             # Check if line starts with 'tags:' and contains 'uplifting'
-            if line.strip().startswith('tags:') and 'uplifting' in line:
-                new_line = line.replace('uplifting', 'positive')
+            if line.strip().startswith("tags:") and "uplifting" in line:
+                new_line = line.replace("uplifting", "positive")
                 new_lines.append(new_line)
                 modified = True
                 if dry_run:
@@ -30,7 +29,7 @@ def process_file(file_path, dry_run=False):
                 new_lines.append(line)
 
         if modified and not dry_run:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.writelines(new_lines)
             print(f"Modified: {file_path}")
 
@@ -78,7 +77,15 @@ def replace_tags_recursively(directory, file_extensions=None, dry_run=False):
                 continue
 
             # Skip binary files (basic check)
-            if file_path.suffix.lower() in ['.exe', '.bin', '.jpg', '.png', '.gif', '.pdf', '.zip']:
+            if file_path.suffix.lower() in [
+                ".exe",
+                ".bin",
+                ".jpg",
+                ".png",
+                ".gif",
+                ".pdf",
+                ".zip",
+            ]:
                 continue
 
             total_files += 1
@@ -92,20 +99,32 @@ def replace_tags_recursively(directory, file_extensions=None, dry_run=False):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Replace "uplifting" with "positive" on lines starting with "tags:"')
-    parser.add_argument('directory', help='Directory to process')
-    parser.add_argument('--extensions', '-e', nargs='+',
-                        help='File extensions to process (e.g., .txt .md .yml)')
-    parser.add_argument('--dry-run', '-d', action='store_true',
-                        help='Show what would be changed without making changes')
+    parser = argparse.ArgumentParser(
+        description='Replace "uplifting" with "positive" on lines starting with "tags:"'
+    )
+    parser.add_argument("directory", help="Directory to process")
+    parser.add_argument(
+        "--extensions",
+        "-e",
+        nargs="+",
+        help="File extensions to process (e.g., .txt .md .yml)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        "-d",
+        action="store_true",
+        help="Show what would be changed without making changes",
+    )
 
     args = parser.parse_args()
 
     # Convert extensions to lowercase with dots
     extensions = None
     if args.extensions:
-        extensions = [ext.lower() if ext.startswith('.') else f'.{ext.lower()}'
-                      for ext in args.extensions]
+        extensions = [
+            ext.lower() if ext.startswith(".") else f".{ext.lower()}"
+            for ext in args.extensions
+        ]
 
     replace_tags_recursively(args.directory, extensions, args.dry_run)
 
@@ -122,6 +141,6 @@ if __name__ == "__main__":
         print("  python script.py . --dry-run  # Process current directory")
         print()
         print("Running with current directory as example...")
-        replace_tags_recursively('.', dry_run=True)
+        replace_tags_recursively(".", dry_run=True)
     else:
         main()

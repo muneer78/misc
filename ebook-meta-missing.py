@@ -2,7 +2,7 @@ import epub_meta
 from pathlib import Path
 
 # Directory containing the EPUB files
-ebooks_dir = Path('/Users/muneer78/reading/ebooks/')
+ebooks_dir = Path("/Users/muneer78/reading/ebooks/")
 
 # Ensure the directory exists
 if not ebooks_dir.exists() or not ebooks_dir.is_dir():
@@ -12,13 +12,15 @@ else:
     files_with_missing_metadata = []
 
     # Iterate through all EPUB files in the directory
-    for file_path in ebooks_dir.glob('*.epub'):
+    for file_path in ebooks_dir.glob("*.epub"):
         try:
             # Extract EPUB metadata
-            data = epub_meta.get_epub_metadata(file_path, read_cover_image=False, read_toc=False)
+            data = epub_meta.get_epub_metadata(
+                file_path, read_cover_image=False, read_toc=False
+            )
 
             # Check if 'authors' or 'title' fields are missing or blank
-            if not data.get('authors') or not data.get('title'):
+            if not data.get("authors") or not data.get("title"):
                 files_with_missing_metadata.append(file_path.name)
         except Exception as e:
             # Handle any errors that occur during metadata extraction

@@ -3,8 +3,12 @@ import requests
 from pathlib import Path
 
 # Input and output file paths
-input_file = Path("/Users/muneer78/Downloads/sarah-haider.txt")  # Input file containing URLs
-output_file = Path("/Users/muneer78/Downloads/haider.txt")  # Output file for extracted content
+input_file = Path(
+    "/Users/muneer78/Downloads/sarah-haider.txt"
+)  # Input file containing URLs
+output_file = Path(
+    "/Users/muneer78/Downloads/haider.txt"
+)  # Output file for extracted content
 
 # Check if the input file exists
 if not input_file.exists():
@@ -32,7 +36,9 @@ with output_file.open("w", encoding="utf-8") as file:
 
             # Extract the main body text (all paragraphs)
             paragraphs = soup.find_all("p")
-            body_text = "\n".join(p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True))
+            body_text = "\n".join(
+                p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True)
+            )
 
             # Write the title and body text to the output file
             file.write(f"Title: {title}\n")

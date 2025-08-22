@@ -4,12 +4,13 @@ Enhanced Portfolio Rebalancing Calculator
 Calculates optimal asset allocation adjustments and new investment distribution
 """
 
-from typing import Dict, Tuple, NamedTuple
+from typing import Tuple, NamedTuple
 from dataclasses import dataclass
 
 
 class Portfolio(NamedTuple):
     """Current portfolio holdings"""
+
     domestic_stocks: float
     international_stocks: float
     bonds: float
@@ -26,6 +27,7 @@ class Portfolio(NamedTuple):
 @dataclass
 class TargetAllocation:
     """Target allocation percentages"""
+
     stocks_pct: float
     bonds_pct: float
     domestic_stock_ratio: float = 0.8  # 80% domestic, 20% international within stocks
@@ -40,6 +42,7 @@ class TargetAllocation:
 @dataclass
 class RebalanceResult:
     """Results of rebalancing calculation"""
+
     current_total: float
     new_total: float
     current_stock_pct: float
@@ -104,7 +107,9 @@ def get_user_input() -> Tuple[Portfolio, float, TargetAllocation]:
             bonds_pct = float(input("Target bonds percentage (0-100): "))
 
             if not (0 <= stocks_pct <= 100) or not (0 <= bonds_pct <= 100):
-                print("Error: Percentages must be between 0 and 100. Please try again.\n")
+                print(
+                    "Error: Percentages must be between 0 and 100. Please try again.\n"
+                )
                 continue
 
             target = TargetAllocation(stocks_pct, bonds_pct)
@@ -116,14 +121,18 @@ def get_user_input() -> Tuple[Portfolio, float, TargetAllocation]:
     print("\n4. Stock Allocation (optional):")
     while True:
         try:
-            response = input(f"Domestic stock ratio within stocks (default 80%, press Enter to accept): ").strip()
+            response = input(
+                "Domestic stock ratio within stocks (default 80%, press Enter to accept): "
+            ).strip()
             if not response:
                 domestic_ratio = 0.8
                 break
 
             domestic_pct = float(response)
             if not (0 <= domestic_pct <= 100):
-                print("Error: Percentage must be between 0 and 100. Please try again.\n")
+                print(
+                    "Error: Percentage must be between 0 and 100. Please try again.\n"
+                )
                 continue
             domestic_ratio = domestic_pct / 100
             target.domestic_stock_ratio = domestic_ratio
@@ -134,7 +143,9 @@ def get_user_input() -> Tuple[Portfolio, float, TargetAllocation]:
     return portfolio, new_money, target
 
 
-def calculate_rebalancing(portfolio: Portfolio, new_money: float, target: TargetAllocation) -> RebalanceResult:
+def calculate_rebalancing(
+    portfolio: Portfolio, new_money: float, target: TargetAllocation
+) -> RebalanceResult:
     """Calculate optimal rebalancing strategy"""
     new_total = portfolio.total_value + new_money
 
@@ -148,7 +159,9 @@ def calculate_rebalancing(portfolio: Portfolio, new_money: float, target: Target
 
     # Target domestic/international split
     target_domestic_amount = target_stock_amount * target.domestic_stock_ratio
-    target_international_amount = target_stock_amount * (1 - target.domestic_stock_ratio)
+    target_international_amount = target_stock_amount * (
+        1 - target.domestic_stock_ratio
+    )
 
     # Calculate differences
     domestic_diff = target_domestic_amount - portfolio.domestic_stocks
@@ -159,7 +172,7 @@ def calculate_rebalancing(portfolio: Portfolio, new_money: float, target: Target
         current_total=portfolio.total_value,
         new_total=new_total,
         current_stock_pct=current_stock_pct,
-        current_bond_pct=current_bond_pct
+        current_bond_pct=current_bond_pct,
     )
 
     # Strategy: First allocate new money optimally, then rebalance existing if needed
@@ -186,9 +199,15 @@ def calculate_rebalancing(portfolio: Portfolio, new_money: float, target: Target
 
     # If there's remaining new money, allocate proportionally to target
     if remaining_new_money > 0:
-        result.new_money_to_domestic += remaining_new_money * (target_domestic_amount / new_total)
-        result.new_money_to_international += remaining_new_money * (target_international_amount / new_total)
-        result.new_money_to_bonds += remaining_new_money * (target_bond_amount / new_total)
+        result.new_money_to_domestic += remaining_new_money * (
+            target_domestic_amount / new_total
+        )
+        result.new_money_to_international += remaining_new_money * (
+            target_international_amount / new_total
+        )
+        result.new_money_to_bonds += remaining_new_money * (
+            target_bond_amount / new_total
+        )
 
     # Handle remaining imbalances through rebalancing existing assets
     if domestic_diff > 0:
@@ -217,42 +236,55 @@ def print_results(result: RebalanceResult, target: TargetAllocation):
 
     # Current state
     print(f"\nCurrent Portfolio: ${result.current_total:,.2f}")
-    print(f"  Stocks: {result.current_stock_pct:.1f}% (Target: {target.stocks_pct:.1f}%)")
+    print(
+        f"  Stocks: {result.current_stock_pct:.1f}% (Target: {target.stocks_pct:.1f}%)"
+    )
     print(f"  Bonds:  {result.current_bond_pct:.1f}% (Target: {target.bonds_pct:.1f}%)")
 
     print(f"\nAfter New Investment: ${result.new_total:,.2f}")
 
     # New money allocation
-    print(f"\nNEW MONEY ALLOCATION:")
+    print("\nNEW MONEY ALLOCATION:")
     print(f"  Domestic Stocks:     ${result.new_money_to_domestic:,.2f}")
     print(f"  International Stocks: ${result.new_money_to_international:,.2f}")
     print(f"  Bonds:               ${result.new_money_to_bonds:,.2f}")
     print(
-        f"  Total:               ${result.new_money_to_domestic + result.new_money_to_international + result.new_money_to_bonds:,.2f}")
+        f"  Total:               ${result.new_money_to_domestic + result.new_money_to_international + result.new_money_to_bonds:,.2f}"
+    )
 
     # Rebalancing actions
-    rebalancing_needed = any([
-        result.sell_domestic_stocks, result.sell_international_stocks, result.sell_bonds,
-        result.buy_domestic_stocks, result.buy_international_stocks, result.buy_bonds
-    ])
+    rebalancing_needed = any(
+        [
+            result.sell_domestic_stocks,
+            result.sell_international_stocks,
+            result.sell_bonds,
+            result.buy_domestic_stocks,
+            result.buy_international_stocks,
+            result.buy_bonds,
+        ]
+    )
 
     if rebalancing_needed:
-        print(f"\nEXISTING PORTFOLIO ADJUSTMENTS:")
+        print("\nEXISTING PORTFOLIO ADJUSTMENTS:")
         if result.sell_domestic_stocks > 0:
             print(f"  Sell Domestic Stocks:     ${result.sell_domestic_stocks:,.2f}")
         if result.sell_international_stocks > 0:
-            print(f"  Sell International Stocks: ${result.sell_international_stocks:,.2f}")
+            print(
+                f"  Sell International Stocks: ${result.sell_international_stocks:,.2f}"
+            )
         if result.sell_bonds > 0:
             print(f"  Sell Bonds:               ${result.sell_bonds:,.2f}")
 
         if result.buy_domestic_stocks > 0:
             print(f"  Buy Domestic Stocks:      ${result.buy_domestic_stocks:,.2f}")
         if result.buy_international_stocks > 0:
-            print(f"  Buy International Stocks:  ${result.buy_international_stocks:,.2f}")
+            print(
+                f"  Buy International Stocks:  ${result.buy_international_stocks:,.2f}"
+            )
         if result.buy_bonds > 0:
             print(f"  Buy Bonds:                ${result.buy_bonds:,.2f}")
     else:
-        print(f"\nEXISTING PORTFOLIO ADJUSTMENTS:")
+        print("\nEXISTING PORTFOLIO ADJUSTMENTS:")
         print("  No rebalancing of existing assets needed!")
 
 

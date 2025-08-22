@@ -2,7 +2,7 @@ import os
 from PIL import Image
 
 # String to search for in filenames
-search_string = 'Hyundai'
+search_string = "Hyundai"
 
 # Resize factor
 resize_factor = 0.75
@@ -12,12 +12,17 @@ current_directory = os.getcwd()
 
 # Loop through all files in the current directory
 for filename in os.listdir(current_directory):
-    if search_string in filename and (filename.endswith(".jpg") or filename.endswith(".png")):
+    if search_string in filename and (
+        filename.endswith(".jpg") or filename.endswith(".png")
+    ):
         try:
             # Open image
             with Image.open(filename) as img:
                 # Calculate new size
-                new_size = (int(img.width * resize_factor), int(img.height * resize_factor))
+                new_size = (
+                    int(img.width * resize_factor),
+                    int(img.height * resize_factor),
+                )
 
                 # Resize image
                 resized_img = img.resize(new_size, Image.Resampling.LANCZOS)

@@ -3,7 +3,9 @@ from pathlib import Path
 
 # File paths
 input_opml = Path("/Users/muneer78/Downloads/fraidycat.opml")  # Input OPML file
-output_opml = Path("/Users/muneer78/Downloads/fraidycat_modified.opml")  # Output OPML file
+output_opml = Path(
+    "/Users/muneer78/Downloads/fraidycat_modified.opml"
+)  # Output OPML file
 
 # Parse the OPML file
 tree = ET.parse(input_opml)
@@ -20,7 +22,7 @@ for outline in root.findall(".//outline"):
         for attr in list(outline.attrib.keys()):
             if attr not in allowed_attributes:
                 del outline.attrib[attr]
-    
+
     # Add "type=rss" if not already present
     if "type" not in outline.attrib:
         outline.set("type", "rss")

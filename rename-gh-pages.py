@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta
 
 # Define the directory containing the files
-directory = '/Users/muneer78/Documents/GitHub/muneer78.github.io/_posts'
+directory = "/Users/muneer78/Documents/GitHub/muneer78.github.io/_posts"
 
 # Get a list of all files in the directory
 files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
@@ -26,7 +26,7 @@ for index, filename in enumerate(files):
     file_base, file_ext = os.path.splitext(filename)
 
     # Replace spaces with hyphens and convert to lowercase
-    new_file_base = file_base.replace(' ', '-').lower()
+    new_file_base = file_base.replace(" ", "-").lower()
 
     # Construct the new filename
     new_filename = f"{date_prefix}-{new_file_base}{file_ext.lower()}"

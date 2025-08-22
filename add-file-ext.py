@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 
 # Define the pattern you want to match
 # match filenames containing string: pattern = re.compile(r'data')
@@ -25,8 +24,8 @@ directory = Path("/Users/muneer78/Downloads/convert")
 #         print(f'Renamed: {file.name} to {new_filename}')
 
 for file in directory.iterdir():
-    if file.is_file() and not file.name.endswith('.pdf'):
-        new_filename = file.name + '.pdf'
+    if file.is_file() and not file.name.endswith(".pdf"):
+        new_filename = file.name + ".pdf"
         new_path = file.with_name(new_filename)
         file.rename(new_path)
-        print(f'Renamed: {file.name} to {new_filename}')
+        print(f"Renamed: {file.name} to {new_filename}")

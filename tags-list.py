@@ -6,6 +6,7 @@ from collections import Counter
 POSTS_DIR = "content"  # Adjust if your posts are elsewhere
 OUTPUT_CSV = "tags-count.csv"
 
+
 def extract_tags_from_file(filepath):
     tags = []
     with open(filepath, "r", encoding="utf-8") as f:
@@ -16,6 +17,7 @@ def extract_tags_from_file(filepath):
                 tags = [t.strip() for t in re.split(r"[,\s]+", tag_line) if t.strip()]
                 break
     return tags
+
 
 def main():
     tag_counter = Counter()
@@ -31,6 +33,7 @@ def main():
         for tag, count in sorted(tag_counter.items()):
             writer.writerow([tag, count])
     print(f"Tag counts written to {OUTPUT_CSV}")
+
 
 if __name__ == "__main__":
     main()

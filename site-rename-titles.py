@@ -29,8 +29,8 @@ import re
 directory = "/Users/muneer78/Downloads/videos"
 
 # Regular expression to match 'githubpages' in the filename
-name_pattern1 = re.compile(r'tagmp3_')
-name_pattern2 = ''
+name_pattern1 = re.compile(r"tagmp3_")
+name_pattern2 = ""
 
 # Loop through each file in the directory
 for filename in os.listdir(directory):
@@ -43,6 +43,4 @@ for filename in os.listdir(directory):
         new_file = os.path.join(directory, new_filename)
         # Rename the file
         os.rename(old_file, new_file)
-        print(f'Renamed: {filename} -> {new_filename}')
-
-
+        print(f"Renamed: {filename} -> {new_filename}")

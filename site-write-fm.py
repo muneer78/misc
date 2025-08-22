@@ -66,6 +66,7 @@
 import csv
 import os
 
+
 def get_file_name(file_path):
     """
     Extracts the filename without extension from a given file path.
@@ -76,9 +77,10 @@ def get_file_name(file_path):
     Returns:
         str: Filename without extension.
     """
-    file_path_components = file_path.split('/')
-    file_name_and_extension = file_path_components[-1].rsplit('.', 1)
+    file_path_components = file_path.split("/")
+    file_name_and_extension = file_path_components[-1].rsplit(".", 1)
     return file_name_and_extension[0]
+
 
 def remove_front_matter(content):
     """Removes all occurrences of text between and including '---' delimiters.
@@ -100,7 +102,8 @@ def remove_front_matter(content):
             continue  # Skip the delimiter line
         if not in_front_matter:
             new_lines.append(line)
-    return ''.join(new_lines)
+    return "".join(new_lines)
+
 
 def add_metadata_to_files(csv_file, directory):
     """
@@ -113,14 +116,14 @@ def add_metadata_to_files(csv_file, directory):
     """
 
     print("Reading CSV file...")
-    with open(csv_file, 'r', encoding='utf-8') as csvfile:
+    with open(csv_file, "r", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         metadata = {}
         for row in reader:
-            metadata[row['path']] = {
-                'date': row['date'],
-                'title': row['title'],
-                'tags': row['tags']
+            metadata[row["path"]] = {
+                "date": row["date"],
+                "title": row["title"],
+                "tags": row["tags"],
             }
     print("CSV file read successfully.")
 
@@ -135,18 +138,21 @@ def add_metadata_to_files(csv_file, directory):
                 print(f"Processing file: {file_path}")
                 meta = metadata[relative_path]
 
-                with open(file_path, 'r+') as f:
+                with open(file_path, "r+") as f:
                     content = f.read()
                     content = remove_front_matter(content)  # Remove all front matter
                     f.seek(0)
-                    f.write("---\ndate: {}\ntitle: {}\ntags: {}\n---\n{}".format(
-                        meta['date'], meta['title'], meta['tags'], content))
+                    f.write(
+                        "---\ndate: {}\ntitle: {}\ntags: {}\n---\n{}".format(
+                            meta["date"], meta["title"], meta["tags"], content
+                        )
+                    )
             else:
                 print(f"Skipping file: {file_path} (no metadata found)")
     print("File processing complete.")
 
 
 # Example usage:
-csv_file = 'finalmeta.csv'
-directory = '/Users/muneer78/quartz/content/'
+csv_file = "finalmeta.csv"
+directory = "/Users/muneer78/quartz/content/"
 add_metadata_to_files(csv_file, directory)

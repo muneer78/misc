@@ -1,6 +1,7 @@
 """
 Using random to generate list
 """
+
 import random
 
 cuisine_type = [

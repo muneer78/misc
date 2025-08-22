@@ -1,14 +1,17 @@
 def add_space_after_hash(input_string):
     output_lines = []
-    for line in input_string.split('\n'):
-        output_line = ''
+    for line in input_string.split("\n"):
+        output_line = ""
         for char in line:
-            if char == '#' and (output_line == '' or output_line[-1] != '#' and output_line[-1] != ' '):
-                output_line += char + ' '
+            if char == "#" and (
+                output_line == "" or output_line[-1] != "#" and output_line[-1] != " "
+            ):
+                output_line += char + " "
             else:
                 output_line += char
         output_lines.append(output_line)
-    return '\n'.join(output_lines)
+    return "\n".join(output_lines)
+
 
 # Example usage:
 input_string = """# Pandas

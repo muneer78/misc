@@ -6,7 +6,9 @@ from pathlib import Path
 from tqdm import tqdm  # Import tqdm for the progress bar
 
 # File path
-input_html = Path("/Users/muneer78/data/pinboard-export.2021.03.28-14.40.html")  # Replace with your HTML file path
+input_html = Path(
+    "/Users/muneer78/data/pinboard-export.2021.03.28-14.40.html"
+)  # Replace with your HTML file path
 
 # Read the HTML file
 with open(input_html, "r", encoding="utf-8") as file:
@@ -33,6 +35,8 @@ df = df.sort_values(by="count", ascending=False).reset_index(drop=True)
 print(df)
 
 # Save the DataFrame to a CSV file (optional)
-output_csv = Path("/Users/muneer78/Downloads/domains_count.csv")  # Replace with your desired output path
+output_csv = Path(
+    "/Users/muneer78/Downloads/domains_count.csv"
+)  # Replace with your desired output path
 df.to_csv(output_csv, index=False)
 print(f"Domain counts saved to: {output_csv}")

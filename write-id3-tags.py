@@ -3,15 +3,17 @@ import re
 import glob
 from mutagen.easyid3 import EasyID3
 
-path = '/Users/muneer78/Downloads/rename'
+path = "/Users/muneer78/Downloads/rename"
 files = glob.glob(os.path.join(path, "*.mp3"))
 
 for fname in files:
     try:
         track = EasyID3(fname)
-        track_num = track.get('tracknumber', ['00'])[0].split('/')[0]  # Default to '00' if missing
-        track_title = track.get('title', ['Unknown Title'])[0]
-        track_title = re.sub(r'/', '_', track_title)
+        track_num = track.get("tracknumber", ["00"])[0].split("/")[
+            0
+        ]  # Default to '00' if missing
+        track_title = track.get("title", ["Unknown Title"])[0]
+        track_title = re.sub(r"/", "_", track_title)
 
         # Pad single-digit track numbers
         track_num = track_num.zfill(2)

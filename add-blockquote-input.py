@@ -69,6 +69,7 @@ And a remorseful Doctor Frankenstein would clutch out big clumpfuls of hair and 
 
 If being a twat was a TV show, Trump would be the boxed set."""
 
+
 def add_blockquote_to_text(text):
     """
     Adds a Markdown blockquote character ('> ') to the beginning of each line
@@ -76,7 +77,8 @@ def add_blockquote_to_text(text):
     """
     lines = text.splitlines()
     modified_lines = [f"> {line}" for line in lines]
-    print('\n'.join(modified_lines))
+    print("\n".join(modified_lines))
+
 
 if __name__ == "__main__":
     add_blockquote_to_text(text_to_blockquote)

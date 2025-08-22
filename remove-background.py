@@ -2,8 +2,8 @@ from rembg import remove
 from PIL import Image
 
 ## Path for input and output image
-input_img = 'monkey.jpg'
-output_img = 'monkey_rmbg.png'
+input_img = "monkey.jpg"
+output_img = "monkey_rmbg.png"
 
 ## loading and removing background
 inp = Image.open(input_img)

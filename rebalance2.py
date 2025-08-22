@@ -1,12 +1,16 @@
 # Step 1: Input total amount currently invested
-total_invested_amount_initial = float(input("Enter the total amount currently invested: "))
+total_invested_amount_initial = float(
+    input("Enter the total amount currently invested: ")
+)
 
 # Step 2: Input new money being invested
 new_investment_amount = float(input("Enter the amount of new money being invested: "))
 
 # Step 3: Input amounts of money invested in stocks, international stocks, and bonds
 stocks_amount = float(input("Enter the amount invested in domestic stocks: "))
-international_stocks_amount = float(input("Enter the amount invested in international stocks: "))
+international_stocks_amount = float(
+    input("Enter the amount invested in international stocks: ")
+)
 bonds_amount = float(input("Enter the amount invested in bonds: "))
 
 # Step 4: Input target percentages to invest in stocks and bonds
@@ -17,7 +21,9 @@ target_bonds_percentage = int(input("Enter the target percentage for bonds: "))
 total_invested_amount_calculated = total_invested_amount_initial + new_investment_amount
 
 # Step 6: Add all 3 amounts together to get total invested amount
-total_invested_amount_calculated += stocks_amount + international_stocks_amount + bonds_amount
+total_invested_amount_calculated += (
+    stocks_amount + international_stocks_amount + bonds_amount
+)
 
 # Step 7: Add stocks and international stock amounts and store as Total Stocks. Then divide Total Stocks by total invested amount and store that number as Equities %. Express output in percentage format.
 total_stocks = stocks_amount + international_stocks_amount
@@ -27,7 +33,9 @@ equities_percentage = (total_stocks / total_invested_amount_calculated) * 100
 bond_percentage = (bonds_amount / total_invested_amount_calculated) * 100
 
 # Step 9: Calculate target equity and bond amounts based on total invested amount
-target_equity_amount = (target_stocks_percentage / 100) * total_invested_amount_calculated
+target_equity_amount = (
+    target_stocks_percentage / 100
+) * total_invested_amount_calculated
 target_bond_amount = (target_bonds_percentage / 100) * total_invested_amount_calculated
 
 # Step 10: Calculate difference between Target Equity Amount and Total Stocks
@@ -51,11 +59,17 @@ move_from_international_stocks = 0.2 * move_from_stocks_to_bonds
 # Output results
 print(f"Equities Percentage: {equities_percentage:.2f}%")
 print(f"Bond Percentage: {bond_percentage:.2f}%")
-print(f"Difference between Target Equity Amount and Total Stocks: ${equity_difference:.2f}")
+print(
+    f"Difference between Target Equity Amount and Total Stocks: ${equity_difference:.2f}"
+)
 print(f"Difference between Target Bond Amount and Bond Amount: ${bond_difference:.2f}")
 
 if move_from_stocks_to_bonds > 0:
-    print(f"Move {move_from_stocks:.2f} from Total Stocks to achieve target percentages.")
-    print(f"Move {move_from_international_stocks:.2f} from International Stocks to achieve target percentages.")
+    print(
+        f"Move {move_from_stocks:.2f} from Total Stocks to achieve target percentages."
+    )
+    print(
+        f"Move {move_from_international_stocks:.2f} from International Stocks to achieve target percentages."
+    )
 else:
     print("No adjustment needed.")

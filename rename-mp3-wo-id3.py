@@ -44,9 +44,11 @@
 import os
 import re
 
+
 def to_title_case(text):
     """Convert a given string to title case (capitalize each word)."""
-    return ' '.join(word.capitalize() for word in text.split())
+    return " ".join(word.capitalize() for word in text.split())
+
 
 def rename_mp3_files(directory):
     # Get a list of all MP3 files in the directory
@@ -62,8 +64,10 @@ def rename_mp3_files(directory):
             title = match.group(2).strip()  # Capture the title
 
             # Remove any numbers preceded by a dash and any special characters following them
-            title = re.sub(r'[-\s]*\d+[\.\-]*', '', title)  # Removes numbers and special characters after them
-            title = re.sub(r'\s+', ' ', title).strip()  # Remove extra spaces
+            title = re.sub(
+                r"[-\s]*\d+[\.\-]*", "", title
+            )  # Removes numbers and special characters after them
+            title = re.sub(r"\s+", " ", title).strip()  # Remove extra spaces
 
             # Convert the title to title case
             title = to_title_case(title)
@@ -78,6 +82,7 @@ def rename_mp3_files(directory):
         else:
             # If no match, keep the file as it is
             print(f"No match in '{mp3_file}'")
+
 
 if __name__ == "__main__":
     target_directory = "/Users/muneer78/Downloads/videos"

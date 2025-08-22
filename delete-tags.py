@@ -35,16 +35,46 @@ def modify_files_python(start_directory="."):
             if not os.path.isfile(filepath) or os.path.islink(filepath):
                 continue
             # Basic check to avoid binary files, not exhaustive but helpful
-            if any(filepath.lower().endswith(ext) for ext in
-                   ['.zip', '.tar', '.gz', '.bz2', '.rar', '.7z', '.exe', '.dll', '.so', '.dylib', '.pyc', '.o', '.a',
-                    '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.mp3', '.mp4', '.avi', '.mov', '.pdf', '.doc', '.docx',
-                    '.xls', '.xlsx', '.ppt', '.pptx']):
+            if any(
+                filepath.lower().endswith(ext)
+                for ext in [
+                    ".zip",
+                    ".tar",
+                    ".gz",
+                    ".bz2",
+                    ".rar",
+                    ".7z",
+                    ".exe",
+                    ".dll",
+                    ".so",
+                    ".dylib",
+                    ".pyc",
+                    ".o",
+                    ".a",
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".gif",
+                    ".bmp",
+                    ".mp3",
+                    ".mp4",
+                    ".avi",
+                    ".mov",
+                    ".pdf",
+                    ".doc",
+                    ".docx",
+                    ".xls",
+                    ".xlsx",
+                    ".ppt",
+                    ".pptx",
+                ]
+            ):
                 # print(f"Skipping binary/archive file: {filepath}")
                 continue
 
             try:
                 # Read the file content
-                with open(filepath, 'r', encoding='utf-8') as f:
+                with open(filepath, "r", encoding="utf-8") as f:
                     lines = f.readlines()
 
                 # Assume no modification until a match is found
@@ -59,7 +89,9 @@ def modify_files_python(start_directory="."):
                             new_lines.append(new_line)
                             modified = True
                         else:
-                            new_lines.append(line)  # Append original if no actual change by sub
+                            new_lines.append(
+                                line
+                            )  # Append original if no actual change by sub
                     else:
                         new_lines.append(line)
 
@@ -70,7 +102,7 @@ def modify_files_python(start_directory="."):
                     print(f"Backed up: {filepath} to {backup_filepath}")
 
                     # Write the modified content back to the original file
-                    with open(filepath, 'w', encoding='utf-8') as f:
+                    with open(filepath, "w", encoding="utf-8") as f:
                         f.writelines(new_lines)
                     print(f"Modified file: {filepath}")
                     modified_files_count += 1

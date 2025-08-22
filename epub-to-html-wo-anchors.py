@@ -16,11 +16,13 @@ from html import escape
 class EpubToHtmlConverter:
     def __init__(self, epub_path, output_path=None):
         self.epub_path = Path(epub_path)
-        self.output_path = Path(output_path) if output_path else self.epub_path.with_suffix('.html')
+        self.output_path = (
+            Path(output_path) if output_path else self.epub_path.with_suffix(".html")
+        )
         self.namespaces = {
-            'opf': 'http://www.idpf.org/2007/opf',
-            'dc': 'http://purl.org/dc/elements/1.1/',
-            'xhtml': 'http://www.w3.org/1999/xhtml'
+            "opf": "http://www.idpf.org/2007/opf",
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "xhtml": "http://www.w3.org/1999/xhtml",
         }
         self.content_sections = []
 
@@ -29,29 +31,35 @@ class EpubToHtmlConverter:
         metadata = {}
 
         # Get title
-        title_elem = opf_root.find('.//dc:title', self.namespaces)
-        metadata['title'] = title_elem.text if title_elem is not None else 'Unknown Title'
+        title_elem = opf_root.find(".//dc:title", self.namespaces)
+        metadata["title"] = (
+            title_elem.text if title_elem is not None else "Unknown Title"
+        )
 
         # Get author
-        author_elem = opf_root.find('.//dc:creator', self.namespaces)
-        metadata['author'] = author_elem.text if author_elem is not None else 'Unknown Author'
+        author_elem = opf_root.find(".//dc:creator", self.namespaces)
+        metadata["author"] = (
+            author_elem.text if author_elem is not None else "Unknown Author"
+        )
 
         # Get description
-        desc_elem = opf_root.find('.//dc:description', self.namespaces)
-        metadata['description'] = desc_elem.text if desc_elem is not None else ''
+        desc_elem = opf_root.find(".//dc:description", self.namespaces)
+        metadata["description"] = desc_elem.text if desc_elem is not None else ""
 
         return metadata
 
     def parse_opf_file(self, zip_file):
         """Parse the OPF file to get spine order and manifest."""
         # Find container.xml to locate OPF file
-        container_content = zip_file.read('META-INF/container.xml')
+        container_content = zip_file.read("META-INF/container.xml")
         container_root = ET.fromstring(container_content)
 
         opf_path = None
-        for rootfile in container_root.findall('.//{urn:oasis:names:tc:opendocument:xmlns:container}rootfile'):
-            if rootfile.get('media-type') == 'application/oebps-package+xml':
-                opf_path = rootfile.get('full-path')
+        for rootfile in container_root.findall(
+            ".//{urn:oasis:names:tc:opendocument:xmlns:container}rootfile"
+        ):
+            if rootfile.get("media-type") == "application/oebps-package+xml":
+                opf_path = rootfile.get("full-path")
                 break
 
         if not opf_path:
@@ -69,17 +77,17 @@ class EpubToHtmlConverter:
 
         # Build manifest (id -> href mapping)
         manifest = {}
-        for item in opf_root.findall('.//opf:item', self.namespaces):
-            item_id = item.get('id')
-            href = item.get('href')
-            if base_path and base_path != '.':
+        for item in opf_root.findall(".//opf:item", self.namespaces):
+            item_id = item.get("id")
+            href = item.get("href")
+            if base_path and base_path != ".":
                 href = f"{base_path}/{href}"
             manifest[item_id] = href
 
         # Get spine order
         spine_items = []
-        for itemref in opf_root.findall('.//opf:itemref', self.namespaces):
-            idref = itemref.get('idref')
+        for itemref in opf_root.findall(".//opf:itemref", self.namespaces):
+            idref = itemref.get("idref")
             if idref in manifest:
                 spine_items.append(manifest[idref])
 
@@ -88,32 +96,34 @@ class EpubToHtmlConverter:
     def clean_html_content(self, content):
         """Clean and process HTML content."""
         # Remove XML namespace declarations
-        content = re.sub(r'xmlns[^=]*="[^"]*"', '', content)
+        content = re.sub(r'xmlns[^=]*="[^"]*"', "", content)
 
         # Remove DOCTYPE if present
-        content = re.sub(r'<!DOCTYPE[^>]*>', '', content)
+        content = re.sub(r"<!DOCTYPE[^>]*>", "", content)
 
         # Extract body content if full HTML document
-        body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
+        body_match = re.search(
+            r"<body[^>]*>(.*?)</body>", content, re.DOTALL | re.IGNORECASE
+        )
         if body_match:
             content = body_match.group(1)
 
         # Clean up extra whitespace
-        content = re.sub(r'\n\s*\n', '\n\n', content)
+        content = re.sub(r"\n\s*\n", "\n\n", content)
 
         return content.strip()
 
     def process_epub(self):
         """Main processing function."""
         try:
-            with zipfile.ZipFile(self.epub_path, 'r') as zip_file:
+            with zipfile.ZipFile(self.epub_path, "r") as zip_file:
                 # Parse OPF file
                 metadata, spine_items = self.parse_opf_file(zip_file)
 
                 # Process each spine item
                 for item_path in spine_items:
                     try:
-                        content = zip_file.read(item_path).decode('utf-8')
+                        content = zip_file.read(item_path).decode("utf-8")
                         cleaned_content = self.clean_html_content(content)
 
                         if cleaned_content:
@@ -135,12 +145,12 @@ class EpubToHtmlConverter:
         html_parts = []
 
         # HTML header
-        html_parts.append(f'''<!DOCTYPE html>
+        html_parts.append(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape(metadata['title'])}</title>
+    <title>{escape(metadata["title"])}</title>
     <style>
         body {{
             font-family: Georgia, serif;
@@ -306,42 +316,42 @@ class EpubToHtmlConverter:
         }}
     </style>
 </head>
-<body>''')
+<body>""")
 
         # Header section
-        html_parts.append(f'''
+        html_parts.append(f"""
     <div class="header">
-        <h1>{escape(metadata['title'])}</h1>
-        <div class="author">by {escape(metadata['author'])}</div>
-        {f'<p class="description">{escape(metadata["description"])}</p>' if metadata['description'] else ''}
-    </div>''')
+        <h1>{escape(metadata["title"])}</h1>
+        <div class="author">by {escape(metadata["author"])}</div>
+        {f'<p class="description">{escape(metadata["description"])}</p>' if metadata["description"] else ""}
+    </div>""")
 
         # Content sections
         html_parts.append('    <div class="content">')
 
         for i, section_content in enumerate(self.content_sections):
             # Add page break class for sections after the first
-            section_class = 'section'
+            section_class = "section"
             if i > 0:
-                section_class += ' page-break'
+                section_class += " page-break"
 
             html_parts.append(f'''
         <div class="{section_class}">
             {section_content}
         </div>''')
 
-        html_parts.append('    </div>')
+        html_parts.append("    </div>")
 
         # Close HTML
-        html_parts.append('''
+        html_parts.append("""
 </body>
-</html>''')
+</html>""")
 
         # Write to file
-        final_html = '\n'.join(html_parts)
+        final_html = "\n".join(html_parts)
 
         try:
-            with open(self.output_path, 'w', encoding='utf-8') as f:
+            with open(self.output_path, "w", encoding="utf-8") as f:
                 f.write(final_html)
             print(f"Successfully converted '{self.epub_path}' to '{self.output_path}'")
             print(f"Generated HTML with {len(self.content_sections)} sections")
@@ -351,10 +361,13 @@ class EpubToHtmlConverter:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Convert EPUB file to simple HTML')
-    parser.add_argument('epub_file', help='Path to the EPUB file')
-    parser.add_argument('-o', '--output',
-                        help='Output HTML file path (default: same name as EPUB with .html extension)')
+    parser = argparse.ArgumentParser(description="Convert EPUB file to simple HTML")
+    parser.add_argument("epub_file", help="Path to the EPUB file")
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Output HTML file path (default: same name as EPUB with .html extension)",
+    )
 
     args = parser.parse_args()
 
@@ -366,5 +379,5 @@ def main():
     converter.process_epub()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

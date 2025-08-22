@@ -1,7 +1,6 @@
 import polars as pl
 from rich import print
 from datetime import datetime as dt
-import ast
 
 # Get the current date
 current_date = dt.now().strftime("%Y%m%d")
@@ -18,10 +17,10 @@ grouped_df = (
 # Print the resulting DataFrame
 print(grouped_df)
 
-name = 'baseball'
+name = "baseball"
 
 # ticket_number = '4530'
-output_filename = fr"/Users/muneer78/Downloads/{current_date}_{name}_pivot.csv"
+output_filename = rf"/Users/muneer78/Downloads/{current_date}_{name}_pivot.csv"
 
 # Save the resulting DataFrame to a CSV file
 grouped_df.write_csv(output_filename)

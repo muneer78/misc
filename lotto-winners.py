@@ -1,37 +1,42 @@
 from random import choice
+
+
 def get_winning_ticket(possibilities):
-	winning_ticket = []
+    winning_ticket = []
 
-#pulling a number out of the list until 4 have been pulled
+    # pulling a number out of the list until 4 have been pulled
 
-	while len(winning_ticket) < 4:
-		pulled_item = choice(possibilities)
+    while len(winning_ticket) < 4:
+        pulled_item = choice(possibilities)
 
-#adding the number to the ticket
+        # adding the number to the ticket
 
-		if pulled_item not in winning_ticket:
-			winning_ticket.append(pulled_item)
-			
-	return winning_ticket
+        if pulled_item not in winning_ticket:
+            winning_ticket.append(pulled_item)
+
+    return winning_ticket
+
 
 def get_your_ticket(possibilities):
-	your_ticket = []
+    your_ticket = []
 
-	while len(your_ticket) < 4:
-		pulled_item = choice(possibilities)
+    while len(your_ticket) < 4:
+        pulled_item = choice(possibilities)
 
-		if pulled_item not in winning_ticket:
-			your_ticket.append(pulled_item)
-	return your_ticket
+        if pulled_item not in winning_ticket:
+            your_ticket.append(pulled_item)
+    return your_ticket
+
 
 def checking_ticket(played_ticket, winning_ticket):
-	for element in played_ticket:
-		if element not in winning_ticket:
-			return False
-	
-	return True
+    for element in played_ticket:
+        if element not in winning_ticket:
+            return False
 
-possibilities = [1, 2, 3, 4,5,6,7,8,9,10 , 'a', 'b', 'c', 'd', 'e']
+    return True
+
+
+possibilities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "a", "b", "c", "d", "e"]
 winning_ticket = get_winning_ticket(possibilities)
 
 won = False

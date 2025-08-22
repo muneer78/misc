@@ -1,14 +1,12 @@
 from fastapi.templating import Jinja2Templates
 from fastapi import APIRouter, Request, Response
-from datetime import datetime
 
 router = APIRouter(
-    prefix="/rss",
-    tags=["RSS Feed"],
-    responses={404: {"description": "Not Found"}}
+    prefix="/rss", tags=["RSS Feed"], responses={404: {"description": "Not Found"}}
 )
 
 templates = Jinja2Templates(directory="templates")
+
 
 @router.get("/feed.xml", response_class=Response)
 async def rss_feed(request: Request):

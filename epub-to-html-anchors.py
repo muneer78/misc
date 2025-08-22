@@ -10,18 +10,19 @@ from pathlib import Path
 import re
 import argparse
 import sys
-from urllib.parse import unquote
 from html import escape
 
 
 class EpubToHtmlConverter:
     def __init__(self, epub_path, output_path=None):
         self.epub_path = Path(epub_path)
-        self.output_path = Path(output_path) if output_path else self.epub_path.with_suffix('.html')
+        self.output_path = (
+            Path(output_path) if output_path else self.epub_path.with_suffix(".html")
+        )
         self.namespaces = {
-            'opf': 'http://www.idpf.org/2007/opf',
-            'dc': 'http://purl.org/dc/elements/1.1/',
-            'xhtml': 'http://www.w3.org/1999/xhtml'
+            "opf": "http://www.idpf.org/2007/opf",
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "xhtml": "http://www.w3.org/1999/xhtml",
         }
         self.toc_entries = []
         self.content_sections = []
@@ -31,29 +32,35 @@ class EpubToHtmlConverter:
         metadata = {}
 
         # Get title
-        title_elem = opf_root.find('.//dc:title', self.namespaces)
-        metadata['title'] = title_elem.text if title_elem is not None else 'Unknown Title'
+        title_elem = opf_root.find(".//dc:title", self.namespaces)
+        metadata["title"] = (
+            title_elem.text if title_elem is not None else "Unknown Title"
+        )
 
         # Get author
-        author_elem = opf_root.find('.//dc:creator', self.namespaces)
-        metadata['author'] = author_elem.text if author_elem is not None else 'Unknown Author'
+        author_elem = opf_root.find(".//dc:creator", self.namespaces)
+        metadata["author"] = (
+            author_elem.text if author_elem is not None else "Unknown Author"
+        )
 
         # Get description
-        desc_elem = opf_root.find('.//dc:description', self.namespaces)
-        metadata['description'] = desc_elem.text if desc_elem is not None else ''
+        desc_elem = opf_root.find(".//dc:description", self.namespaces)
+        metadata["description"] = desc_elem.text if desc_elem is not None else ""
 
         return metadata
 
     def parse_opf_file(self, zip_file):
         """Parse the OPF file to get spine order and manifest."""
         # Find container.xml to locate OPF file
-        container_content = zip_file.read('META-INF/container.xml')
+        container_content = zip_file.read("META-INF/container.xml")
         container_root = ET.fromstring(container_content)
 
         opf_path = None
-        for rootfile in container_root.findall('.//{urn:oasis:names:tc:opendocument:xmlns:container}rootfile'):
-            if rootfile.get('media-type') == 'application/oebps-package+xml':
-                opf_path = rootfile.get('full-path')
+        for rootfile in container_root.findall(
+            ".//{urn:oasis:names:tc:opendocument:xmlns:container}rootfile"
+        ):
+            if rootfile.get("media-type") == "application/oebps-package+xml":
+                opf_path = rootfile.get("full-path")
                 break
 
         if not opf_path:
@@ -71,17 +78,17 @@ class EpubToHtmlConverter:
 
         # Build manifest (id -> href mapping)
         manifest = {}
-        for item in opf_root.findall('.//opf:item', self.namespaces):
-            item_id = item.get('id')
-            href = item.get('href')
-            if base_path and base_path != '.':
+        for item in opf_root.findall(".//opf:item", self.namespaces):
+            item_id = item.get("id")
+            href = item.get("href")
+            if base_path and base_path != ".":
                 href = f"{base_path}/{href}"
             manifest[item_id] = href
 
         # Get spine order
         spine_items = []
-        for itemref in opf_root.findall('.//opf:itemref', self.namespaces):
-            idref = itemref.get('idref')
+        for itemref in opf_root.findall(".//opf:itemref", self.namespaces):
+            idref = itemref.get("idref")
             if idref in manifest:
                 spine_items.append(manifest[idref])
 
@@ -114,23 +121,25 @@ class EpubToHtmlConverter:
             toc_entries = []
 
             def extract_navpoints(parent, level=0):
-                for navpoint in parent.findall('.//{http://www.daisy.org/z3986/2005/ncx/}navPoint'):
+                for navpoint in parent.findall(
+                    ".//{http://www.daisy.org/z3986/2005/ncx/}navPoint"
+                ):
                     # Get label
-                    label_elem = navpoint.find('.//{http://www.daisy.org/z3986/2005/ncx/}text')
-                    label = label_elem.text if label_elem is not None else 'Untitled'
+                    label_elem = navpoint.find(
+                        ".//{http://www.daisy.org/z3986/2005/ncx/}text"
+                    )
+                    label = label_elem.text if label_elem is not None else "Untitled"
 
                     # Get content source
-                    content_elem = navpoint.find('.//{http://www.daisy.org/z3986/2005/ncx/}content')
+                    content_elem = navpoint.find(
+                        ".//{http://www.daisy.org/z3986/2005/ncx/}content"
+                    )
                     if content_elem is not None:
-                        src = content_elem.get('src', '')
+                        src = content_elem.get("src", "")
                         if base_path and not src.startswith(base_path):
                             src = f"{base_path}/{src}"
 
-                        toc_entries.append({
-                            'label': label,
-                            'src': src,
-                            'level': level
-                        })
+                        toc_entries.append({"label": label, "src": src, "level": level})
 
             extract_navpoints(ncx_root)
             return toc_entries
@@ -142,34 +151,36 @@ class EpubToHtmlConverter:
     def clean_html_content(self, content):
         """Clean and process HTML content."""
         # Remove XML namespace declarations
-        content = re.sub(r'xmlns[^=]*="[^"]*"', '', content)
+        content = re.sub(r'xmlns[^=]*="[^"]*"', "", content)
 
         # Remove DOCTYPE if present
-        content = re.sub(r'<!DOCTYPE[^>]*>', '', content)
+        content = re.sub(r"<!DOCTYPE[^>]*>", "", content)
 
         # Extract body content if full HTML document
-        body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
+        body_match = re.search(
+            r"<body[^>]*>(.*?)</body>", content, re.DOTALL | re.IGNORECASE
+        )
         if body_match:
             content = body_match.group(1)
 
         # Clean up extra whitespace
-        content = re.sub(r'\n\s*\n', '\n\n', content)
+        content = re.sub(r"\n\s*\n", "\n\n", content)
 
         return content.strip()
 
     def generate_anchor_id(self, text):
         """Generate a clean anchor ID from text."""
         # Remove HTML tags
-        text = re.sub(r'<[^>]+>', '', text)
+        text = re.sub(r"<[^>]+>", "", text)
         # Convert to lowercase and replace spaces/special chars with hyphens
-        anchor_id = re.sub(r'[^\w\s-]', '', text.lower())
-        anchor_id = re.sub(r'[-\s]+', '-', anchor_id)
-        return anchor_id.strip('-')
+        anchor_id = re.sub(r"[^\w\s-]", "", text.lower())
+        anchor_id = re.sub(r"[-\s]+", "-", anchor_id)
+        return anchor_id.strip("-")
 
     def process_epub(self):
         """Main processing function."""
         try:
-            with zipfile.ZipFile(self.epub_path, 'r') as zip_file:
+            with zipfile.ZipFile(self.epub_path, "r") as zip_file:
                 # Parse OPF file
                 metadata, spine_items, base_path = self.parse_opf_file(zip_file)
 
@@ -179,32 +190,41 @@ class EpubToHtmlConverter:
                 # Process each spine item
                 for item_path in spine_items:
                     try:
-                        content = zip_file.read(item_path).decode('utf-8')
+                        content = zip_file.read(item_path).decode("utf-8")
                         cleaned_content = self.clean_html_content(content)
 
                         if cleaned_content:
                             # Find matching TOC entry
                             toc_entry = None
                             for entry in toc_entries:
-                                if entry['src'].split('#')[0] == item_path:
+                                if entry["src"].split("#")[0] == item_path:
                                     toc_entry = entry
                                     break
 
                             # If no TOC entry, try to extract title from content
                             if not toc_entry:
-                                title_match = re.search(r'<h[1-6][^>]*>(.*?)</h[1-6]>', cleaned_content, re.IGNORECASE)
-                                title = title_match.group(
-                                    1) if title_match else f"Section {len(self.content_sections) + 1}"
-                                toc_entry = {'label': title, 'level': 0}
+                                title_match = re.search(
+                                    r"<h[1-6][^>]*>(.*?)</h[1-6]>",
+                                    cleaned_content,
+                                    re.IGNORECASE,
+                                )
+                                title = (
+                                    title_match.group(1)
+                                    if title_match
+                                    else f"Section {len(self.content_sections) + 1}"
+                                )
+                                toc_entry = {"label": title, "level": 0}
 
-                            anchor_id = self.generate_anchor_id(toc_entry['label'])
+                            anchor_id = self.generate_anchor_id(toc_entry["label"])
 
-                            self.content_sections.append({
-                                'title': toc_entry['label'],
-                                'anchor_id': anchor_id,
-                                'content': cleaned_content,
-                                'level': toc_entry.get('level', 0)
-                            })
+                            self.content_sections.append(
+                                {
+                                    "title": toc_entry["label"],
+                                    "anchor_id": anchor_id,
+                                    "content": cleaned_content,
+                                    "level": toc_entry.get("level", 0),
+                                }
+                            )
 
                     except Exception as e:
                         print(f"Warning: Could not process {item_path}: {e}")
@@ -222,12 +242,12 @@ class EpubToHtmlConverter:
         html_parts = []
 
         # HTML header
-        html_parts.append(f'''<!DOCTYPE html>
+        html_parts.append(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape(metadata['title'])}</title>
+    <title>{escape(metadata["title"])}</title>
     <style>
         body {{
             font-family: Georgia, serif;
@@ -368,59 +388,59 @@ class EpubToHtmlConverter:
         }}
     </style>
 </head>
-<body>''')
+<body>""")
 
         # Header section
-        html_parts.append(f'''
+        html_parts.append(f"""
     <div class="header">
-        <h1>{escape(metadata['title'])}</h1>
-        <div class="author">by {escape(metadata['author'])}</div>
-        {f'<p class="description">{escape(metadata["description"])}</p>' if metadata['description'] else ''}
-    </div>''')
+        <h1>{escape(metadata["title"])}</h1>
+        <div class="author">by {escape(metadata["author"])}</div>
+        {f'<p class="description">{escape(metadata["description"])}</p>' if metadata["description"] else ""}
+    </div>""")
 
         # Table of Contents
         if self.content_sections:
-            html_parts.append('''
+            html_parts.append("""
     <div class="toc" id="table-of-contents">
         <h2>Table of Contents</h2>
-        <ul>''')
+        <ul>""")
 
             for section in self.content_sections:
-                level_class = f'level-{min(section["level"], 3)}'
+                level_class = f"level-{min(section['level'], 3)}"
                 html_parts.append(f'''
             <li class="{level_class}">
-                <a href="#{section['anchor_id']}">{escape(section['title'])}</a>
+                <a href="#{section["anchor_id"]}">{escape(section["title"])}</a>
             </li>''')
 
-            html_parts.append('''
+            html_parts.append("""
         </ul>
-    </div>''')
+    </div>""")
 
         # Content sections
         html_parts.append('    <div class="content">')
 
         for section in self.content_sections:
             html_parts.append(f'''
-        <div class="section" id="{section['anchor_id']}">
-            <h2 class="section-title">{escape(section['title'])}</h2>
+        <div class="section" id="{section["anchor_id"]}">
+            <h2 class="section-title">{escape(section["title"])}</h2>
             <div class="section-content">
-                {section['content']}
+                {section["content"]}
             </div>
             <a href="#table-of-contents" class="back-to-top">↑ Back to Top</a>
         </div>''')
 
-        html_parts.append('    </div>')
+        html_parts.append("    </div>")
 
         # Close HTML
-        html_parts.append('''
+        html_parts.append("""
 </body>
-</html>''')
+</html>""")
 
         # Write to file
-        final_html = '\n'.join(html_parts)
+        final_html = "\n".join(html_parts)
 
         try:
-            with open(self.output_path, 'w', encoding='utf-8') as f:
+            with open(self.output_path, "w", encoding="utf-8") as f:
                 f.write(final_html)
             print(f"Successfully converted '{self.epub_path}' to '{self.output_path}'")
             print(f"Generated {len(self.content_sections)} sections with navigation")
@@ -430,10 +450,15 @@ class EpubToHtmlConverter:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Convert EPUB file to HTML with anchor navigation')
-    parser.add_argument('epub_file', help='Path to the EPUB file')
-    parser.add_argument('-o', '--output',
-                        help='Output HTML file path (default: same name as EPUB with .html extension)')
+    parser = argparse.ArgumentParser(
+        description="Convert EPUB file to HTML with anchor navigation"
+    )
+    parser.add_argument("epub_file", help="Path to the EPUB file")
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Output HTML file path (default: same name as EPUB with .html extension)",
+    )
 
     args = parser.parse_args()
 
@@ -445,5 +470,5 @@ def main():
     converter.process_epub()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

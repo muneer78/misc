@@ -3,8 +3,12 @@ from urllib.request import urlopen  # Use urllib for fetching URLs
 from pathlib import Path
 
 # Input and output file paths
-input_file = Path("/Users/muneer78/Downloads/sarah-haider.txt")  # Input file containing URLs
-output_file = Path("/Users/muneer78/Downloads/haider-book.txt")  # Output file for extracted content
+input_file = Path(
+    "/Users/muneer78/Downloads/sarah-haider.txt"
+)  # Input file containing URLs
+output_file = Path(
+    "/Users/muneer78/Downloads/haider-book.txt"
+)  # Output file for extracted content
 
 # Check if the input file exists
 if not input_file.exists():

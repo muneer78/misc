@@ -1,9 +1,9 @@
 import instaloader
 
 # Initialize Instaloader with no metadata
-L = instaloader.Instaloader(download_comments=False, 
-                            save_metadata=False, 
-                            post_metadata_txt_pattern="")
+L = instaloader.Instaloader(
+    download_comments=False, save_metadata=False, post_metadata_txt_pattern=""
+)
 
 USER = "thayungmun"
 

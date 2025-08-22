@@ -1,5 +1,5 @@
 def analyze_text_file(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         text = file.read()
 
     # Number of characters
@@ -15,8 +15,9 @@ def analyze_text_file(file_path):
 
     return num_characters, num_words, num_pages
 
+
 # Example usage
-file_path = '/Users/muneer78/Downloads/abusiveparentsextended.txt'  # Replace with the path to your text file
+file_path = "/Users/muneer78/Downloads/abusiveparentsextended.txt"  # Replace with the path to your text file
 characters, words, pages = analyze_text_file(file_path)
 print(f"Number of characters: {characters}")
 print(f"Number of words: {words}")

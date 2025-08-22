@@ -176,12 +176,12 @@ for filename in os.listdir(directory):
     if filename.endswith(".md"):
         file_path = os.path.join(directory, filename)
 
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             content = file.read()
 
         # Remove the added title line
-        new_content = title_line_pattern.sub('', content)
+        new_content = title_line_pattern.sub("", content)
 
         # Write the updated content back to the file
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             file.write(new_content)

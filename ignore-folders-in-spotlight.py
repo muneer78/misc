@@ -52,18 +52,18 @@ def create_backup_of_spotlight_plist():
 
     try:
         subprocess.check_call(["cp", SPOTLIGHT_PLIST_PATH, backup_path])
-    except subprocess.CalledProcessError as err:
-        print(f"*** Could not create backup of Spotlight configuration", file=sys.stderr)
-        print(f"*** You need to run this script with 'sudo'", file=sys.stderr)
+    except subprocess.CalledProcessError:
+        print("*** Could not create backup of Spotlight configuration", file=sys.stderr)
+        print("*** You need to run this script with 'sudo'", file=sys.stderr)
         sys.exit(1)
 
-    print( "*** Created backup of Spotlight configuration",             file=sys.stderr)
-    print( "*** If this script goes wrong or you want to revert, run:", file=sys.stderr)
-    print( "***",                                                       file=sys.stderr)
-    print(f"***     sudo cp {backup_path} {SPOTLIGHT_PLIST_PATH}",     file=sys.stderr)
-    print( "***     sudo launchctl stop com.apple.metadata.mds",        file=sys.stderr)
-    print ("***     sudo launchctl start com.apple.metadata.mds",       file=sys.stderr)
-    print( "***",                                                       file=sys.stderr)
+    print("*** Created backup of Spotlight configuration", file=sys.stderr)
+    print("*** If this script goes wrong or you want to revert, run:", file=sys.stderr)
+    print("***", file=sys.stderr)
+    print(f"***     sudo cp {backup_path} {SPOTLIGHT_PLIST_PATH}", file=sys.stderr)
+    print("***     sudo launchctl stop com.apple.metadata.mds", file=sys.stderr)
+    print("***     sudo launchctl start com.apple.metadata.mds", file=sys.stderr)
+    print("***", file=sys.stderr)
 
 
 def get_paths_to_ignore(root):
@@ -72,7 +72,6 @@ def get_paths_to_ignore(root):
     """
     for path in get_dir_paths_under(root):
         if os.path.basename(path) in IGNORE_DIRECTORIES:
-
             # Check this path isn't going to be ignored by a parent path.
             #
             # e.g. consider the path
@@ -97,17 +96,19 @@ def get_current_ignores():
     """
     Returns a list of paths currently ignored by Spotlight.
     """
-    output = subprocess.check_output([
-        "plutil",
-
-        # Get the value of the "Exclusions" key as XML
-        "-extract", "Exclusions", "xml1",
-
-        # Send the result to stdout
-        "-o", "-",
-
-        SPOTLIGHT_PLIST_PATH
-    ])
+    output = subprocess.check_output(
+        [
+            "plutil",
+            # Get the value of the "Exclusions" key as XML
+            "-extract",
+            "Exclusions",
+            "xml1",
+            # Send the result to stdout
+            "-o",
+            "-",
+            SPOTLIGHT_PLIST_PATH,
+        ]
+    )
 
     # The result of this call will look something like:
     #
@@ -133,21 +134,22 @@ def ignore_path_in_spotlight(path):
     if path in already_ignored:
         return
 
-    subprocess.check_call([
-        "plutil",
+    subprocess.check_call(
+        [
+            "plutil",
+            # Insert at the end of the Exclusions list
+            "-insert",
+            f"Exclusions.{len(already_ignored)}",
+            # The path to exclude
+            "-string",
+            os.path.abspath(path),
+            # Path to the Spotlight plist on Catalina
+            SPOTLIGHT_PLIST_PATH,
+        ]
+    )
 
-        # Insert at the end of the Exclusions list
-        "-insert", f"Exclusions.{len(already_ignored)}",
 
-        # The path to exclude
-        "-string", os.path.abspath(path),
-
-        # Path to the Spotlight plist on Catalina
-        SPOTLIGHT_PLIST_PATH
-    ])
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         root = sys.argv[1]
     except IndexError:

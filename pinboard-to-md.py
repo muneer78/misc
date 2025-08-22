@@ -2,8 +2,12 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 
 # File paths
-input_html = Path("/Users/muneer78/Downloads/pinboard_export.2025.05.03_14.58.html")  # Replace with the path to your HTML file
-output_md = Path("/Users/muneer78/Downloads/links.md")  # Replace with the desired output Markdown file path
+input_html = Path(
+    "/Users/muneer78/Downloads/pinboard_export.2025.05.03_14.58.html"
+)  # Replace with the path to your HTML file
+output_md = Path(
+    "/Users/muneer78/Downloads/links.md"
+)  # Replace with the desired output Markdown file path
 
 # Read the HTML file
 with input_html.open("r", encoding="utf-8") as file:

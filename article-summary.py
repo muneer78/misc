@@ -4,7 +4,9 @@ from sumy.summarizers.lsa import LsaSummarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 import nltk
-nltk.download('punkt')
+
+nltk.download("punkt")
+
 
 def summarize_paragraph(paragraph, sentences_count=2):
     parser = PlaintextParser.from_string(paragraph, Tokenizer("english"))
@@ -14,6 +16,7 @@ def summarize_paragraph(paragraph, sentences_count=2):
 
     summary = summarizer(parser.document, sentences_count)
     return summary
+
 
 if __name__ == "__main__":
     article = """Sell-side research analysts are unusual in that they are white-collar knowledge workers whose work quality is (1) public and (2) objectively measurable. Research analysts publish reports telling you what stocks to buy and sell, with price targets and estimates of future earnings; plausibly the best analysts are the ones whose recommendations, price targets and earnings estimates most accurately predict future stock prices and earnings. [3]  Also they’re mostly on LinkedIn. So you can ask questions like “which characteristics make an analyst good,” and use publicly available information to get answers that are (1) plausibly true and (2) plausibly generalizable to other sorts of white-collar knowledge workers.
@@ -36,7 +39,7 @@ summary = summarize_paragraph(article, sentences_count)
 for sentence in summary:
     print(sentence)
 
-with open('article.md', 'w') as f:
+with open("article.md", "w") as f:
     f.write("# Article Summary\n\n")
     for summary in article:
         f.write(summary + "\n")

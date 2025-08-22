@@ -16,7 +16,9 @@ try:
 
     # Extract the main body text (all paragraphs)
     paragraphs = soup.find_all("p")
-    body_text = "\n".join(p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True))
+    body_text = "\n".join(
+        p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True)
+    )
 
     # Copy the extracted text to the clipboard
     pyperclip.copy(body_text)
@@ -25,7 +27,9 @@ try:
     char_count = len(body_text)
 
     # Output message
-    print(f"The extracted text has been copied to the clipboard. (Character count: {char_count})")
+    print(
+        f"The extracted text has been copied to the clipboard. (Character count: {char_count})"
+    )
 
 except requests.exceptions.RequestException as e:
     print(f"Error fetching {url}: {e}")

@@ -10,8 +10,10 @@ cleaned_file1 = Path("/Users/muneer78/Downloads/cleaned_books.md")
 cleaned_file2 = Path("/Users/muneer78/Downloads/cleaned_to_update.md")
 
 # Read the contents of the files
-with file1_path.open('r', encoding='utf-8', errors='ignore') as file1, \
-     file2_path.open('r', encoding='utf-8', errors='ignore') as file2:
+with (
+    file1_path.open("r", encoding="utf-8", errors="ignore") as file1,
+    file2_path.open("r", encoding="utf-8", errors="ignore") as file2,
+):
     lines1 = file1.readlines()
     lines2 = file2.readlines()
 
@@ -21,7 +23,7 @@ set2 = set(lines2)
 duplicates = set1 & set2  # Intersection gives the duplicates
 
 # Write duplicates to a file
-with duplicates_file.open('w', encoding='utf-8') as dup_file:
+with duplicates_file.open("w", encoding="utf-8") as dup_file:
     for line in duplicates:
         dup_file.write(line)
 
@@ -29,11 +31,11 @@ with duplicates_file.open('w', encoding='utf-8') as dup_file:
 unique_lines1 = set1 - duplicates
 unique_lines2 = set2 - duplicates
 
-with cleaned_file1.open('w', encoding='utf-8') as clean_file1:
+with cleaned_file1.open("w", encoding="utf-8") as clean_file1:
     for line in unique_lines1:
         clean_file1.write(line)
 
-with cleaned_file2.open('w', encoding='utf-8') as clean_file2:
+with cleaned_file2.open("w", encoding="utf-8") as clean_file2:
     for line in unique_lines2:
         clean_file2.write(line)
 

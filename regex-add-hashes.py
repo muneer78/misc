@@ -1,5 +1,6 @@
 import re
 
+
 def add_tags(text):
     pattern = r"\]\s+(\w+)"
     matches = re.finditer(pattern, text)
@@ -20,8 +21,12 @@ def add_tags(text):
     modified_text.extend(text[last_end:].split())
     return "\n".join(modified_text)
 
+
 # Replace 'input.txt' and 'output.txt' with your actual file names
-with open(r'/Users/muneer78/Downloads/pinboard.txt', 'r') as f, open(r'/Users/muneer78/Downloads/pinboard_output.txt', 'w') as out:
+with (
+    open(r"/Users/muneer78/Downloads/pinboard.txt", "r") as f,
+    open(r"/Users/muneer78/Downloads/pinboard_output.txt", "w") as out,
+):
     text = f.read()
     modified_text = add_tags(text)
     out.write(modified_text)

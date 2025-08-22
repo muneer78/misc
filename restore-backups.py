@@ -37,7 +37,7 @@ def restore_and_delete_backups(start_directory="."):
                 except Exception as e:
                     print(f"Error restoring {backup_filepath}: {e}")
 
-    print(f"\nRestoration complete.")
+    print("\nRestoration complete.")
     print(f"Total files restored from backup: {restored_count}")
     print(f"Total current files deleted (replaced by backup): {deleted_count}")
 

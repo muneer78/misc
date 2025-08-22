@@ -1,11 +1,10 @@
-import sys
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
-import nltk
 import textwrap
+
 
 def summarize_paragraph(paragraph, sentences_count=3):
     parser = PlaintextParser.from_string(paragraph, Tokenizer("english"))
@@ -13,6 +12,7 @@ def summarize_paragraph(paragraph, sentences_count=3):
     summarizer.stop_words = get_stop_words("english")
     summary = summarizer(parser.document, sentences_count)
     return summary
+
 
 if __name__ == "__main__":
     print("Paste your article text below. Enter a blank line to finish:\n")
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     sentences_count = 6
     summary = summarize_paragraph(article, sentences_count)
 
-    with open('article.md', 'w') as f:
+    with open("article.md", "w") as f:
         f.write("# Article Summary\n\n")
         print("# Article Summary\n")
         for sentence in summary:

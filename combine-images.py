@@ -1,8 +1,14 @@
 from PIL import Image, ImageOps
 
-def combine_images_vertically(image_paths, output_path, border_size=10, border_color=(0, 0, 0)):
+
+def combine_images_vertically(
+    image_paths, output_path, border_size=10, border_color=(0, 0, 0)
+):
     # Open all images, add borders, and calculate the total height and maximum width
-    images = [ImageOps.expand(Image.open(img), border=border_size, fill=border_color) for img in image_paths]
+    images = [
+        ImageOps.expand(Image.open(img), border=border_size, fill=border_color)
+        for img in image_paths
+    ]
     total_height = sum(img.height for img in images)
     max_width = max(img.width for img in images)
 
@@ -18,6 +24,17 @@ def combine_images_vertically(image_paths, output_path, border_size=10, border_c
     # Save the combined image
     combined_image.save(output_path)
 
+
 # Example usage
-image_files = ["oldmen1.jpg", "oldmen2.jpg", "oldmen3.jpg", "oldmen4.jpg", "oldmen5.jpg", "oldmen6.jpg", "oldmen7.jpg"]
-combine_images_vertically(image_files, "oldmen.jpg", border_size=10, border_color=(0, 0, 0))
+image_files = [
+    "oldmen1.jpg",
+    "oldmen2.jpg",
+    "oldmen3.jpg",
+    "oldmen4.jpg",
+    "oldmen5.jpg",
+    "oldmen6.jpg",
+    "oldmen7.jpg",
+]
+combine_images_vertically(
+    image_files, "oldmen.jpg", border_size=10, border_color=(0, 0, 0)
+)

@@ -8,13 +8,15 @@ import textwrap
 import requests
 from bs4 import BeautifulSoup
 
-nltk.download('punkt')
+nltk.download("punkt")
+
 
 def extract_text_from_url(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    paragraphs = [p.get_text() for p in soup.find_all('p')]
-    return '\n\n'.join(paragraphs)
+    paragraphs = [p.get_text() for p in soup.find_all("p")]
+    return "\n\n".join(paragraphs)
+
 
 def summarize_paragraph(paragraph, sentences_count=2):
     parser = PlaintextParser.from_string(paragraph, Tokenizer("english"))
@@ -22,6 +24,7 @@ def summarize_paragraph(paragraph, sentences_count=2):
     summarizer.stop_words = get_stop_words("english")
     summary = summarizer(parser.document, sentences_count)
     return summary
+
 
 if __name__ == "__main__":
     url = "https://www.gelliottmorris.com/p/the-myth-of-republican-isolationism"

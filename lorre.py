@@ -25,14 +25,14 @@ for page_num in range(1, 1518):
         continue
 
     # Parse the page content
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, "html.parser")
 
     # Find all image tags
-    img_tags = soup.find_all('img')
+    img_tags = soup.find_all("img")
 
     # Download each image
     for img in img_tags:
-        img_url = img.get('src')
+        img_url = img.get("src")
         if not img_url:
             continue  # Skip if no image source
 
@@ -48,7 +48,7 @@ for page_num in range(1, 1518):
         # Download and save the image
         try:
             img_data = requests.get(img_url).content
-            with open(img_path, 'wb') as f:
+            with open(img_path, "wb") as f:
                 f.write(img_data)
             print(f"Downloaded: {img_name}")
         except Exception as e:

@@ -5,24 +5,21 @@ Reads the tag mapping from misc.txt and updates the corresponding files.
 """
 
 import os
-import re
 import shutil
-from pathlib import Path
-from datetime import datetime
 
 
 def parse_tag_mapping(mapping_file):
     """Parse the tag mapping file and return a dictionary of file -> tags."""
     file_tags = {}
 
-    with open(mapping_file, 'r') as f:
+    with open(mapping_file, "r") as f:
         for line in f:
             line = line.strip()
-            if not line or not line.startswith('./content/'):
+            if not line or not line.startswith("./content/"):
                 continue
 
             # Split on ':tags:' to separate file path from tags
-            parts = line.split(':tags:', 1)
+            parts = line.split(":tags:", 1)
             if len(parts) != 2:
                 continue
 
@@ -30,7 +27,7 @@ def parse_tag_mapping(mapping_file):
             tags = parts[1].strip()
 
             # Remove the './' prefix from file path
-            file_path = file_path[2:] if file_path.startswith('./') else file_path
+            file_path = file_path[2:] if file_path.startswith("./") else file_path
 
             file_tags[file_path] = tags
 
@@ -60,19 +57,19 @@ def update_file_tags(file_path, new_tags):
         return False
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             lines = f.readlines()
 
         # Find and update the tags line
         updated = False
         for i, line in enumerate(lines):
-            if line.strip().startswith('tags:'):
+            if line.strip().startswith("tags:"):
                 lines[i] = f"tags: {new_tags}\n"
                 updated = True
                 break
 
         if updated:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 f.writelines(lines)
             print(f"Updated: {file_path} (backup created)")
             return True
@@ -91,7 +88,7 @@ def update_file_tags(file_path, new_tags):
 
 def main():
     # Path to the tag mapping file
-    mapping_file = 'misc.txt'
+    mapping_file = "misc.txt"
 
     if not os.path.exists(mapping_file):
         print(f"Error: Mapping file '{mapping_file}' not found!")
@@ -109,7 +106,7 @@ def main():
             updated_count += 1
 
     print(f"\nCompleted! Updated {updated_count} out of {len(file_tags)} files.")
-    print(f"Backup files created with .backup extension")
+    print("Backup files created with .backup extension")
     print("To remove all backups, run: find . -name '*.backup' -delete")
 
 

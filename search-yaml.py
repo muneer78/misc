@@ -1,7 +1,9 @@
 import pathlib
 
+
 def has_yaml_front_matter(lines):
     return lines and lines[0].strip() == "---"
+
 
 def missing_title_or_date(lines):
     in_front_matter = False
@@ -20,8 +22,11 @@ def missing_title_or_date(lines):
                 has_date = True
     return in_front_matter and (not has_title or not has_date)
 
+
 result = []
-for path in pathlib.Path("/Users/muneer78/Documents/GitHub/reenum-blog/content/posts/writings").rglob("*"):
+for path in pathlib.Path(
+    "/Users/muneer78/Documents/GitHub/reenum-blog/content/posts/writings"
+).rglob("*"):
     if path.is_file():
         try:
             with path.open(encoding="utf-8") as f:

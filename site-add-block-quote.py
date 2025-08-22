@@ -1,35 +1,37 @@
 import pyperclip
 
+
 # Use if blank lines also need to be block quoted
 def add_gt_in_front_of_paragraphs(text):
     # Split the text into lines
-    lines = text.split('\n')
+    lines = text.split("\n")
 
     # Add '> ' in front of each line, including blank lines
-    updated_lines = [f'> {line}' if line.strip() else '> ' for line in lines]
+    updated_lines = [f"> {line}" if line.strip() else "> " for line in lines]
 
     # Join the lines back with newline
-    updated_text = '\n'.join(updated_lines)
+    updated_text = "\n".join(updated_lines)
 
     return updated_text
 
-# Use if blank lines don't need to be block quoted
-# def add_gt_in_front_of_paragraphs(text):
-#     # Split the text into paragraphs based on double newline
-#     paragraphs = text.split('\n\n')
+    # Use if blank lines don't need to be block quoted
+    # def add_gt_in_front_of_paragraphs(text):
+    #     # Split the text into paragraphs based on double newline
+    #     paragraphs = text.split('\n\n')
 
-#     # Add '> ' in front of each paragraph
-#     updated_paragraphs = [f'> {paragraph.strip()}' for paragraph in paragraphs]
+    #     # Add '> ' in front of each paragraph
+    #     updated_paragraphs = [f'> {paragraph.strip()}' for paragraph in paragraphs]
 
-#     # Join the paragraphs back with double newline
-#     updated_text = '\n\n'.join(updated_paragraphs)
+    #     # Join the paragraphs back with double newline
+    #     updated_text = '\n\n'.join(updated_paragraphs)
 
     return updated_text
 
     # Join the lines back with newline
-    updated_text = '\n'.join(updated_lines)
+    updated_text = "\n".join(updated_lines)
 
     return updated_text
+
 
 # Sample input text
 input_text = """

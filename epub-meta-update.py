@@ -2,15 +2,17 @@ import zipfile
 from ebooklib import epub
 from pathlib import Path
 
+
 # Function to check if the EPUB is a valid ZIP file
 def is_valid_epub(file_path):
     try:
-        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        with zipfile.ZipFile(file_path, "r") as zip_ref:
             zip_ref.testzip()  # Test if the ZIP file is valid
         return True
     except (zipfile.BadZipFile, Exception) as e:
         print(f"Error: '{file_path}' is not a valid EPUB or ZIP file. {e}")
         return False
+
 
 # Function to update EPUB metadata
 def update_epub_metadata(file_path, new_author=None, new_title=None):
@@ -23,8 +25,8 @@ def update_epub_metadata(file_path, new_author=None, new_title=None):
         book = epub.read_epub(file_path)
 
         # Extract current metadata
-        current_title = book.get_metadata('DC', 'title')
-        current_author = book.get_metadata('DC', 'creator')
+        current_title = book.get_metadata("DC", "title")
+        current_author = book.get_metadata("DC", "creator")
 
         print("Current Metadata:")
         print(f"Title: {current_title[0][0] if current_title else 'Not set'}")
@@ -32,9 +34,9 @@ def update_epub_metadata(file_path, new_author=None, new_title=None):
 
         # Update metadata fields if new values are provided
         if new_title:
-            book.add_metadata('DC', 'title', new_title)
+            book.add_metadata("DC", "title", new_title)
         if new_author:
-            book.add_metadata('DC', 'creator', new_author)
+            book.add_metadata("DC", "creator", new_author)
 
         # Save the updated EPUB file (overwrite the original)
         epub.write_epub(file_path, book)
@@ -47,8 +49,9 @@ def update_epub_metadata(file_path, new_author=None, new_title=None):
     except Exception as e:
         print(f"Error processing '{file_path}': {e}")
 
+
 # Input file path and metadata values
-file_path = Path('/Users/muneer78/Downloads/convert/lorre-vanity-cards.epub')
+file_path = Path("/Users/muneer78/Downloads/convert/lorre-vanity-cards.epub")
 new_author = "Chuck Lorre"
 new_title = "Vanity Cards"
 

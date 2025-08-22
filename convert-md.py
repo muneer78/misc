@@ -1,4 +1,3 @@
-from pathlib import Path
 import convert_markdown
 
 # File paths
@@ -390,8 +389,8 @@ css_styles = """
 # Method 1: Get bytes and save manually
 output = convert_markdown.to(
     markdown=markdown_content,
-    style='css_styles', # default: 'style', 'style1', 'style2', 'style3', 'custom'
-    format='pdf'    # default: 'pdf', 'docx', 'pptx', 'html'
+    style="css_styles",  # default: 'style', 'style1', 'style2', 'style3', 'custom'
+    format="pdf",  # default: 'pdf', 'docx', 'pptx', 'html'
 )
-with open(r'/Users/muneer78/Documents/Projects/trivia-night/output.pdf', 'wb') as f:
+with open(r"/Users/muneer78/Documents/Projects/trivia-night/output.pdf", "wb") as f:
     f.write(output)

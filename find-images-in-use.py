@@ -1,6 +1,8 @@
 import pathlib
 
-assets_dir = pathlib.Path("/Users/muneer78/Documents/GitHub/personal-site/content/assets")
+assets_dir = pathlib.Path(
+    "/Users/muneer78/Documents/GitHub/personal-site/content/assets"
+)
 posts_dir = pathlib.Path("/Users/muneer78/Documents/GitHub/personal-site/content/posts")
 output_file = pathlib.Path("/Users/muneer78/Downloads/image_references.txt")
 

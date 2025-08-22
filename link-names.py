@@ -4,11 +4,14 @@ from pathlib import Path
 
 # File paths
 input_file = Path("/Users/muneer78/Downloads/nonames.md")  # Input Markdown file
-output_file = Path("/Users/muneer78/Downloads/links_with_titles.md")  # Output Markdown file
+output_file = Path(
+    "/Users/muneer78/Downloads/links_with_titles.md"
+)  # Output Markdown file
 
 # Read the Markdown content
 with input_file.open("r", encoding="utf-8") as file:
     lines = file.readlines()
+
 
 # Function to fetch the page title
 def fetch_page_title(url):
@@ -23,6 +26,7 @@ def fetch_page_title(url):
         print(f"Error fetching title for {url}: {e}")
         return "No Title"
 
+
 # Process each line in the file
 updated_lines = []
 for line in lines:
@@ -30,7 +34,9 @@ for line in lines:
         try:
             parts = line.split(": ", 1)
             url_part = parts[1].strip()
-            url = url_part[url_part.find("(") + 1 : url_part.find(")")]  # Extract URL from Markdown link
+            url = url_part[
+                url_part.find("(") + 1 : url_part.find(")")
+            ]  # Extract URL from Markdown link
             title = fetch_page_title(url)  # Fetch the page title
             updated_line = f"{parts[0]}: [{title}]({url})\n"  # Replace the title in the Markdown link
             updated_lines.append(updated_line)

@@ -2,7 +2,9 @@ from datetime import datetime
 from pathlib import Path
 
 # File paths
-input_md = Path("/Users/muneer78/Documents/GitHub/muneer78.github.io/_links/2025-04-18-instapaper.md")  # Input Markdown file
+input_md = Path(
+    "/Users/muneer78/Documents/GitHub/muneer78.github.io/_links/2025-04-18-instapaper.md"
+)  # Input Markdown file
 output_html = Path("/Users/muneer78/data/instapaper.html")  # Output HTML file
 
 # Read the Markdown file and extract data

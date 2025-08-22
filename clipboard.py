@@ -8,9 +8,9 @@ def main(url):
             "data": {
                 "attributes": {
                     "email": "business@muneerahmad.com",  # Insert Your Email
-                    "password": "pass"  # Insert Your Password
+                    "password": "pass",  # Insert Your Password
                 },
-                "type": "user_login"
+                "type": "user_login",
             }
         }
         req.post(url, data=data)
@@ -20,12 +20,14 @@ def main(url):
             "dt": "2021-03",
             "e": "1",
             "l": "1",
-            "ot": "1"
+            "ot": "1",
         }
         r = req.get(
-            'https://app.datafinder.ae/prices-and-transactions/record-data', params=params)
+            "https://app.datafinder.ae/prices-and-transactions/record-data",
+            params=params,
+        )
         df = pd.read_html(r.content)
         print(df)
 
 
-main('https://app.datafinder.ae/api/v1/user/login')
+main("https://app.datafinder.ae/api/v1/user/login")

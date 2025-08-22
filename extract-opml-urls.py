@@ -1,6 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
+
 def extract_and_prefix_rss_urls(opml_path, output_dir):
     try:
         # Ensure the OPML file exists
@@ -24,7 +25,9 @@ def extract_and_prefix_rss_urls(opml_path, output_dir):
 
         # Set output file path
         output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)  # Create directory if it doesn't exist
+        output_dir.mkdir(
+            parents=True, exist_ok=True
+        )  # Create directory if it doesn't exist
         output_file = output_dir / "rss_urls.txt"
 
         # Write prefixed RSS URLs to the text file
@@ -35,8 +38,9 @@ def extract_and_prefix_rss_urls(opml_path, output_dir):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Example usage
 opml_path = "/Users/muneer78/Downloads/fraidycat.opml"  # Replace with the actual path to your OPML file
-output_dir = "/Users/muneer78/Downloads"            # Replace with the desired output directory
+output_dir = "/Users/muneer78/Downloads"  # Replace with the desired output directory
 
 extract_and_prefix_rss_urls(opml_path, output_dir)

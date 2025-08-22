@@ -3,6 +3,7 @@ import re
 # File path to your .md file
 file_path = "/Users/muneer78/Downloads/tv.md"
 
+
 # Function to remove "The " from the start of a title for sorting purposes
 def sort_key(line):
     match = re.match(r"\| (.*?) \|", line)
@@ -10,6 +11,7 @@ def sort_key(line):
         title = match.group(1).lower()
         return title.removeprefix("the ")
     return line.lower()
+
 
 # Read and process the .md file
 with open(file_path, "r") as file:

@@ -24,7 +24,6 @@ TODOs
 2. Add pure python way to convert HTML to markdown
 """
 
-import sys
 from pathlib import Path
 
 try:
@@ -41,7 +40,6 @@ def main(
     tag: str = typer.Option("legacy-blogger", help="Tag to add to frontmatter"),
     show_original: bool = typer.Option(True, help="Link MD files to original articles"),
 ):
-
     typer.secho(f"Parsing data from '{input_file}'", fg=typer.colors.GREEN)
     raw_text = input_file.read_text()
     # parse the historical data
@@ -123,7 +121,7 @@ def main(
                 if value["comments"]:
                     f.write("\n\n---\n\n")
                     f.write(
-                        f'## {len(value["comments"])} comments captured from [original post]({key}) on Blogger\n\n'
+                        f"## {len(value['comments'])} comments captured from [original post]({key}) on Blogger\n\n"
                     )
                     for comment in value["comments"]:
                         f.write(
