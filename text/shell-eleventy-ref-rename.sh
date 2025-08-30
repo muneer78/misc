@@ -1,0 +1,1 @@
+LC_CTYPE=C find /Users/muneer78/Documents/Projects/reenum-blog -type f -exec sed -i '' 's|/public/img|/img/|g' {} +

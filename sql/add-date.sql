@@ -1,0 +1,1 @@
+SELECT DATEADD(DAY, 18, CURRENT_DATE) AS future_date;
