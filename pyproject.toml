@@ -8,4 +8,6 @@ dependencies = [
     "pandas",
     "polars",
     "numpy",
+    "requests>=2.32.5",
+    "bs4>=0.0.2",
 ]
