@@ -78,7 +78,9 @@ rss_feeds = {
     "LinuxLinks": "https://www.linuxlinks.com/feed/",
     "The Linkfest": "https://buttondown.com/clivethompson/rss",
     "Pleated Jeans":"https://pleated-jeans.com/feed/",
-    "Amanda's Mild Takes": "https://amandasmildtakes.substack.com/feed"
+    "Amanda's Mild Takes": "https://amandasmildtakes.substack.com/feed",
+    "Democratic Wins Media": "https://demwinsmedia.substack.com/",
+    "Olivia Julianna": "https://oliviajulianna.substack.com/feed"
 }
 
 

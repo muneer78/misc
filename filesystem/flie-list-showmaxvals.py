@@ -4,8 +4,12 @@ from collections import defaultdict
 
 # Path to the directory containing your files
 # directory = Path("/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos")
+# directory = Path(
+#     "/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos"
+# )
+
 directory = Path(
-    "/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos"
+    "/Users/muneer78/files/personal/pictures/cats"
 )
 
 # Dictionary to store max numbers for each prefix

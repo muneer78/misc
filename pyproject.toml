@@ -13,4 +13,6 @@ dependencies = [
     "ebooklib>=0.19",
     "markdown-it-py>=4.0.0",
     "epub-meta>=0.0.7",
+    "feedparser>=6.0.11",
+    "tqdm>=4.67.1",
 ]

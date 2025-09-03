@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Change to the directory containing your images
-cd /Users/muneer78/files/personal/pictures
+cd /Users/muneer78/Downloads/convert-images
 
 # Create a list of all image files (adjust the pattern as needed)
-files=(*.jpg *.png *.jpeg *.JPG)
+files=(*.jpg *.png *.jpeg *.JPG *.heic)
 
 # Get the total number of files
 count=${#files[@]}
