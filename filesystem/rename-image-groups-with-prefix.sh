@@ -1,6 +1,6 @@
 #!/bin/bash
 # Set the directory here
-DIR="/Users/muneer78/Downloads/convert-images"
+DIR="/Users/muneer78/Downloads/convert-images/"
 # Check if exiftool is installed
 if ! command -v exiftool &> /dev/null
 then
@@ -8,7 +8,8 @@ then
     exit 1
 fi
 # Define the prefix here
-PREFIX="sami-"
+PREFIX="toasty-"
+
 # Use a temporary file to store the list of files and their EXIF dates
 TEMP_LIST=$(mktemp)
 echo "Gathering files and EXIF data..."
