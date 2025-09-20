@@ -71,7 +71,8 @@ rss_feeds = {
     "Pleated Jeans":"https://pleated-jeans.com/feed/",
     "Amanda's Mild Takes": "https://amandasmildtakes.substack.com/feed",
     "Democratic Wins Media": "https://demwinsmedia.substack.com/",
-    "Olivia Julianna": "https://oliviajulianna.substack.com/feed"
+    "Olivia Julianna": "https://oliviajulianna.substack.com/feed",
+    "Polymarket": "https://news.polymarket.com/feed"
 }
 
 
