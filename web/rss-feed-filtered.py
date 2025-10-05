@@ -73,7 +73,10 @@ rss_feeds = {
     "Democratic Wins Media": "https://demwinsmedia.substack.com/",
     "Olivia Julianna": "https://oliviajulianna.substack.com/feed",
     "Polymarket": "https://news.polymarket.com/feed",
-    "Raygun": "https://www.raygunsite.com/blogs/news.atom"
+    "Raygun": "https://www.raygunsite.com/blogs/news.atom",
+    "Press Watchers": "https://presswatchers.org/feed/",
+    "Best and Worst": "https://bestworst.substack.com/feed",
+    "Humorism": "https://www.humorism.xyz/",
 }
 
 
@@ -81,6 +84,7 @@ rss_feeds = {
 feed_keywords = {
     "Above the Law": ["firm", "school"],
     "Awful Announcing": ["NBA", "MLB", "baseball"],
+    "Best and Worst": ["Kansas", "Royals"],
     "Brett Terpstra": ["Web Excursions"],
     "ContraBandCamp": ["Mailbag"],
     "ebaumsworld": ["spicy", "sex"],
