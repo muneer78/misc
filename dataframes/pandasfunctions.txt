@@ -1,0 +1,20 @@
+import pandas as pd
+df = pd.read_excel('filename.xlsx') # Read Excel File
+df.to_excel('filename.xlsx', index=False) # Save Excel File
+pd.read_csv('filename.csv') # Read CSV File
+df.to_csv('filename.csv') # Save CSV File
+df.head() # Preview dataframe
+df.count() # Count Rows
+df.describe() # Get general statistics (min,max,mean,std,...)
+df['col_name'] # Select one column
+df['col_name'].value_counts() # Get unique value count
+df.fillna(0) # Replace Null values
+df.dropna() # Remove Null values
+df[df['col_name'] == 0] # Filter DataFrame
+df.drop_duplicates() # Remove duplicates
+df.merge(df2,on='col_name') # vlookup
+df.replace() # Find and replace
+df.groupby(['col1','col2']).sum() # Pivot/Groupby
+df.groupby(['col1','col2']).agg({'col1':'sum','col2','count'})
+df.plot() # Plot your DataFrame
+df = pd.util.testing.makeDataFrame() # or # pd.get_dummies(pd.Series(list('abcaa'))) # Create dummy dataframe

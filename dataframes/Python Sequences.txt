@@ -1,0 +1,76 @@
+These operations work on lists, strings, tuples, and all other sequences.
+first_item = sequence[0]
+last_item = sequence[-1]
+first_n_items = sequence[:n]
+last_n_items = sequence[-n:]
+first_item, *middle_items, last_item = sequence
+middle_items = sequence[1:-1]
+in_reverse = sequence[::-1]
+lazily_reversed = reversed(sequence)Curious how any of these work?
+
+Let's take a look at them.
+ 
+Indexing
+first_item = sequence[0]
+last_item = sequence[-1]These first two use the sequence indexing syntax. We start our indexes at 0 in Python. And negative indexes are used for reverse indexing (-1 is the last item, -2 is the second to last, and so on).
+ 
+Slicing
+first_n_items = sequence[:n]
+last_n_items = sequence[-n:]These two use the sequence slicing syntax.
+
+The slicing syntax looks a bit odd at first. Slicing involves a colon (:) with a start index before the colon and a stop index after the colon. The start index is inclusive and the stop index is exclusive (we stop just before it).
+
+But the first slice here doesn't have a start and the second one doesn't have a stop! The start index defaults to 0 and the stop defaults to the sequence length.
+
+So those two slices above are equivalent to these:
+first_n_items = sequence[0:n]
+last_n_items = sequence[-n:len(sequence)] 
+Extended iterable unpacking
+first_item, *middle_items, last_item = sequenceThis one isn't sequence specific: it works with any iterable.
+
+This is part of Python's tuple unpacking syntax (we're specifically relying "extended iterable unpacking" here).
+ 
+More slicing
+middle_items = sequence[1:-1]
+in_reverse = sequence[::-1]These are also slicing.
+
+The first slice starts at the second item (index 0 is first and index 1 is second) and then stops just before the last item (-1 represents the last item and the stop index is *exclusive*).
+
+The second slice uses a syntax I didn't even mention above. In addition to start and stop indexes, slices accept a step (separated by a colon again). A negative step value will reverse the sequence (also note that the default start and stop indexes change with negative steps for easier reversing).
+
+Pretty much the only negative step value I ever use is -1. But there's a better (less cryptic) way to reverse a sequence...
+ 
+Lazy looping
+lazily_reversed = reversed(sequence)Python's built-in reversed function is all about lazy looping.
+
+The return value of reversed will always be a lazy iterable which can only be looped over once (note that it's empty the second time we loop below):
+>>> colors = ["pink", "blue", "purple"]
+>>> reverse_colors = reversed(colors)
+>>> reverse_colors
+<list_reverseiterator object at 0x7f264b53e8c0>
+>>> list(reverse_colors)
+['purple', 'blue', 'pink']
+>>> list(reverse_colors)
+[]The reversed function accepts any reversible iterable: that includes sequences but also dictionaries and certain other reversible iterables.
+
+Most of the time we're reversing we do it for the sake of looping in reverse.
+>>> for color in reversed(colors):
+...     print(color)
+...
+purple
+blue
+pink
+This is exactly what reversed was designed for.
+
+The reversed function has two benefits over slicing:
+
+1. It's more readable: reversed(colors) says what it does while colors[::-1] looks sort of funny
+2. It doesn't build up a new list: instead it lazily retrieves the next item (in reverse) as you loop over it
+ 
+Anything else?Keep in mind that the above "cheats" aren't everything you can do with sequences.
+
+All the various iterable helper utilities also work on sequences (e.g. enumerate and zip).
+
+And the built-in sorted, min, and max functions work on all iterables that have orderable items (meaning comparable with the < operator).
+
+Any function that works on an iterable will also work on a sequence because all sequences are iterables.

@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def create_ebook_from_md(file_path, book_title, author_name, output_directory):
+def create_ebook_from_md(file_path, book_title, author_name, output_directory, filename):
     # Read content from Markdown file
     file_path = Path(file_path)  # Ensure it's a Path object
     content = file_path.read_text(encoding="utf-8")
@@ -41,7 +41,7 @@ def create_ebook_from_md(file_path, book_title, author_name, output_directory):
     output_directory.mkdir(
         parents=True, exist_ok=True
     )  # Create directory if it doesn't exist
-    output_path = output_directory / f"{book_title}.epub"
+    output_path = output_directory / f"{filename}.epub"
     epub.write_epub(output_path, book, {})
     print(f"EPUB created at: {output_path}")
 
@@ -55,9 +55,8 @@ def create_ebooks_from_csv(csv_file_path, output_directory):
             file_path = row["file-path"]
             book_title = row["title"]
             author_name = row["author"]
-            # Create the eBook
-            create_ebook_from_md(file_path, book_title, author_name, output_directory)
-
+            filename = row["filename"]
+            create_ebook_from_md(file_path, book_title, author_name, output_directory, filename)
 
 # Get user inputs for the CSV file path and output directory
 csv_file_path = input("Enter CSV file path: ")

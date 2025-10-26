@@ -1,74 +1,48 @@
 # Example text to be blockquoted
-text_to_blockquote = """A few things spring to mind…
+text_to_blockquote = """I (24f) live with my cousin (30m). I have three cats (one adult cat and two 12 week kittens), and whenever I am home he will be “mean” to them in a very joking and lighthearted way. He’ll call them names (fatss, dumbss, etc.) but it’s in that “bullying as a love language” type way and I have never been afraid of him actually mistreating my cats, especially because they clearly adore him. He plays and rough houses with them, he pets them, but he never gets all lovey dovey the way I do with them…. Or so I thought.
 
-Trump lacks certain qualities which the British traditionally esteem.
+I live in a two story townhouse with my bedroom being on the second floor and I always keep my door open so that the cats can go in and out. Yesterday morning I had woken up but not gotten out of bed yet and my two kittens were playing on the landing just outside my bedroom door.
 
-For instance, he has no class, no charm, no coolness, no credibility, no compassion, no wit, no warmth, no wisdom, no subtlety, no sensitivity, no self-awareness, no humility, no honour and no grace – all qualities, funnily enough, with which his predecessor Mr. Obama was generously blessed.
+I hear my cousin start to walk up the stairs and I stayed as quiet as possible. I knew he thought I wasn’t home because when I am home he always calls up to me to ask if he can come up (I have given him permission to go in my room when I’m not home to play with my cats).
 
-So for us, the stark contrast does rather throw Trump’s limitations into embarrassingly sharp relief.
+My door was cracked open about a foot and I see his arm reach, he says “Scoop!” And grabs a kitten. Then I hear about a minute straight of kissy sounds and baby talk.
 
-Plus, we like a laugh. And while Trump may be laughable, he has never once said anything wry, witty or even faintly amusing – not once, ever.
+I’m just quietly watching from my bed, trying not to let out a giggle, when he suddenly stops, slow turns, and makes stunned eye contact with me through the crack in my door. When he realized I saw/heard the whole thing he got embarrassed and said “oh… I uh.. I saw them running around up here and thought I’d come play with them.”
 
-I don’t say that rhetorically, I mean it quite literally: not once, not ever. And that fact is particularly disturbing to the British sensibility – for us, to lack humour is almost inhuman.
+I laughed and said it was totally fine, but he retreated back downstairs to put his tough guy persona back on.
 
-But with Trump, it’s a fact. He doesn’t even seem to understand what a joke is – his idea of a joke is a crass comment, an illiterate insult, a casual act of cruelty.
+The photo above is one he just sent me having a cuddle session with baby George
 
-Trump is a troll.
+Tl;dr: my male roommate pretends to be indifferent about my cats, but secretly baby talks and loves on them when I’m not around
 
-And like all trolls, he is never funny and he never laughs; he only crows or jeers.
+Text messages between OOP and the roommate
 
-And scarily, he doesn’t just talk in crude, witless insults – he actually thinks in them. His mind is a simple bot-like algorithm of petty prejudices and knee-jerk nastiness.
+Roommate: He’s been here for like 20 minutes
 
-There is never any under-layer of irony, complexity, nuance or depth. It’s all surface.
+Pic of the cat on the roommate
 
-Some Americans might see this as refreshingly upfront.
+OOP: :face_holding_back_tears:
 
-Well, we don’t. We see it as having no inner world, no soul.
+OOP: He’s so sweet
 
-And in Britain we traditionally side with David, not Goliath. All our heroes are plucky underdogs: Robin Hood, Dick Whittington, Oliver Twist.
+End of transcript
 
-Trump is neither plucky, nor an underdog. He is the exact opposite of that.
+Editor’s note: description of the picture – A heartwarming moment is captured of a light-colored feline curling up on the roommate’s lap. The roommate is resting on a couch with his legs stretched out on a couch with a blanket nearly.
 
-He’s not even a spoiled rich-boy, or a greedy fat-cat.
+ 
 
-He’s more a fat white slug. A Jabba the Hutt of privilege.
+Update: August 23, 2025 (2.5 months later)
 
-And worse, he is that most unforgivable of all things to the British: a bully.
+A while back I made a post about how I caught my roommate baby talking my cats, and I have a new adorable development.
 
-That is, except when he is among bullies; then he suddenly transforms into a snivelling sidekick instead.
+A couple months ago I went on a family vacation so my roommate took care of my cats while I was gone. During that week, he accidentally started a new routine with them.
 
-There are unspoken rules to this stuff – the Queensberry rules of basic decency – and he breaks them all. He punches downwards – which a gentleman should, would, could never do – and every blow he aims is below the belt. He particularly likes to kick the vulnerable or voiceless – and he kicks them when they are down.
+Each time he’d fill their food bowls, he’d stand there and give them pets and scratches while they ate. After a couple days, they decided that that is now a requirement. Only with him though, they don’t make me do this.
 
-So the fact that a significant minority – perhaps a third – of Americans look at what he does, listen to what he says, and then think
+Now, every day when he gets home they run to the door to excitedly greet him and then run to their food bowls. They’ll sit there and yell at him until he goes over to give them pets while they eat.
 
-‘Yeah, he seems like my kind of guy’
-
-is a matter of some confusion and no little distress to British people, given that:
-
-Americans are supposed to be nicer than us, and mostly are.
-
-You don’t need a particularly keen eye for detail to spot a few flaws in the man.
-
-This last point is what especially confuses and dismays British people, and many other people too; his faults seem pretty bloody hard to miss.
-
-After all, it’s impossible to read a single tweet, or hear him speak a sentence or two, without staring deep into the abyss. He turns being artless into an art form;
-
-He is a Picasso of pettiness; a Shakespeare of shit.
-
-His faults are fractal: even his flaws have flaws, and so on ad infinitum.
-
-God knows there have always been stupid people in the world, and plenty of nasty people too. But rarely has stupidity been so nasty, or nastiness so stupid.
-
-He makes Nixon look trustworthy and George W look smart.
-
-In fact, if Frankenstein decided to make a monster assembled entirely from human flaws – he would make a Trump.
-
-And a remorseful Doctor Frankenstein would clutch out big clumpfuls of hair and scream in anguish:
-
-‘My God… what… have… I… created?’
-
-If being a twat was a TV show, Trump would be the boxed set."""
-
+The funniest part of it is that they free feed. I just keep their bowls full so that they can eat whenever they are hungry (I know some people frown upon that but my work schedule is too unpredictable to keep them on a consistent feeding schedule and none of them are overweight, so it works for us). Even though they have constant access to food, they’ll wait for him to get home from work to have dinner so that he can give them scritches. So sweet
+"""
 
 def add_blockquote_to_text(text):
     """
@@ -77,8 +51,7 @@ def add_blockquote_to_text(text):
     """
     lines = text.splitlines()
     modified_lines = [f"> {line}" for line in lines]
-    print("\n".join(modified_lines))
-
+    print('\n'.join(modified_lines))
 
 if __name__ == "__main__":
     add_blockquote_to_text(text_to_blockquote)

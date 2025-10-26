@@ -1,27 +1,14 @@
 import pandas as pd
 
-# Read the dataset from a CSV file
-df = pd.read_csv(r"C:\Users\mahmad\OneDrive - Ryan RTS\projects\pws-access-pwd.csv")
+df = pd.read_csv(r"/Users/muneer78/files/data/adult-follows.csv")
 
-# Filter rows where notes column is 'Sara to review and recommend solution'
-notes_filtered = df[df["notes"] == "Sara to review and recommend solution"]
+# Filter rows with both conditions
+df_filtered = df[(df["reddit"] == "y") | (df["login-site"] == "reddit")]
 
-# Filter rows where recommendation column is not null
-recommendation_filtered = df[df["recommendation"].notnull()]
+df_filtered_sorted = df_filtered.sort_values(by=["account-name"])
 
-# Sort each set of records first by title column, and then by user-or-security-group column
-notes_filtered_sorted = notes_filtered.sort_values(
-    by=["title", "user-or-security-group"]
-)
-recommendation_filtered_sorted = recommendation_filtered.sort_values(
-    by=["title", "user-or-security-group"]
-)
+output_file = r"/Users/muneer78/Downloads/reddit.csv"
+df_filtered_sorted.to_csv(output_file, index=False)
 
-# Concatenate the two sets of records
-result = pd.concat([notes_filtered_sorted, recommendation_filtered_sorted])
-
-# Write the filtered and sorted rows to a new CSV file
-output_file = r"C:\Users\mahmad\OneDrive - Ryan RTS\Downloads\pws-action-items.csv"
-result.to_csv(output_file, index=False)
-
+print(df_filtered_sorted.head())
 print(f"Filtered and sorted CSV written to {output_file}")
