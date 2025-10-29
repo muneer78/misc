@@ -17,4 +17,8 @@ dependencies = [
     "tqdm>=4.67.1",
     "pillow>=11.3.0",
     "yt-dlp>=2025.9.5",
+    "readability>=0.3.2",
+    "readability-lxml>=0.8.4.1",
+    "markdown>=3.9",
+    "beautifulsoup4>=4.13.5",
 ]
