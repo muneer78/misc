@@ -28,32 +28,35 @@ def convert_markdown_to_html(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # Convert markdown to HTML
-    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = markdown.markdown(
+        content,
+        extensions=['extra', 'codehilite', 'sane_lists', 'toc']
+    )
 
-    # Extract title (first h1 or use filename)
     title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
     title = title_match.group(1) if title_match else Path(filepath).stem
 
     return title, html_content
 
-
 def convert_epub_to_html(filepath):
-    """Convert EPUB file to HTML content"""
+    """Convert EPUB file to HTML content, fixing old Markdown fragments"""
     book = epub.read_epub(filepath)
-
-    # Get title
     title = book.get_metadata('DC', 'title')[0][0] if book.get_metadata('DC', 'title') else Path(filepath).stem
 
-    # Extract all text content
     content_parts = []
     for item in book.get_items():
         if item.get_type() == ebooklib.ITEM_DOCUMENT:
             soup = BeautifulSoup(item.get_content(), 'html.parser')
-            content_parts.append(str(soup))
+            text = soup.get_text()
+            # Detect Markdown fragments (simple heuristic)
+            if re.search(r'\[.+?\]\(.+?\)|\_(.+?)\_', text):
+                # Convert Markdown to HTML
+                html = markdown.markdown(text, extensions=['extra', 'codehilite', 'sane_lists', 'toc'])
+                content_parts.append(html)
+            else:
+                content_parts.append(str(soup))
 
     html_content = '\n'.join(content_parts)
-
     return title, html_content
 
 
