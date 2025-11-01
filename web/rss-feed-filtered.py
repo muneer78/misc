@@ -62,7 +62,6 @@ rss_feeds = {
     "ebaumsworld": "https://www.ebaumsworld.com/rss/featured/",
     "Techdirt": "https://www.techdirt.com/feed/",
     "Above the Law": "https://abovethelaw.com/feed/",
-    "The Verge Installer Newsletter": "https://www.theverge.com/rss/installer-newsletter/index.xml",
     "theCHIVE": "https://feeds.feedburner.com/feedburner/ZdSV",
     "Thunder Dungeon": "https://thunderdungeon.com/feed/",
     "STAT": "https://www.statnews.com/feed/",
