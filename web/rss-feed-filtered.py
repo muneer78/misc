@@ -71,7 +71,8 @@ rss_feeds = {
     "Raygun": "https://www.raygunsite.com/blogs/news.atom",
     "Press Watchers": "https://presswatchers.org/feed/",
     "Humorism": "https://www.humorism.xyz/rss/",
-    "A-hed": "https://politepol.com/fd/qoStes3gORdV.xml"
+    "A-hed": "https://politepol.com/fd/qoStes3gORdV.xml",
+    "Emacs- George Supreeth":"https://georgesupreeth.com/web/feed.xml"
 }
 
 
