@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../betlog" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../dotfiles-jf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../emacs" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../fantasy-sports" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../jacquesfunk.github.io" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../marp-trivia-slides" vcs="Git" />

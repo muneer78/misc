@@ -72,7 +72,8 @@ rss_feeds = {
     "Press Watchers": "https://presswatchers.org/feed/",
     "Humorism": "https://www.humorism.xyz/rss/",
     "A-hed": "https://politepol.com/fd/qoStes3gORdV.xml",
-    "Emacs- George Supreeth":"https://georgesupreeth.com/web/feed.xml"
+    "Emacs- George Supreeth":"https://georgesupreeth.com/web/feed.xml",
+    "Unraveled": "https://unraveledpress.com/rss.xml",
 }
 
 
