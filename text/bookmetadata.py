@@ -33,7 +33,7 @@ def process_epub_files(directory):
 
 
 if __name__ == "__main__":
-    directory_path = "/Users/muneer78/Downloads"
+    directory_path = "/Users/muneer78/Downloads/convert"
     metadata_list = process_epub_files(directory_path)
     df = pd.DataFrame(metadata_list)
 

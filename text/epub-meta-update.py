@@ -203,9 +203,9 @@ def update_epub_metadata_safe(file_path, new_author=None, new_title=None):
 
 # Main execution
 if __name__ == "__main__":
-    file_path = Path("/Users/muneer78/Downloads/patterson-america-on-the-precipice.epub")
-    new_author = "Richard Patterson"
-    new_title = "America on the Precipice"
+    file_path = Path("/Users/muneer78/Downloads/docs/van-natta.epub")
+    new_author = "Don Van Natta"
+    new_title = "Articles"
 
     # Ensure the file exists
     if file_path.exists() and file_path.is_file():
