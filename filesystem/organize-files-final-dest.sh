@@ -3,7 +3,7 @@
 # Define source directories for each category
 declare -A SOURCE_DIRECTORIES=(
     [docs]="/Users/muneer78/Downloads/docs"
-    [ebooks]="/Users/muneer78/Downloads/docs"
+    [ebooks]="/Users/muneer78/Downloads/ebooks"
     [pics]="/Users/muneer78/Downloads/pics"
     [videos]="/Users/muneer78/Downloads/videos"
     [pics-2]="/Users/muneer78/Downloads/pics-2"

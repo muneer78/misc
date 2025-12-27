@@ -1,19 +1,13 @@
 # Example text to be blockquoted
-text_to_blockquote = """""Texas and Florida have a lot of similarities," Baker told reporters.
+text_to_blockquote = """Rather than exert so much energy trying to thrust Trump out of the presidency, liberals would be well served to spend their time thrusting the presidency upon Donald Trump. Instead of searching for illusory quick fixes for the existence of the Trump administration, start demanding the Trump administration fix everything quickly.
 
-"Some people don’t like fearing for their lives on a simple 7-Eleven run for a single 32-ounce can of Busch Light. Personally, that’s part of the magic.
+If there’s one thing we’ve learned from the sample size of one Trump presidency and his four years out of power, it’s that Trump is a bog-standard rich white guy whom the justice system is largely incapable of bringing to heel. He has powerful friends (oligarchs, Supreme Court justices), deep pockets, and a well-tempered ability to joust in the media. By now we’ve watched ol’ Donny “wriggle out of this one” on multiple occasions; he seems to thrive if you put him at the center of something he can deem to be a witch hunt—even when those hunters bag their quarry, as prosecutors did in his hush-money case.
 
-In Florida, a man with an unwashed ass driving a dent-riddled Ram 1500, 37 dings from 37 separate collisions, will ride your ass on I-4 because you’re not riding the guy’s ass in front of you hard enough.
+But Trump has historically faltered when he’s been forced to contend with the actual pressure of the presidency and its myriad responsibilities (see also: the Covid-19 pandemic) because his ideas are bad and he doesn’t have a deep and abiding interest in public service to really make a sustained effort to confront, let alone solve, the biggest problems we face.
 
-The back of his truck is a fever dream of yellow snake decals, skulls, and political rants, all directed at whoever’s unlucky enough to be behind him. It’s a perfect ecosystem of rage and insecurity, one that keeps the fragile ecosystem of I-4 chaos alive.
+President Barack Obama found the presidency to be an exhaustingly taxing job, so much so that he famously went to somewhat mind-blowing lengths to limit the nonpresidential decisions he had to make in order to stay keen enough to handle the toughest of the choices on his plate. Trump, by contrast, mostly showed up late to work and watched cable news all day. Had the coronavirus not emerged as a global threat, he might have made it through his first term having not felt the pressure of the job at all. In his second term, it should be the task of liberals to force Trump to swallow a daily spoonful of the very real job stress that Obama struggled so mightily to endure.
 
-Every car in that convoy to hell they call I-4 is piloted by someone terrified, armed, and one brake tap away from turning the worst highway in America into a smoking parking lot.
-
-That Ram driver btw? Online, he portrays himself as a warrior. Loyal but dangerous. In reality, he’s neither of those things. He’s just scared. Scared of everything. And the only way he feels safe is if everyone around him is scared too.
-
-From the outside, it sounds miserable. But live here long enough and it starts to make sense. Every hurricane season, people around Tampa wait to see if the next storm will wipe out everything they love... And the dark part is... Deep down, a part of them almost hopes it does.
-
-I get it. It’s not supposed to sound appealing. But I love the Mad Max movies, and every time I grab a Pub Sub here, I feel like I’m living in that universe. It’s beautiful chaos. It’s home."
+To get there, liberals need to get into the business of identifying the problems that real Americans face (which honestly, is something they could stand to relearn how to do) and more forcefully blame Trump for those problems’ continued existence. They need to raise a hue and cry over everything under the sun that’s broken, dysfunctional, or trending in the wrong direction; pile line items on Trump’s to-do list, wake him up early and keep him up late. Every day, get in front of cable news cameras and reporters’ notepads with a new problem for Trump to solve and fresh complaints about the work not done.
 """
 
 def add_blockquote_to_text(text):
