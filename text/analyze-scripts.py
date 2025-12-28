@@ -4,7 +4,7 @@ from difflib import SequenceMatcher
 from collections import defaultdict
 
 # -------- CONFIG --------
-INPUT_DIR = Path("/Users/muneer78/Downloads/convert")   # <-- change this
+INPUT_DIR = Path("/Users/muneer78/Documents/GitHub/misc/web")   # <-- change this
 OUTPUT_FILE = Path("/Users/muneer78/Downloads/similar_scripts.txt")
 SIMILARITY_THRESHOLD = 0.90
 # ------------------------
@@ -61,8 +61,10 @@ for i, f1 in enumerate(files):
 with OUTPUT_FILE.open("w", encoding="utf-8") as out:
     for script in sorted(similar):
         out.write(f"{script.name}\n")
+        print(f"{script.name}")
         for other, score in sorted(similar[script], key=lambda x: -x[1]):
             out.write(f"  - {other.name} ({score:.2f})\n")
+            print(f"  - {other.name} ({score:.2f})")
         out.write("\n")
-
+        print()
 print(f"Similarity report written to {OUTPUT_FILE}")
