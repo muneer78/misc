@@ -46,8 +46,8 @@ def resize_image_to_target_size(
 
 if __name__ == "__main__":
     # Example usage
-    input_image_path = "/Users/muneer78/Downloads/IMG_1276.png"
-    output_image_path = "/Users/muneer78/Downloads/IMG_1276-reduced.png"
+    input_image_path = "/Users/muneer78/Downloads/closeup.png"
+    output_image_path = "/Users/muneer78/Downloads/closeup-resize.png"
     target_file_size_kb = 2000  # Target file size in KB
 
     resize_image_to_target_size(

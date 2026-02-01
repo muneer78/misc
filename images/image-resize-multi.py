@@ -1,34 +1,28 @@
 import os
 from PIL import Image
 
+# Set the directory to process images in
+directory = '/Users/muneer78/Downloads'  # Change this as needed
+
 # String to search for in filenames
-search_string = "Hyundai"
+search_string = "bonfire"
 
 # Resize factor
-resize_factor = 0.75
+resize_factor = 0.25
 
-# Get current directory
-current_directory = os.getcwd()
-
-# Loop through all files in the current directory
-for filename in os.listdir(current_directory):
+for filename in os.listdir(directory):
     if search_string in filename and (
         filename.endswith(".jpg") or filename.endswith(".png")
     ):
         try:
-            # Open image
-            with Image.open(filename) as img:
-                # Calculate new size
+            file_path = os.path.join(directory, filename)
+            with Image.open(file_path) as img:
                 new_size = (
                     int(img.width * resize_factor),
                     int(img.height * resize_factor),
                 )
-
-                # Resize image
                 resized_img = img.resize(new_size, Image.Resampling.LANCZOS)
-
-                # Save resized image, overwrite the original
-                resized_img.save(filename)
-                print(f"Resized image saved: {filename}")
+                resized_img.save(file_path)
+                print(f"Resized image saved: {file_path}")
         except Exception as e:
-            print(f"Error processing {filename}: {e}")
+            print(f"Error processing {file_path}: {e}")

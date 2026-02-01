@@ -30,4 +30,6 @@ dependencies = [
     "sentence-transformers>=5.2.0",
     "langchain-community>=0.4.1",
     "langchain-text-splitters>=1.1.0",
+    "llama-index-embeddings-ollama>=0.8.6",
+    "llama-index-llms-ollama>=0.9.1",
 ]

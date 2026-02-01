@@ -1,19 +1,7 @@
 #!/bin/bash
 
-# Check if a directory was passed as an argument
-if [ $# -lt 1 ]; then
-    echo "Usage: $0 <directory-to-organize>"
-    exit 1
-fi
-
 # Set the target directory (convert to absolute path for safety)
-TARGET_DIR=$(realpath "$1")
-
-# Verify the target directory exists
-if [ ! -d "$TARGET_DIR" ]; then
-    echo "Error: Directory '$TARGET_DIR' does not exist."
-    exit 1
-fi
+TARGET_DIR="/Users/muneer78/Downloads"
 
 # Ensure relative destination folders exist
 mkdir -p "$TARGET_DIR/docs"
@@ -35,10 +23,11 @@ move_files() {
 }
 
 # Organize files
-move_files "docs" txt pdf md docx epub csv
-move_files "images" jpg jpeg gif png
+move_files "docs" txt pdf md epub csv
+move_files "docs" epub azw3 mobi
+move_files "pics" jpg jpeg gif png
 move_files "convert-images" webp avif heic
-move_files "videos" mp4 mov
+move_files "videos" mp4 mov avi
 move_files "data" xml json html xlsx opml zip
 
 echo "All done organizing files in '$TARGET_DIR'!"
