@@ -12,7 +12,7 @@ declare -A SOURCE_DIRECTORIES=(
 
 # Define target directories and file extensions
 declare -A FILE_CATEGORIES=(
-    [docs]="/Users/muneer78//files/reading/docs:txt pdf md docx"
+    [docs]="/Users/muneer78//files/reading/docs:txt pdf md docx html"
     [ebooks]="/Users/muneer78/files/reading/ebooks:epub"
     [pics]="/Users/muneer78/files/pics:jpg jpeg gif png"
     [videos]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos:mp4 mov"
