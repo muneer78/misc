@@ -88,13 +88,13 @@ def convert_markdown_to_html(filepath):
     title = title_match.group(1) if title_match else Path(filepath).stem
     return title, html_content
 
-markdown_file = '/Users/muneer78/Downloads/melania.md'
+markdown_file = '/Users/muneer78/Downloads/saint-guinefort.md'
 title, html_content = convert_markdown_to_html(markdown_file)
 
 doc = Document(html_content)
 main_html = doc.summary()  # Preserves formatting
 
-output_path = Path('/Users/muneer78/Downloads/melania.html')
+output_path = Path('/Users/muneer78/Downloads/saint-guinefort.html')
 article_html = create_article_html(title, main_html, Path(markdown_file).name)
 
 with open(output_path, 'w', encoding='utf-8') as f:

@@ -8,6 +8,4 @@ cd "$BASE_DIR"
 ./rename-all-files-in-dir.sh
 ./organize-files-downloads.sh
 ./organize-files-final-dest.sh
-./sync-emacs-from-github.sh
-./sync-rss.sh
 ./sync-files.sh
