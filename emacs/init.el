@@ -48,6 +48,38 @@
  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; The above is the default in recent emacsen
 
+(defun org-archive-done-tasks-bulk ()
+  "Archive all top-level DONE tasks in the current Org file."
+  (interactive)
+  (require 'org)
+
+  (let* ((archive-file
+          (concat (file-name-sans-extension (buffer-file-name)) "_archive.org"))
+         (entries '()))
+
+    (save-excursion
+      (goto-char (point-min))
+
+      ;; find headings beginning with "* DONE"
+      (while (re-search-forward "^\\*+ DONE " nil t)
+        (org-back-to-heading t)
+        (let ((start (point)))
+          (org-end-of-subtree t t)
+          (push (buffer-substring start (point)) entries)
+          (delete-region start (point))
+          (goto-char start))))
+
+    ;; write archive
+    (when entries
+      (with-current-buffer (find-file-noselect archive-file)
+        (goto-char (point-max))
+        (unless (bolp) (insert "\n"))
+        (insert (mapconcat #'identity (reverse entries) "\n\n"))
+        (insert "\n")
+        (save-buffer)))
+
+    (message "Archived %d tasks" (length entries))))
+
 (setq org-auto-align-tags t)
 
 (setq org-startup-folded t)
