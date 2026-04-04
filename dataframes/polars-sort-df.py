@@ -8,17 +8,17 @@ current_date = dt.now().strftime(
 )  # Format the date to avoid invalid characters
 
 # Your file path
-file = r"C:\Users\mahmad\OneDrive - Ryan RTS\1- Projects\DS2307.csv"
+file = r"/Users/muneer78/Downloads/2026_Tourney_teams_only_actual.csv"
 
 filename = os.path.splitext(os.path.basename(file))[0]
 
 dforig = pl.read_csv(file)
 
 # df_sorted = dforig.sort(['sf_object', 'int_field'], descending=[False, True])
-df_sorted = dforig.sort(["Process", "Warehouse Column"], descending=False)
+df_sorted = dforig.sort(["summary_RankDE", "summary_RankOE"], descending=False)
 
 ticket_number = "2307"
-output_filename = f"DS{ticket_number}_{current_date}_output.csv"
+output_filename = f"{current_date}_output.csv"
 
 df_sorted.write_csv(output_filename)
 

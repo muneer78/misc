@@ -8,16 +8,18 @@ declare -A SOURCE_DIRECTORIES=(
     [videos]="/Users/muneer78/Downloads/videos"
     [pics-2]="/Users/muneer78/Downloads/pics-2"
     [data]="/Users/muneer78/Downloads/data"
+    [temp]="/Users/muneer78/Downloads/temp"
 )
 
 # Define target directories and file extensions
 declare -A FILE_CATEGORIES=(
     [docs]="/Users/muneer78//files/reading/docs:txt pdf md docx html"
-    [ebooks]="/Users/muneer78/files/reading/ebooks:epub"
+    [ebooks]="/Users/muneer78/files/reading/ebooks:epub lcpl azw3 mobi"
     [pics]="/Users/muneer78/files/pics:jpg jpeg gif png"
     [videos]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos:mp4 mov"
     [pics-2]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/images:jpg jpeg gif png"
     [data]="/Users/muneer78/data:csv xml json html xlsx opml zip"
+    [temp]="/Users/muneer78/files/temp:*"
 )
 
 # Function to move files by extension
@@ -32,8 +34,13 @@ move_files() {
 
     # Move files matching the extensions
     for ext in "${ext_list[@]}"; do
-        echo "Moving *.$ext from $source_dir to $target_dir..."
-        mv "$source_dir"/*."$ext" "$target_dir" 2>/dev/null || echo "No files with extension .$ext found in $source_dir."
+        if [ "$ext" = "*" ]; then
+            echo "Moving all files from $source_dir to $target_dir..."
+            mv "$source_dir"/* "$target_dir" 2>/dev/null || echo "No files found in $source_dir."
+        else
+            echo "Moving *.$ext from $source_dir to $target_dir..."
+            mv "$source_dir"/*."$ext" "$target_dir" 2>/dev/null || echo "No files with extension .$ext found in $source_dir."
+        fi
     done
 }
 

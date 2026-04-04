@@ -5,7 +5,7 @@ from PIL import Image
 directory = '/Users/muneer78/Downloads'  # Change this as needed
 
 # String to search for in filenames
-search_string = "bonfire"
+search_string = "IMG"
 
 # Resize factor
 resize_factor = 0.25
