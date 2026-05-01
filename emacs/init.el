@@ -19,6 +19,36 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+
+(setq tab-always-indent 'complete)
+
+;; wrapped lines respect the indentation of the original line
+(global-visual-wrap-prefix-mode 1)
+
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; enable y/n answers
+(setq use-short-answers t)
+
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
+;; improving kill-ring
+(setq save-interprogram-paste-before-kill t)
+(setq kill-do-not-save-duplicates t)
+
 ;; Restore Opened Files
 (progn
   (desktop-save-mode 1)
@@ -630,6 +660,57 @@ Result is copied to clipboard."
   ;; REPLACE the path below with the actual path to your feeds.org file
   (setq rmh-elfeed-org-files (list "/Users/muneer78/.emacs.d/elfeed.org")))
 
+(setq elfeed-show-entry-switch #'elfeed-display-buffer)
+
+(defun elfeed-display-buffer (buf &optional act)
+  (pop-to-buffer buf)
+  (set-window-text-height (get-buffer-window) (round (* 0.7 (frame-height)))))
+
+(setq elfeed-search-title-max-width 120)  ; <-- add this line
+
+(add-hook 'elfeed-new-entry-hook #'elfeed-declickbait-entry)
+
+(defun elfeed-declickbait-entry (entry)
+  (let ((title (elfeed-entry-title entry)))
+    (setf (elfeed-meta entry :title)
+          (elfeed-title-transform title))))
+
+(defun elfeed-title-transform (title)
+  "Declickbait string TITLE."
+  (let* ((trim "\\(?:\\(?:\\.\\.\\.\\|[!?]\\)+\\)")
+         (arr (split-string title nil t trim))
+         (s-table (copy-syntax-table)))
+    (modify-syntax-entry ?\' "w" s-table)
+    (with-syntax-table s-table
+      (mapconcat (lambda (word)
+                   (cond
+                    ((member word '("AND" "OR" "IF" "ON" "IT" "TO"
+                                    "A" "OF" "VS" "IN" "FOR" "WAS"
+                                    "IS" "BE"))
+                     (downcase word))
+                    ((member word '("WE" "DAY" "HOW" "WHY" "NOW" "OLD"
+                                    "NEW" "MY" "TOO" "GOT" "GET" "THE"
+                                    "ONE" "DO" "YOU"))
+                     (capitalize word))
+                    ((> (length word) 3) (capitalize word))
+                    (t word)))
+                 arr " "))))
+
+(defun elfeed-show-eww-open (&optional use-generic-p)
+  "open with eww"
+  (interactive "P")
+  (let ((browse-url-browser-function #'eww-browse-url))
+    (elfeed-show-visit use-generic-p)))
+
+(defun elfeed-search-eww-open (&optional use-generic-p)
+  "open with eww"
+  (interactive "P")
+  (let ((browse-url-browser-function #'eww-browse-url))
+    (elfeed-search-browse-url use-generic-p)))
+
+(define-key elfeed-show-mode-map (kbd "B") 'efleed-show-eww-open)
+(define-key elfeed-search-mode-map (kbd "B") 'efleed-search-eww-open)
+
 (defun my-elfeed-search-other-window ()
   "Browse `elfeed' entry in the other window.
 Credit: https://protesilaos.com/dotemacs"
@@ -667,7 +748,6 @@ When in the search view, close all other windows, else kill the buffer."
                  (kill-buffer "elfeed-list.org")
                  (tab-bar-close-tab))
              (delete-other-windows win))))))
-
 
 ;; misc
 
