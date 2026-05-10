@@ -78,6 +78,8 @@
  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; The above is the default in recent emacsen
 
+(require 'org-clock)
+
 (defun org-archive-done-tasks-bulk ()
   "Archive all top-level DONE tasks in the current Org file."
   (interactive)
@@ -116,10 +118,10 @@
 
 (setq org-hide-emphasis-markers t)
 
-
- '(org-agenda-date ((t (:height 1.1))))
- '(org-agenda-date-weekend ((t (:height 1.0))))
- '(org-agenda-date-today ((t (:height 1.0 :weight bold))))
+(with-eval-after-load 'org-agenda
+  (set-face-attribute 'org-agenda-date nil :height 1.1)
+  (set-face-attribute 'org-agenda-date-weekend nil :height 1.0)
+  (set-face-attribute 'org-agenda-date-today nil :height 1.0 :weight 'bold))
 
 (defun my-org-align-all-tags ()
   "Realign all Org tags in the current buffer."
@@ -127,53 +129,6 @@
   (org-map-entries
    (lambda ()
      (org-set-tags-command))))
-
-;; Define home and work org settings
-(defvar org-home-directory "/Users/muneer78/files/emacs/"
-  "Directory for personal org files.")
-
-(defvar org-home-default-notes-file "/Users/muneer78/files/emacs/todos.org"
-  "Default notes file for home context.")
-
-(defvar current-org-context 'home
-  "Current org context: 'home or 'work.")
-
-;; Function to set org agenda files based on context
-(defun set-org-context (context)
-  "Set org-agenda-files to CONTEXT (either 'home or 'work)."
-  (interactive (list (intern (completing-read "Select context: " '("home" "work")))))
-  (setq current-org-context context)
-  (cond
-   ((eq context 'home)
-    (setq org-directory org-home-directory)
-    (setq org-agenda-files (list org-home-directory))
-    (setq org-default-notes-file org-home-default-notes-file))
-   ((eq context 'work)
-    (setq org-directory org-work-directory)
-    (setq org-agenda-files (list org-work-directory))
-    (setq org-default-notes-file org-work-default-notes-file))
-   (t (error "Unknown context: %s" context)))
-  (message "Switched to %s org context: %s"
-           context
-           org-directory))
-
-;; Convenience functions
-(defun org-context-home ()
-  "Switch to home org context."
-  (interactive)
-  (set-org-context 'home))
-
-(defun org-context-work ()
-  "Switch to work org context."
-  (interactive)
-  (set-org-context 'work))
-
-;; Keybindings
-(global-set-key (kbd "C-c o h") #'org-context-home)
-(global-set-key (kbd "C-c o w") #'org-context-work)
-
-;; Initialize with work context on startup (since you had work paths configured)
-(set-org-context 'home)
 
 ;; Do not dim blocked tasks
 (setq org-agenda-dim-blocked-tasks nil)
@@ -198,13 +153,12 @@
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (require 'org-capture)
-(global-set-key (kbd "C-c c") #'org-capture)
 
 (setq org-capture-templates
       '(("t" "todo" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/todos.org")
-         "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+         "* TODO %?\n%U\n%a")
         ("r" "refile" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/refile.org")
-         "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+         "* %?\n%U\n%a")
         ("l" "Reading list" entry
          (file+headline "/Users/muneer78/Documents/GitHub/emacs-files/reading-list.org" "Reading List")
          "** TODO [[%^{URL}][%^{Link name}]]"
@@ -252,58 +206,11 @@
 
     (switch-to-buffer outbuf)))
 
-;; org babel
-
-;; active Babel languages
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((R . t)
-   (python . t)))
-
-(defun org-sort-on-save ()
-  "Sort org entries by scheduled date when saving."
-  (when (and (eq major-mode 'org-mode)
-             (buffer-file-name))
-    (org-sort-entries-by-scheduled)))
-
-;; Add to save hook
-(add-hook 'before-save-hook #'org-sort-on-save)
-
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-agenda-skip-timestamp-if-done t)
 (setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
 (setq org-agenda-span 'month)
-
-;; Python dev
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-(use-package reformatter
-  :ensure t
-  :config
-  (reformatter-define dd/ruff-format
-    :program "uvx"
-    :args `("ruff" "format" "--stdin-filename" ,buffer-file-name "-"))
-  (reformatter-define dd/ruff-sort
-    :program "uvx"
-    :args `("ruff" "check" "--select" "I" "--fix" "--stdin-filename" ,buffer-file-name "-")))
-
-(defun dd/python-init ()
-  (let* ((project (project-current))
-         (project-root (when project (project-root project)))
-         (venv-path (when project-root
-                      (expand-file-name ".venv" project-root))))
-    (when (and venv-path (file-directory-p venv-path))
-      (make-local-variable 'pyvenv-virtual-env)
-      (pyvenv-activate venv-path))
-    (dd/ruff-format-on-save-mode +1)
-    (dd/ruff-sort-on-save-mode +1)))
-
-(add-hook 'python-base-mode-hook #'dd/python-init)
-
-(use-package pet
-  :config
-  (add-hook 'python-base-mode-hook 'pet-mode -10))
 
 (defun xah-reformat-lines (&optional Width)
   "Reformat current block or selection into short lines or 1 long line.
@@ -548,10 +455,7 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 (add-to-list 'custom-theme-load-path "/Users/mahmad/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "/Users/muneer78/.emacs.d/themes/")
 
-
 (load-theme 'synthwave)
-
-(add-hook 'org-mode-hook #'my/org-mode-hook)
 
 (setq org-alphabetical-lists t)
 
@@ -561,58 +465,6 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 (require 'ox-ascii)
 (require 'ox-md)
 
-(with-eval-after-load 'ox-md
-  (defun my-org-md-link (link desc info)
-    "Format LINK with optional DESC for Markdown export without <> around URLs."
-    (let* ((raw (org-element-property :raw-link link))
-           (url (org-export-data (org-element-property :raw-link link) info)))
-      (cond
-       ;; Link with description → [desc](url)
-       (desc
-        (format "[%s](%s)" desc url))
-       ;; Plain URL → just the URL
-       (t url))))
-
-  (advice-add 'org-md-link :override #'my-org-md-link))
-
-(require 'ox-md)
-
-(defun my-jira-item (item contents info)
-  "Render list ITEM as Jira-style nested asterisks (Jira format)."
-  (let* ((level 1)
-         (parent (org-export-get-parent item)))
-    ;; count list nesting
-    (while parent
-      (when (eq (org-element-type parent) 'plain-list)
-        (setq level (1+ level)))
-      (setq parent (org-export-get-parent parent)))
-    (concat (make-string level ?*)
-            " "
-            (org-trim contents)
-            "\n")))
-
-(org-export-define-derived-backend 'jira-md 'md
-  :translate-alist
-  '((item . my-jira-item)
-    (plain-list . (lambda (_ c _) c))))
-
-(defun org-export-to-jira-markdown ()
-  "Export region if active, otherwise whole buffer, to Jira-flavored Markdown.
-Result is copied to clipboard."
-  (interactive)
-  (let* ((text (if (use-region-p)
-                   (buffer-substring-no-properties
-                    (region-beginning)
-                    (region-end))
-                 (buffer-substring-no-properties
-                  (point-min)
-                  (point-max))))
-         (output (org-export-string-as text 'jira-md t)))
-    (kill-new output)
-    (message "Jira markdown copied to clipboard")))
-
-(with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-c j") #'org-export-to-jira-markdown))
 
 ;; NEW: Abbrev mode configuration
 ;; Enable abbrev-mode globally
@@ -714,7 +566,7 @@ Result is copied to clipboard."
     (elfeed-search-browse-url use-generic-p)))
 
 (define-key elfeed-show-mode-map (kbd "B") 'efleed-show-eww-open)
-(define-key elfeed-search-mode-map (kbd "B") 'efleed-search-eww-open)
+(define-key elfeed-search-mode-map (kbd "S") 'efleed-search-eww-open)
 
 (defun my-elfeed-search-other-window ()
   "Browse `elfeed' entry in the other window.
