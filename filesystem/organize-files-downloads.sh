@@ -9,6 +9,7 @@ mkdir -p "$TARGET_DIR/pics"
 mkdir -p "$TARGET_DIR/convert-images"
 mkdir -p "$TARGET_DIR/videos"
 mkdir -p "$TARGET_DIR/data"
+mkdir -p "$TARGET_DIR/ebooks"
 
 # Function to move files by extension
 move_files() {
@@ -24,7 +25,7 @@ move_files() {
 
 # Organize files
 move_files "docs" txt pdf md epub csv
-move_files "docs" epub azw3 mobi
+move_files "ebooks" epub azw3 mobi
 move_files "pics" jpg jpeg gif png
 move_files "convert-images" webp avif heic
 move_files "videos" mp4 mov avi

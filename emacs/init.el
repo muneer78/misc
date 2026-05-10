@@ -135,12 +135,6 @@
 (defvar org-home-default-notes-file "/Users/muneer78/files/emacs/todos.org"
   "Default notes file for home context.")
 
-(defvar org-work-directory "/Users/mahmad/Library/CloudStorage/OneDrive-RyanRTS/Documents/GitHub/localwork/org"
-  "Directory for work org files.")
-
-(defvar org-work-default-notes-file "/Users/mahmad/Library/CloudStorage/OneDrive-RyanRTS/Documents/GitHub/localwork/notes.org"
-  "Default notes file for work context.")
-
 (defvar current-org-context 'home
   "Current org context: 'home or 'work.")
 
@@ -203,13 +197,24 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+(require 'org-capture)
+(global-set-key (kbd "C-c c") #'org-capture)
+
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "/Users/mahmad/Library/CloudStorage/OneDrive-RyanRTS/Documents/GitHub/localwork/org/todo.org")
-               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file "/Users/.../refile.org")
-               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file "/Users/.../refile.org")
-               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t))))
+      '(("t" "todo" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/todos.org")
+         "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("r" "refile" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/refile.org")
+         "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("l" "Reading list" entry
+         (file+headline "/Users/muneer78/Documents/GitHub/emacs-files/reading-list.org" "Reading List")
+         "** TODO [[%^{URL}][%^{Link name}]]"
+         :prepend t
+         :empty-lines 1)))
+
+(setq org-refile-targets
+      '(("/Users/muneer78/Documents/GitHub/emacs-files/refile.org" :maxlevel . 1)
+        ("/Users/muneer78/Documents/GitHub/emacs-files/todos.org" :maxlevel . 2)))
+
 
 (setq org-blank-before-new-entry
       '((heading . nil)
