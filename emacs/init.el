@@ -1,20 +1,39 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
-; Set up the package manager
+;; Set up the package manager
 
-(require 'package)
-(package-initialize)
+;;(require 'package)
+;;(package-initialize)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(when (< emacs-major-version 29)
-  (unless (package-installed-p 'use-package)
-    (unless package-archive-contents
-      (package-refresh-contents))
-    (package-install 'use-package)))
+;; (when (< emacs-major-version 29)
+;;   (unless (package-installed-p 'use-package)
+;;     (unless package-archive-contents
+;;       (package-refresh-contents))
+;;     (package-install 'use-package)))
 
-; Basic behaviour
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+
+
+(use-package org)
+
+					; Basic behaviour
 
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
@@ -71,11 +90,11 @@
 (setq recentf-max-saved-items 50)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-; Org mode configuration
+					; Org mode configuration
 ;; Enable Org mode
 (require 'org)
 ;; Make Org mode work with files ending in .org
- (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; The above is the default in recent emacsen
 
 (require 'org-clock)
@@ -144,31 +163,27 @@
   (interactive)  
   (insert (format-time-string "%Y%m%d")))  
 
-;; I use C-c t to start capture mode
+;; I use C-c t to insert timestamp
 (global-set-key (kbd "C-c t") 'org-insert-custom-timestamp)
-
 
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (require 'org-capture)
+(global-set-key (kbd "C-c c") #'org-capture)
 
 (setq org-capture-templates
       '(("t" "todo" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/todos.org")
          "* TODO %?\n%U\n%a")
-        ("r" "refile" entry (file "/Users/muneer78/Documents/GitHub/emacs-files/refile.org")
-         "* %?\n%U\n%a")
         ("l" "Reading list" entry
          (file+headline "/Users/muneer78/Documents/GitHub/emacs-files/reading-list.org" "Reading List")
          "** TODO [[%^{URL}][%^{Link name}]]"
-         :prepend t
-         :empty-lines 1)))
+         :prepend t)))
 
 (setq org-refile-targets
       '(("/Users/muneer78/Documents/GitHub/emacs-files/refile.org" :maxlevel . 1)
         ("/Users/muneer78/Documents/GitHub/emacs-files/todos.org" :maxlevel . 2)))
-
 
 (setq org-blank-before-new-entry
       '((heading . nil)
@@ -181,36 +196,20 @@
                   org-level-3
                   org-level-4
                   org-level-5))
-  (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+    (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
 
-(defun my/org-copy-subtrees-containing-dtd ()
-  "Copy all Org subtrees containing the string 'dtd' into a new buffer."
-  (interactive)
-  (let ((outbuf (generate-new-buffer "*org-dtd-matches*"))
-        (matches '()))
-    (org-map-entries
-     (lambda ()
-       (let* ((beg (org-entry-beginning-position))
-              (end (org-entry-end-position))
-              (text (buffer-substring-no-properties beg end)))
-         (when (string-match-p "dtd" text)
-           (push text matches))))
-     nil 'file)
-
-    (with-current-buffer outbuf
-      (org-mode)
-      (insert (string-join (nreverse matches) "\n\n"))
-      (goto-char (point-min)))
-
-    (switch-to-buffer outbuf)))
 
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-agenda-skip-timestamp-if-done t)
 (setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
 (setq org-agenda-span 'month)
+
+;; Org SSG
+(add-to-list 'load-path "/Users/muneer78/.emacs.d/lisp")
+(require 'org-ssg)
 
 (defun xah-reformat-lines (&optional Width)
   "Reformat current block or selection into short lines or 1 long line.
@@ -273,9 +272,7 @@ Version: 2025-07-08"
         (display-buffer xoutbuf)
         (error "error xah-python-format")))))
 
-
-
-; Tweak the looks of Emacs
+					; Tweak the looks of Emacs
 
 ;; Those three belong in the early-init.el, but I am putting them here
 ;; for convenience.  If the early-init.el exists in the same directory
@@ -300,51 +297,51 @@ Version: 2025-07-08"
 ;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
 ;; font files.  Then restart Emacs to see the effect.
 (use-package nerd-icons
-  :ensure t)
+  :straight t)
 
 (use-package nerd-icons-completion
-  :ensure t
+  :straight t
   :after marginalia
   :config
   (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-corfu
-  :ensure t
+  :straight t
   :after corfu
   :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package nerd-icons-dired
-  :ensure t
+  :straight t
   :hook
   (dired-mode . nerd-icons-dired-mode))
 
-; Configure the minibuffer and completions
+					; Configure the minibuffer and completions
 
 (when (fboundp 'electric-indent-mode)
   (electric-indent-mode -1))
 
 (use-package vertico
-  :ensure t
+  :straight t
   :hook (after-init . vertico-mode))
 
 (use-package marginalia
-  :ensure t
+  :straight t
   :hook (after-init . marginalia-mode))
 
 (use-package orderless
-  :ensure t
+  :straight t
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-defaults nil)
   (setq completion-category-overrides nil))
 
 (use-package savehist
-  :ensure nil ; it is built-in
+  :straight nil ; it is built-in
   :hook (after-init . savehist-mode))
 
 (use-package corfu
-  :ensure t
+  :straight t
   :hook (after-init . global-corfu-mode)
   :bind (:map corfu-map ("<tab>" . corfu-complete))
   :config
@@ -366,10 +363,10 @@ Version: 2025-07-08"
 ;; Enable visual-line-mode for all buffers (global setting)
 (global-visual-line-mode t)
 
-; The file manager (Dired)
+					; The file manager (Dired)
 
 (use-package dired
-  :ensure nil
+  :straight nil
   :commands (dired)
   :hook
   ((dired-mode . dired-hide-details-mode)
@@ -381,7 +378,7 @@ Version: 2025-07-08"
   (setq dired-dwim-target t))
 
 (use-package dired-subtree
-  :ensure t
+  :straight t
   :after dired
   :bind
   ( :map dired-mode-map
@@ -402,7 +399,7 @@ Version: 2025-07-08"
     ))
 
 (use-package trashed
-  :ensure t
+  :straight t
   :commands (trashed)
   :config
   (setq trashed-action-confirmer 'y-or-n-p)
@@ -429,32 +426,29 @@ Version: 2025-01-05"
 
 (defvar xah-move-to-target-dirs
   '(
-   ;;
-   ("Documents" . "~/Documents/")
-   ("Pictures" . "~/Pictures/")
-   ("Desktop" . "~/Desktop/")
-   ("Downloads" . "~/Downloads/"))
+    ;;
+    ("Documents" . "~/Documents/")
+    ("Pictures" . "~/Pictures/")
+    ("Desktop" . "~/Desktop/")
+    ("Downloads" . "~/Downloads/"))
   "An alist of dir paths for `xah-move-file-to-dir' to move file to.
 Each key is string for prompt, each value is dir path.
 Dir path must end in a slash.
 Useful is to create a bunch of dir, named family, travel, papers, work, etc, to sort photos into.
 URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 
-  (defun arrayify (start end quote)
-    "Turn strings on newlines into a QUOTEd, comma-separated one-liner."
-    (interactive "r\nMQuote: ")
-    (let ((insertion
-           (mapconcat
-            (lambda (x) (format "%s%s%s" quote x quote))
-            (split-string (buffer-substring start end)) ", ")))
-      (delete-region start end)
-      (insert insertion)))
+(defun arrayify (start end quote)
+  "Turn strings on newlines into a QUOTEd, comma-separated one-liner."
+  (interactive "r\nMQuote: ")
+  (let ((insertion
+         (mapconcat
+          (lambda (x) (format "%s%s%s" quote x quote))
+          (split-string (buffer-substring start end)) ", ")))
+    (delete-region start end)
+    (insert insertion)))
 
-; Themes
-
-(add-to-list 'custom-theme-load-path "/Users/mahmad/.emacs.d/themes/")
+					; Themes
 (add-to-list 'custom-theme-load-path "/Users/muneer78/.emacs.d/themes/")
-
 (load-theme 'synthwave)
 
 (setq org-alphabetical-lists t)
@@ -505,13 +499,13 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 ;;elfeed
 
 (use-package elfeed
-  :ensure t
+  :straight t
   :bind ("C-x w" . elfeed) ; Quick shortcut to open elfeed
   :config
   (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)))
 
 (use-package elfeed-org
-  :ensure t
+  :straight t
   :config
   (elfeed-org)
   ;; REPLACE the path below with the actual path to your feeds.org file
@@ -565,8 +559,8 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
   (let ((browse-url-browser-function #'eww-browse-url))
     (elfeed-search-browse-url use-generic-p)))
 
-(define-key elfeed-show-mode-map (kbd "B") 'efleed-show-eww-open)
-(define-key elfeed-search-mode-map (kbd "S") 'efleed-search-eww-open)
+(define-key elfeed-show-mode-map (kbd "B") 'elfeed-show-eww-open)
+(define-key elfeed-search-mode-map (kbd "S") 'elfeed-search-eww-open)
 
 (defun my-elfeed-search-other-window ()
   "Browse `elfeed' entry in the other window.
@@ -669,242 +663,78 @@ Version: 2025-03-25"
       (goto-char (point-max)))
     (skip-chars-forward " \n\t")))
 
-;;org-ssg-generator
+;; --- Python (tree-sitter) ---
+(use-package python
+  :mode ("\\.py\\'" . python-ts-mode)
+  :custom (python-shell-interpreter "python3"))
 
-;;; org-ssg.el --- Static Site Generator for Org-mode files -*- lexical-binding: t; -*-
+(setq lsp-python-provider 'pyright)
 
-;; Author: Your Name
-;; Version: 1.0
-;; Package-Requires: ((emacs "27.1"))
+;; --- pet: auto-detect uv's .venv ---
+(use-package pet
+  :config
+  (add-hook 'python-ts-mode-hook
+	    (lambda ()
+	      (setq-local python-shell-interpreter
+			  (pet-executable-find "python"))
+	      (setq-local python-shell-interpreter-args "-i")
+	      (setq-local lsp-pyright-python-executable-cmd
+			  (pet-executable-find "python")))))
 
-;;; Commentary:
-;; This package converts Org-mode files to HTML for a static site using org-publish.
-;; It splits multi-heading org files and generates a complete static site.
+;; --- LSP + Pyright ---
+(use-package lsp-mode
+  :hook ((python-ts-mode . lsp))
+  :custom (lsp-keymap-prefix "C-c l"))
 
-;;; Code:
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-show-with-cursor t)
+  (lsp-ui-sideline-show-diagnostics t))
 
-(require 'org)
-(require 'ox-html)
-(require 'ox-publish)
-(require 'seq)
-(require 'subr-x)
+(use-package lsp-pyright
+  :hook (python-ts-mode . (lambda ()
+			    (require 'lsp-pyright) (lsp))))
 
-;;; Configuration Variables
+;; --- Completion ---
+(use-package corfu
+  :init (global-corfu-mode)
+  :custom (corfu-auto t))
 
-(defvar org-ssg-content-dir "~/files/emacs/content/"
-  "Directory containing org-mode content files.")
+;; --- Format on save: ruff via uv run ---
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1)
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
+        '(ruff-format ruff-isort))
+  (setf (alist-get 'ruff-format apheleia-formatters)
+        '("uv" "run" "ruff" "format" "-"))
+  (setf (alist-get 'ruff-isort apheleia-formatters)
+        '("uv" "run" "ruff" "check" "--select=I" "--fix" "-")))
 
-(defvar org-ssg-output-dir "~/Documents/GitHub/mun-ssg/site-2"
-  "Directory for generated HTML files.")
-
-(defvar org-ssg-split-dir nil
-  "Directory for split org files. Automatically set to content-dir/split/")
-
-(defvar org-ssg-site-config
-  '((name . "Encyclopedia Muneerica")
-    (description . "A YungMun Joint")
-    (baseurl . "")
-    (url . "")
-    (github . "muneer78")
-    (twitter . "reenum"))
-  "Site configuration alist.")
-
-;;; Utility Functions
-
-(defun org-ssg-slugify (text)
-  "Convert TEXT to URL-safe slug."
-  (let ((slug (downcase text)))
-    (setq slug (replace-regexp-in-string "[^a-z0-9-]" "-" slug))
-    (setq slug (replace-regexp-in-string "-+" "-" slug))
-    (string-trim slug "-")))
-
-(defun org-ssg-extract-date-from-heading (heading)
-  "Extract date from HEADING text in format YYYY-MM-DD."
-  (when (string-match "\\([0-9]\\{4\\}\\)-\\([0-9]\\{2\\}\\)-\\([0-9]\\{2\\}\\)" heading)
-    (concat (match-string 1 heading)
-            (match-string 2 heading)
-            (match-string 3 heading))))
-
-;;; Publishing Functions
-
-(defun org-ssg-split-headings (plist filename pub-dir)
-  "Split an Org file into separate files, each corresponding to a top-level heading.
-
-Each file name is based on the heading title. PLIST is the property list for the
-publishing process, FILENAME is the input Org file, and PUB-DIR is the publishing
-directory."
-  (let ((heading-level 1)
-        (file-count 0)
-        sections
-        heading-positions)
-    
-    ;; First pass: collect heading positions and metadata
-    (with-temp-buffer
-      (insert-file-contents filename)
-      (goto-char (point-min))
-      
-      ;; Collect all heading positions first
-      (while (re-search-forward (format "^\\*\\{%d\\} \\(.*\\)" heading-level) nil t)
-        (let* ((heading-line (match-string 1))
-               (heading-start (match-beginning 0))
-               ;; Split heading into title and tags
-               (heading-parts (if (string-match "\\(.*?\\)[ \t]+\\(:[[:alnum:]_@#%:]+:\\)[ \t]*$" heading-line)
-                                  (list (match-string 1 heading-line)
-                                        (match-string 2 heading-line))
-                                (list heading-line nil)))
-               (heading-title (string-trim (car heading-parts))))
-          (push (list heading-start heading-title) heading-positions)))
-      
-      ;; Reverse to get chronological order
-      (setq heading-positions (nreverse heading-positions))
-      
-      ;; Second pass: extract content for each heading
-      (dotimes (i (length heading-positions))
-        (let* ((current-heading (nth i heading-positions))
-               (next-heading (nth (1+ i) heading-positions))
-               (heading-start (car current-heading))
-               (heading-title (cadr current-heading))
-               (section-end (if next-heading
-                                (car next-heading)
-                              (point-max)))
-               ;; Extract the content as a string
-               (content (buffer-substring-no-properties heading-start section-end))
-               ;; Sanitize title for filename
-               (sanitized-title (replace-regexp-in-string "[^a-zA-Z0-9_-]" "-" heading-title))
-               ;; Extract date from heading for filename prefix
-               (date-prefix (org-ssg-extract-date-from-heading heading-title)))
-          
-          ;; Only proceed if sanitized title exists and is valid
-          (when (and sanitized-title (not (string-empty-p sanitized-title)))
-            (let ((output-file (if date-prefix
-                                   (format "%s-%s.org" date-prefix sanitized-title)
-                                 (format "%s.org" sanitized-title))))
-              (push (cons output-file content) sections))))))
-    
-    ;; Third pass: write all sections to files
-    (dolist (section (nreverse sections))
-      (let ((output-file (expand-file-name (car section) pub-dir))
-            (content (cdr section)))
-        (with-temp-file output-file
-          (insert content))
-        (setq file-count (1+ file-count))
-        (message "Wrote %s" output-file)))
-    
-    (message "Split %s into %d files" filename file-count)
-    ;; Return nil to indicate successful processing
-    nil))
-
-;;; Sitemap Functions
-
-(defun org-ssg-sitemap-format-entry (entry style project)
-  "Format sitemap ENTRY for PROJECT with STYLE."
-  (let* ((file (org-publish-find-title entry project))
-         (date (org-publish-find-date entry project)))
-    (format "[[file:%s][%s]] - %s"
-            entry
-            file
-            (format-time-string "%Y-%m-%d" date))))
-
-(defun org-ssg-sitemap-function (title list)
-  "Generate sitemap with TITLE and LIST of entries."
-  (concat "#+TITLE: " title "\n\n"
-          (org-list-to-org list)))
-
-;;; Publishing Configuration
-
-;;;###autoload
-(defun org-ssg-setup-publish ()
-  "Setup org-publish-project-alist for org-ssg."
+;; --- Run file with uv run ---
+(defun my/uv-run-file ()
+  "Run the current Python file with uv run."
   (interactive)
-  (setq org-ssg-split-dir (expand-file-name "split" org-ssg-content-dir))
-  
-  ;; Ensure directories exist
-  (make-directory org-ssg-split-dir t)
-  (make-directory org-ssg-output-dir t)
-  
-  (setq org-publish-project-alist
-        `(("split-posts"
-           :base-directory ,org-ssg-content-dir
-           :base-extension "org"
-           :publishing-directory ,org-ssg-split-dir
-           :exclude ".*"
-           :include ("posts.org" "all.org" "index.org")
-           :publishing-function org-ssg-split-headings
-           :recursive nil)
-          
-          ("blog-posts"
-           :base-directory ,org-ssg-split-dir
-           :base-extension "org"
-           :publishing-directory ,(expand-file-name "posts" org-ssg-output-dir)
-           :publishing-function org-html-publish-to-html
-           :recursive t
-           :section-numbers nil
-           :with-toc nil
-           :html-preamble t
-           :html-postamble t
-           :auto-sitemap t
-           :sitemap-filename "index.org"
-           :sitemap-title ,(alist-get 'name org-ssg-site-config)
-           :sitemap-style list
-           :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry org-ssg-sitemap-format-entry
-           :sitemap-function org-ssg-sitemap-function
-           :html-head-include-default-style nil
-           :html-head-include-scripts nil
-           :html-head "<link rel=\"stylesheet\" href=\"/static/css/style.css\" type=\"text/css\"/>")
-          
-          ("static-files"
-           :base-directory ,(expand-file-name "static" default-directory)
-           :base-extension "css\\|js\\|jpg\\|gif\\|png\\|jpeg\\|svg\\|webp"
-           :recursive t
-           :publishing-directory ,(expand-file-name "static" org-ssg-output-dir)
-           :publishing-function org-publish-attachment)
-          
-          ("org-ssg"
-           :components ("split-posts" "blog-posts" "static-files"))))
-  
-  (message "org-publish configuration set up successfully"))
+  (compile (format "uv run python %s"
+		   (shell-quote-argument (buffer-file-name)))))
+(add-hook 'python-ts-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-r") #'my/uv-run-file)))
 
-;;;###autoload
-(defun org-ssg-publish ()
-  "Publish the site using org-publish."
-  (interactive)
-  (org-ssg-setup-publish)
-  (message "Publishing org-ssg project...")
-  (org-publish "org-ssg" nil)
-  (message "Site published successfully!")
-  (message "Output directory: %s" org-ssg-output-dir))
+;; --- Debugger (debugpy via uv) ---
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
+  (setq dap-python-executable
+	(lambda () (list "uv" "run" "python")))
+  (dap-auto-configure-mode))
 
-;;;###autoload
-(defun org-ssg-publish-force ()
-  "Force publish the site, regenerating all files."
-  (interactive)
-  (org-ssg-setup-publish)
-  (message "Force publishing org-ssg project...")
-  (org-publish "org-ssg" t)
-  (message "Site force published successfully!")
-  (message "Output directory: %s" org-ssg-output-dir))
-
-;;;###autoload
-(defun org-ssg-clean ()
-  "Clean the split directory and output directory."
-  (interactive)
-  (when org-ssg-split-dir
-    (when (file-directory-p org-ssg-split-dir)
-      (delete-directory org-ssg-split-dir t)
-      (message "Cleaned split directory: %s" org-ssg-split-dir)))
-  (when (file-directory-p org-ssg-output-dir)
-    (delete-directory org-ssg-output-dir t)
-    (message "Cleaned output directory: %s" org-ssg-output-dir)))
-
-;;;###autoload
-(defun org-ssg-preview ()
-  "Preview the generated site in browser."
-  (interactive)
-  (let ((index-file (expand-file-name "posts/index.html" org-ssg-output-dir)))
-    (if (file-exists-p index-file)
-        (browse-url-of-file index-file)
-      (message "No site to preview. Run org-ssg-publish first."))))
-
-(provide 'org-ssg)
-;;; org-ssg.el ends here
+;; --- Which-key + Projectile ---
+(use-package which-key
+  :config (which-key-mode))
+(use-package projectile
+  :init (projectile-mode +1)
+  :bind-keymap ("C-c p" . projectile-command-map))
