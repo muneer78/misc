@@ -1,0 +1,111 @@
+These are terminal functions that are added to .zshrc
+
+## move folders
+fvm() {
+    # 1. Select the source directory using zoxide's history
+    echo "📁 Select the directory to MOVE (Zoxide History):"
+    local src=$(zoxide query -l | fzf --prompt="Move target > " --preview 'ls -F {}')
+    
+    # Exit if user cancelled
+    if [ -z "$src" ]; then
+        echo "Cancelled: No source directory selected."
+        return 1
+    fi
+
+    # 2. Ask for partial destination string, query zoxide, and pipe to fzf
+    echo -n "📍 Enter partial destination name (or press Enter to browse all): "
+    read search_term
+    
+    echo "📍 Select the DESTINATION directory:"
+    local dest
+    if [ -n "$search_term" ]; then
+        # Query zoxide using the partial keyword, then filter results in fzf
+        dest=$(zoxide query -l "$search_term" 2>/dev/null | fzf --prompt="Destination > " --preview 'ls -F {}')
+    else
+        # If no search term given, just list all tracked zoxide paths
+        dest=$(zoxide query -l | fzf --prompt="Destination > " --preview 'ls -F {}')
+    fi
+
+    # Exit if user cancelled destination selection
+    if [ -z "$dest" ]; then
+        echo "Cancelled: No destination selected."
+        return 1
+    fi
+
+    # 3. Guard against moving a directory inside itself
+    if [[ "$dest" == "$src"* ]]; then
+        echo "Error: Cannot move a directory inside its own subfolder structure."
+        return 1
+    fi
+
+    # 4. Perform the move
+    mv "$src" "$dest/"
+    echo "Successfully moved '$src' ➡️ '$dest/'"
+}
+
+## Fuzzy checkout: Sometimes the branch you want isn't local yet (e.g., a colleague just pushed it to GitHub). This alternative utility displays both local and remote branches in fzf. If you select a remote branch (like origin/feature-abc), it automatically sets up local tracking and checks it out.
+
+fco() {
+    # 1. Capture all local and remote references
+    local selected_ref=$(git branch -a --format="%(refname:short)" | fzf \
+        --prompt="Checkout Ref > " \
+        --preview "git log --oneline --graph --date=short --color=always \
+                  \$(echo {} | sed 's/origin\///') | head -n 15")
+
+    if [ -z "$selected_ref" ]; then
+        echo "Cancelled."
+        return 1
+    fi
+
+    # 2. Clean up the naming if it's a remote reference
+    if [[ "$selected_ref" == origin/* ]]; then
+        local local_name="${selected_ref#origin/}"
+        
+        # Check if we already have a local copy tracking it
+        if git branch --list | grep -q "$local_name"; then
+            git checkout "$local_name"
+        else
+            git checkout -b "$local_name" --track "$selected_ref"
+        fi
+    else
+        # Regular local checkout
+        git checkout "$selected_ref"
+    fi
+}
+
+
+## find git branch
+fgb() {
+    local target="$1"
+
+    # Scenario A: No search query provided -> Open interactive fzf dashboard
+    if [ -z "$target" ]; then
+        # Lists branches, cuts off the active selection asterisk, and strips whitespace
+        local chosen_branch=$(git branch --format="%(refname:short)" | fzf \
+            --prompt="Switch Branch > " \
+            --preview "git log --oneline --graph --date=short --color=always {} | head -n 15")
+        
+        if [ -n "$chosen_branch" ]; then
+            git checkout "$chosen_branch"
+        fi
+        return 0
+    fi
+
+    # Scenario B: Partial query provided -> Try to match it directly like 'z'
+    # Finds local branches containing your partial search string
+    local matched_branch=$(git branch --format="%(refname:short)" | grep -i "$target" | head -n 1)
+
+    if [ -n "$matched_branch" ]; then
+        echo "Match found: Checking out '$matched_branch'..."
+        git checkout "$matched_branch"
+    else
+        # Scenario C: No match -> Ask to create a new branch using that name
+        echo "No branch matches '$target'."
+        read "create_new?Create new local branch '$target'? (y/N): "
+        if [[ "$create_new" =~ ^[Yy]$ ]]; then
+            git checkout -b "$target"
+        else
+            echo "Cancelled."
+        fi
+    fi
+}
