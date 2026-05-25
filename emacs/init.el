@@ -3,17 +3,6 @@
 
 ;; Set up the package manager
 
-;;(require 'package)
-;;(package-initialize)
-
-;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
-;; (when (< emacs-major-version 29)
-;;   (unless (package-installed-p 'use-package)
-;;     (unless package-archive-contents
-;;       (package-refresh-contents))
-;;     (package-install 'use-package)))
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -28,10 +17,11 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+
 (setq straight-use-package-by-default t)
 
-
 (use-package org)
+(use-package yasnippet)
 
 					; Basic behaviour
 
@@ -50,11 +40,16 @@
 ;; wrapped lines respect the indentation of the original line
 (global-visual-wrap-prefix-mode 1)
 
-;; store all backup and autosave files in the tmp dir
+;; store backup files in the tmp dir
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+
+;; store auto-save (#) files in ~/.emacs/temp
+(let ((auto-save-dir (expand-file-name "~/.emacs.d/temp")))
+  (unless (file-exists-p auto-save-dir)
+    (make-directory auto-save-dir t))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(concat auto-save-dir "/") t))))
 
 ;; enable y/n answers
 (setq use-short-answers t)
@@ -459,21 +454,6 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 (require 'ox-ascii)
 (require 'ox-md)
 
-
-;; NEW: Abbrev mode configuration
-;; Enable abbrev-mode globally
-(setq-default abbrev-mode t)
-
-(defun my-insert-timestamp ()
-  (interactive)
-  (insert (format-time-string "%Y%m%d")))
-
-;; Define abbreviations
-(define-abbrev global-abbrev-table "timestamp" "" 'my-insert-timestamp)
-
-;; Save abbrevs when Emacs exits
-(setq save-abbrevs 'silently)
-
 ;; Epub
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
@@ -663,6 +643,16 @@ Version: 2025-03-25"
       (goto-char (point-max)))
     (skip-chars-forward " \n\t")))
 
+;; yasnippet
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+  (add-hook 'yas-minor-mode-hook
+            (lambda ()
+              (yas-activate-extra-mode 'text-mode))))
+
+(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+
 ;; --- Python (tree-sitter) ---
 (use-package python
   :mode ("\\.py\\'" . python-ts-mode)
@@ -683,7 +673,6 @@ Version: 2025-03-25"
 
 ;; --- LSP + Pyright ---
 (use-package lsp-mode
-  :hook ((python-ts-mode . lsp))
   :custom (lsp-keymap-prefix "C-c l"))
 
 (use-package lsp-ui
