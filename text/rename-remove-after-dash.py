@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Specify the directory containing the files
-directory = Path("/Users/muneer78/Downloads/docs")
+directory = Path("/Users/muneer78/Downloads/temp")
 
 # Iterate over all files in the directory
 for file in directory.iterdir():

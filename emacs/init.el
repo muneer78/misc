@@ -37,6 +37,9 @@
 
 (setq tab-always-indent 'complete)
 
+;; make {copy, cut, paste, undo} have {C-c, C-x, C-v, C-z} keys
+(cua-mode 1)
+
 ;; wrapped lines respect the indentation of the original line
 (global-visual-wrap-prefix-mode 1)
 
@@ -490,6 +493,8 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
   (elfeed-org)
   ;; REPLACE the path below with the actual path to your feeds.org file
   (setq rmh-elfeed-org-files (list "/Users/muneer78/.emacs.d/elfeed.org")))
+
+(setq-default elfeed-search-filter "@3days +unread")
 
 (setq elfeed-show-entry-switch #'elfeed-display-buffer)
 

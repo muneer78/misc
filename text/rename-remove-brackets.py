@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 
 # Define the directory to process
-directory = Path(r"C:\Users\mahmad\OneDrive - Ryan RTS\Pictures\test")
+directory = Path(r"/Users/muneer78/Downloads/temp")
 
 # Ensure the directory exists
 if directory.is_dir():

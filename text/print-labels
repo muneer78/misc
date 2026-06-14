@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# AVERY 5160 Label Printer Wrapper
+# Usage: print-labels <pdf_file> [output_path]
+
+set -e
+
+# Script directory (where the Python script lives)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PYTHON_SCRIPT="$SCRIPT_DIR/avery_label_printer.py"
+
+# Check if Python script exists
+if [ ! -f "$PYTHON_SCRIPT" ]; then
+    echo "Error: avery_label_printer.py not found at $PYTHON_SCRIPT" >&2
+    exit 1
+fi
+
+# Check if PDF file argument provided
+if [ $# -lt 1 ]; then
+    echo "Usage: print-labels <pdf_file> [output_path]" >&2
+    echo "" >&2
+    echo "Examples:" >&2
+    echo "  print-labels ~/files/temp/Voter Contact Addresses.pdf" >&2
+    echo "  print-labels addresses.pdf ~/Downloads/my-labels.html" >&2
+    exit 1
+fi
+
+PDF_FILE="$1"
+OUTPUT_PATH="${2:-}"
+
+# Validate PDF file exists
+if [ ! -f "$PDF_FILE" ]; then
+    echo "Error: PDF file not found: $PDF_FILE" >&2
+    exit 1
+fi
+
+# Build Python command
+PYTHON_CMD="python3 \"$PYTHON_SCRIPT\" \"$PDF_FILE\""
+
+if [ -n "$OUTPUT_PATH" ]; then
+    PYTHON_CMD="$PYTHON_CMD --output \"$OUTPUT_PATH\""
+fi
+
+# Run the Python script
+eval "$PYTHON_CMD"
