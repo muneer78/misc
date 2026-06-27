@@ -13,13 +13,13 @@ declare -A SOURCE_DIRECTORIES=(
 
 # Define target directories and file extensions
 declare -A FILE_CATEGORIES=(
-    [docs]="/Users/muneer78//files/reading/docs:txt pdf md docx html"
-    [ebooks]="/Users/muneer78/files/reading/ebooks:epub lcpl azw3 mobi"
-    [pics]="/Users/muneer78/files/pics:jpg jpeg gif png"
-    [videos]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/videos:mp4 mov"
-    [pics-2]="/Users/muneer78/Library/CloudStorage/GoogleDrive-reenum@gmail.com/My Drive/PB/images:jpg jpeg gif png"
-    [data]="/Users/muneer78/data:csv xml json html xlsx opml zip"
-    [temp]="/Users/muneer78/files/temp:*"
+    [docs]="/Volumes/doak/files/reading/docs:txt pdf md docx html"
+    [ebooks]="/Volumes/doak/files/reading/ebooks:epub lcpl azw3 mobi"
+    [pics]="/Volumes/doak/files/reading/pics:jpg jpeg gif png"
+    [videos]="/Volumes/doak/pb/videos:mp4 mov"
+    [pics-2]="/Volumes/doak/pb/images:jpg jpeg gif png"
+    [data]="/Volumes/doak/files/data:csv xml json html xlsx opml zip"
+    [temp]="/Volumes/doak/files/temp:*"
 )
 
 # Function to move files by extension
