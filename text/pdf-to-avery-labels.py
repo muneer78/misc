@@ -2,7 +2,7 @@ import pdfplumber
 import pandas as pd
 
 
-def create_pasting_csv(pdf_path, output_file="/Users/muneer78/Downloads/temp/ready_to_paste.csv"):
+def create_pasting_csv(pdf_path, output_file="/Users/muneer78/Downloads/ready_to_paste.csv"):
     all_labels = []
 
     with pdfplumber.open(pdf_path) as pdf:
@@ -40,4 +40,4 @@ def create_pasting_csv(pdf_path, output_file="/Users/muneer78/Downloads/temp/rea
     print(f"Success! Open '{output_file}' to copy your grid.")
 
 # Run this and copy the output
-create_pasting_csv("/Users/muneer78/files/temp/Voter Contact Addresses.pdf")
+create_pasting_csv("/Volumes/doak/files/temp/voter_contact_addresses.pdf")

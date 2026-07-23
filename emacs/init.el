@@ -23,8 +23,7 @@
 (use-package org)
 (use-package yasnippet)
 
-					; Basic behaviour
-
+					; Basic behavior
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
@@ -277,7 +276,6 @@ Version: 2025-07-08"
 ;; as the init.el, then Emacs will read-evaluate it before moving to
 ;; the init.el.
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
 (tool-bar-mode 0)
 
 (let ((mono-spaced-font "Monospace")
