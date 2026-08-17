@@ -9,16 +9,19 @@ What it does, in order:
   2. Takes the next BATCH_SIZE entries (default 10), in file order (oldest first).
   3. Fetches each URL and strips it down to the readable article body with
      readability-lxml (same tool used in the feed-to-articles project).
-  4. Writes all BATCH_SIZE articles into a single dated HTML digest file.
-  5. Removes those entries from READING_LIST and appends the original org
+  4. Writes all BATCH_SIZE articles into a single dated HTML digest file,
+     saved into OUTPUT_DIR (web-tools/articles/).
+  5. Adds a link to that digest at the top of ARTICLE_INDEX
+     (web-tools/article-dir.html), inserted into the existing #article-list,
+     labeled "M-D-YY Reading List" (e.g. "8-15-26 Reading List") with a
+     "YYYY-MM-DD" date span --
+     matching the site's current markup exactly.
+  6. Removes those entries from READING_LIST and appends the original org
      lines to SENT_LIST (default: sent-urls.org), so the queue only ever
      shrinks and nothing is processed twice.
-  6. "Sends" the digest by copying it into SHARED_DIR and, if SHARED_DIR is a
-     git repo, committing and pushing it -- the same git-repo-as-storage
-     approach used for articles-today.md in the feed-to-articles project.
 
 Usage:
-    python weekly_reading.py --reading-list reading-list.org --shared-dir /path/to/shared/repo
+    python weekly_reading.py
 
 Run it on a weekly cron/GitHub Actions schedule, same idea as fetch.yml in
 feed-to-articles.
@@ -28,8 +31,6 @@ import argparse
 import datetime as dt
 import html
 import re
-import subprocess
-import sys
 from pathlib import Path
 
 import requests
@@ -38,7 +39,11 @@ from readability import Document
 # --- Hardcoded paths: edit these for your setup ---
 READING_LIST = Path("/Users/muneer78/Documents/GitHub/emacs-files/reading-list.org")
 SENT_LIST = Path("/Users/muneer78/Documents/GitHub/emacs-files/sent-urls.org")
-OUTPUT_DIR = Path("/Users/muneer78/Google Drive/My Drive/Shared/digests/")
+# web-tools repo: digest HTML files go in articles/, article-dir.html (the
+# index page) lives one level up, alongside articles/.
+REPO_DIR = Path("/Users/muneer78/Documents/GitHub/web-tools")
+OUTPUT_DIR = REPO_DIR / "articles"
+ARTICLE_INDEX = REPO_DIR / "article-dir.html"
 # ---------------------------------------------------
 
 DEFAULT_BATCH_SIZE = 10
@@ -113,12 +118,7 @@ def fetch_readable(entry: ReadingEntry) -> dict:
             "error": None,
         }
     except Exception as e:  # network errors, parse errors, non-200s, etc.
-        return {
-            "ok": False,
-            "title": entry.title,
-            "content_html": None,
-            "error": str(e),
-        }
+        return {"ok": False, "title": entry.title, "content_html": None, "error": str(e)}
 
 
 def build_digest_html(results: list[tuple[ReadingEntry, dict]], week_label: str) -> str:
@@ -167,34 +167,66 @@ def build_digest_html(results: list[tuple[ReadingEntry, dict]], week_label: str)
 """
 
 
-def send_to_shared(local_file: Path, shared_dir: Path) -> None:
-    """Copy the digest into shared_dir; commit & push if it's a git repo."""
-    shared_dir.mkdir(parents=True, exist_ok=True)
-    dest = shared_dir / local_file.name
-    dest.write_bytes(local_file.read_bytes())
+# Fallback template, used only if article-dir.html doesn't exist yet.
+# Mirrors the real file's structure: a <ul id="article-list"> that new
+# <li><a>...</a><span class="date">...</span></li> entries get inserted into.
+INDEX_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Directory</title>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper-masthead">
+      <header class="masthead">
+        <div class="site-name">Article Directory</div>
+      </header>
+    </div>
 
-    if (shared_dir / ".git").exists():
-        subprocess.run(["git", "add", dest.name], cwd=shared_dir, check=True)
-        commit = subprocess.run(
-            ["git", "commit", "-m", f"Weekly reading digest: {local_file.stem}"],
-            cwd=shared_dir,
-        )
-        if commit.returncode == 0:
-            subprocess.run(["git", "push"], cwd=shared_dir, check=True)
-        # a nonzero commit code usually just means "nothing to commit"; ignore
+    <ul id="article-list">
+    </ul>
+  </div>
+</body>
+</html>
+"""
+
+ARTICLE_LIST_OPEN_TAG = '<ul id="article-list">'
+
+
+def update_article_index(index_path: Path, digest_filename: str, label: str, date_str: str) -> None:
+    """Insert a new <li> at the top of #article-list in article-dir.html.
+
+    Matches the site's existing markup exactly:
+        <li><a href="articles/FILE">LABEL</a><span class="date">DATE</span></li>
+    New entries go right after <ul id="article-list">, so the newest link is
+    always first -- same position as the one hand-written example entry.
+    """
+    text = index_path.read_text(encoding="utf-8") if index_path.exists() else INDEX_TEMPLATE
+
+    new_entry = (
+        f'      <li><a href="articles/{html.escape(digest_filename)}">'
+        f'{html.escape(label)}</a><span class="date">{html.escape(date_str)}</span></li>'
+    )
+
+    if ARTICLE_LIST_OPEN_TAG in text:
+        text = text.replace(ARTICLE_LIST_OPEN_TAG, f"{ARTICLE_LIST_OPEN_TAG}\n{new_entry}", 1)
+    elif "</ul>" in text:
+        # #article-list tag missing but *some* <ul> is there -- insert before its close
+        text = text.replace("</ul>", f"{new_entry}\n    </ul>", 1)
     else:
-        print(f"[info] {shared_dir} is not a git repo; file copied only, no push done.")
+        # No <ul> at all -- rebuild a minimal one before </body>
+        text = text.replace(
+            "</body>", f'    <ul id="article-list">\n{new_entry}\n    </ul>\n  </body>', 1
+        )
+
+    index_path.write_text(text, encoding="utf-8")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--batch-size", default=DEFAULT_BATCH_SIZE, type=int)
-    parser.add_argument(
-        "--shared-dir",
-        default=None,
-        type=Path,
-        help="Folder (optionally a git repo) to copy/push the digest to",
-    )
     args = parser.parse_args()
 
     entries = parse_reading_list(READING_LIST)
@@ -210,7 +242,8 @@ def main():
         print(f"  fetching: {entry.title} ({entry.url})")
         results.append((entry, fetch_readable(entry)))
 
-    week_label = dt.date.today().isoformat()
+    today = dt.date.today()
+    week_label = today.isoformat()
     digest_html = build_digest_html(results, week_label)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -218,15 +251,14 @@ def main():
     out_path.write_text(digest_html, encoding="utf-8")
     print(f"Wrote digest to {out_path}")
 
+    index_label = f"{today.month}-{today.day}-{today.strftime('%y')} Reading List"
+    update_article_index(ARTICLE_INDEX, out_path.name, index_label, today.isoformat())
+    print(f"Updated {ARTICLE_INDEX} with entry: {index_label}")
+
     remove_entries(READING_LIST, batch)
     append_sent(SENT_LIST, batch)
     print(f"Removed {len(batch)} entries from {READING_LIST}, archived to {SENT_LIST}")
-
-    if args.shared_dir:
-        send_to_shared(out_path, args.shared_dir)
-        print(f"Sent digest to shared folder: {args.shared_dir}")
-    else:
-        print("No --shared-dir given; skipped the send step.")
+    print(f"Done -- files written under {REPO_DIR}, no git action taken.")
 
 
 if __name__ == "__main__":

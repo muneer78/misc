@@ -44,7 +44,7 @@ def rename_files(directory, id, start_record):
 
 
 # Static directory path
-directory = r"C:\Users\mahmad\OneDrive - Ryan RTS\1-Projects\Python\rename"
+directory = r"/Volumes/doak/pb/videos/sex/"
 
 # Input the id and starting record number
 id = input("Enter the ID: ")
