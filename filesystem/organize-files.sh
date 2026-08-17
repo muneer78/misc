@@ -16,11 +16,10 @@ if [ ! -d "$TARGET_DIR" ]; then
 fi
 
 # Ensure relative destination folders exist
-mkdir -p "$TARGET_DIR/ebooks"
+mkdir -p "$TARGET_DIR/docs"
 mkdir -p "$TARGET_DIR/images"
 mkdir -p "$TARGET_DIR/convert-images"
 mkdir -p "$TARGET_DIR/videos"
-mkdir -p "$TARGET_DIR/docs"
 
 # Function to move files by extension
 move_files() {
@@ -39,6 +38,5 @@ move_files "docs" txt pdf md docx
 move_files "images" jpg jpeg gif png
 move_files "convert-images" webp
 move_files "videos" mp4 mov
-move_files "ebooks" epub mobi
 
 echo "All done organizing files in '$TARGET_DIR'!"
