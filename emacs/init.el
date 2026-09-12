@@ -477,111 +477,193 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 
 (setq csv-separators '(";" "," "\t" "|"))
 
-;;elfeed
+;; MacPorts
 
-(use-package elfeed
-  :straight t
-  :bind ("C-x w" . elfeed) ; Quick shortcut to open elfeed
+(add-to-list 'exec-path "/opt/local/bin")
+(setenv "PATH"
+        (concat "/opt/local/bin:/opt/local/sbin:" (getenv "PATH")))
+
+(add-to-list 'exec-path "/opt/local/bin")
+(add-to-list 'exec-path "/opt/local/sbin")
+
+(setenv "PKG_CONFIG_PATH"
+        "/opt/local/lib/pkgconfig:/opt/local/share/pkgconfig")
+
+					; mu4e
+
+(use-package mu4e
+  :ensure nil
+  ;; :load-path "path/to/mu4e"
   :config
-  (setq elfeed-db-directory (expand-file-name "elfeed" user-emacs-directory)))
+;;;; Basics
 
-(use-package elfeed-org
-  :straight t
-  :config
-  (elfeed-org)
-  ;; REPLACE the path below with the actual path to your feeds.org file
-  (setq rmh-elfeed-org-files (list "/Users/muneer78/.emacs.d/elfeed.org")))
+  ;; (setq mu4e-mu-binary "/path/to/mu") ; only needed if mu is not in PATH
+  (setq mail-user-agent 'mu4e) ;; mu4e as the default emacs mail program
 
-(setq-default elfeed-search-filter "@3days +unread")
+  ;; Identify yourself. Not strictly necessary.
+  ;; (setq
+  ;;  user-mail-address "mickey@example.com"
+  ;;  user-full-name "Mickey Mouse")
 
-(setq elfeed-show-entry-switch #'elfeed-display-buffer)
+  ;;
+;;;; Retrieving mail
+  ;;
+  ;; Here, put the command you use for getting mail from some
+  ;; remote server to your local Maildir. You can leave it at its
+  ;; default when you have local delivery (rare these days)
+  ;;
+  ;; The command depends on your local setup, e.g.:
+  ;; "offlineimap", "mbsync", "fetchmail", ... or some shell script
+  (setq mu4e-get-mail-command "/bin/true" ;;
+        mu4e-index-lazy-check t           ;; quick check
+        mu4e-update-interval 180)         ;; check every 3 minutes
+  ;;
+;;;; Reading mail
+  ;;
+  ;; You need to tell mu4e where it can find certain mail folders
+  ;; in your Maildir; these are the paths relative to your maildir-root.
+  (setq
+   mu4e-inbox-folder  "/inbox"
+   mu4e-sent-folder   "/sent"
+   mu4e-drafts-folder "/drafts"
+   mu4e-trash-folder  "/trash")
+  ;;
+  ;; For Gmail, these could look something like:
+  (setq
+   mu4e-inbox-folder  "/INBOX"
+   mu4e-sent-folder   "/[Gmail]/Sent Mail"
+   mu4e-drafts-folder "/drafts"
+   mu4e-trash-folder  "/trash")
+  ;; ;; (here we keep /drafts & /trash local)
 
-(defun elfeed-display-buffer (buf &optional act)
-  (pop-to-buffer buf)
-  (set-window-text-height (get-buffer-window) (round (* 0.7 (frame-height)))))
+  ;; define some shortcuts to maildirs you use often
+  ;; the :key defines the shortcut key, the other parameters
+  ;; determine what is (not) shown in the main-view. See the
+  ;; `mu4e-maildir-shortcuts' docstring.
+  ;; (setq mu4e-maildir-shortcuts
+  ;;       '((:maildir "/inbox"       :key ?i :hide-if-no-unread t :favorite t)
+  ;;         (:maildir "/lists"       :key ?l :hide-if-no-unread t)
+  ;;         (:maildir "/sent"        :key ?s :hide-unread t))))
 
-(setq elfeed-search-title-max-width 120)  ; <-- add this line
+  ;; Defaults to homedir. Can also be a function, for file-specific
+  ;; dirs; see docstring.
+  (setq mu4e-attachment-dir "~/Downloads")
 
-(add-hook 'elfeed-new-entry-hook #'elfeed-declickbait-entry)
+  ;;
+;;;; Sending mail
+  ;;
+  ;; Mail sending goes through the Emacs smtpmail package
+  ;; the exact settings depend on your SMTP provider
+  (setq
+   send-mail-function          smtpmail-send-it
+   message-send-mail-function  smtpmail-send-it
+   ;; smtpmail-smtp-user          "user@example.com"
+   ;; smtpmail-smtp-server        "smtp.example.com"
+   ;; smtpmail-smtp-service       465
+   ;; smtpmail-stream-type        'tls
+   )
 
-(defun elfeed-declickbait-entry (entry)
-  (let ((title (elfeed-entry-title entry)))
-    (setf (elfeed-meta entry :title)
-          (elfeed-title-transform title))))
+  ;;
+;;;; Extras
+  ;;
+  ;; There are *many* more settings to customize mu4e. Here are a few common
+  ;; ones; just some examples, tweak to your preferences.
 
-(defun elfeed-title-transform (title)
-  "Declickbait string TITLE."
-  (let* ((trim "\\(?:\\(?:\\.\\.\\.\\|[!?]\\)+\\)")
-         (arr (split-string title nil t trim))
-         (s-table (copy-syntax-table)))
-    (modify-syntax-entry ?\' "w" s-table)
-    (with-syntax-table s-table
-      (mapconcat (lambda (word)
-                   (cond
-                    ((member word '("AND" "OR" "IF" "ON" "IT" "TO"
-                                    "A" "OF" "VS" "IN" "FOR" "WAS"
-                                    "IS" "BE"))
-                     (downcase word))
-                    ((member word '("WE" "DAY" "HOW" "WHY" "NOW" "OLD"
-                                    "NEW" "MY" "TOO" "GOT" "GET" "THE"
-                                    "ONE" "DO" "YOU"))
-                     (capitalize word))
-                    ((> (length word) 3) (capitalize word))
-                    (t word)))
-                 arr " "))))
+  ;; prefer text when mails have both text and html
+  ;; (with-eval-after-load "mm-decode"
+  ;;   (add-to-list 'mm-discouraged-alternatives "text/html")
+  ;;   (add-to-list 'mm-discouraged-alternatives "text/richtext")
+  ;;   (add-to-list 'mm-discouraged-alternatives "multipart/related"))
 
-(defun elfeed-show-eww-open (&optional use-generic-p)
-  "open with eww"
-  (interactive "P")
-  (let ((browse-url-browser-function #'eww-browse-url))
-    (elfeed-show-visit use-generic-p)))
+  ;; Some visual tweaks
+  (setq mu4e-use-fancy-chars t) ;; allow for unicode emojis
 
-(defun elfeed-search-eww-open (&optional use-generic-p)
-  "open with eww"
-  (interactive "P")
-  (let ((browse-url-browser-function #'eww-browse-url))
-    (elfeed-search-browse-url use-generic-p)))
+  ;;
+;;;; Custom bookmarks / queries
+  ;; e.g.:
+  (add-to-list 'mu4e-bookmarks
+               '( :name  "Inbox messages in the last day"
+                  :query (lambda ()
+                           (format "maildir:/inbox AND date:%s"
+                                   (format-time-string
+                                    "%Y%m%d.."
+                                    (subtract-time (current-time)
+                                                   (days-to-time 1)))))
+                  :key   ?w))
 
-(define-key elfeed-show-mode-map (kbd "B") 'elfeed-show-eww-open)
-(define-key elfeed-search-mode-map (kbd "S") 'elfeed-search-eww-open)
+  ;; Tweak headers display; i.e. what headers to show, sizes etc.
+  ;; Eg:
+  (setq
+   mu4e-headers-date-format "%Y-%m-%d"
+   mu4e-headers-time-format "%H:%M"
+   mu4e-headers-fields
+   ((:human-date     .  10)
+    (:flags          .  4)
+    (:from-or-to     .  20)
+    (:mailing-list   .  8)
+    (:maildir        .  8)
+    (:labels         .  8)
+    (:thread-subject .  nil)))
 
-(defun my-elfeed-search-other-window ()
-  "Browse `elfeed' entry in the other window.
-Credit: https://protesilaos.com/dotemacs"
-  (interactive)
-  (let* ((entry (if (eq major-mode 'elfeed-show-mode)
-                    elfeed-show-entry
-                  (elfeed-search-selected :ignore-region)))
-         (link (elfeed-entry-link entry))
-         (win (selected-window)))
-    (with-current-buffer (get-buffer "*elfeed-search*")
-      (unless (one-window-p)              ; experimental
-        (delete-other-windows win))
-      (split-window-right)
-      (other-window 1)
-      (evil-window-increase-width 10)
-      (elfeed-search-show-entry entry))))
+  ;; Refiling a messages ('r'), i.e., move messages to some other folder,
+  ;; based on their properties. mu4e-refile-folder can be a folder-name
+  ;; or a function taking a message and returning a folder-name
+  ;; (setq mu4e-refile-folder
+  ;;         (lambda (msg)
+  ;;           (cond
+  ;;            ;; all messages sent by me go to the sent folder
+  ;;            ((mu4e-message-sent-by-me msg) (mu4e-get-sent-folder msg))
+  ;;            ;; all mu-related messages go to the mu folder
+  ;;            ((mu4e-message-contact-field-matches msg :to
+  ;;                                                 "mu-discuss@googlegroups.com")
+  ;;             "/mu")
+  ;;            ;; some work-related senders
+  ;;            ((seq-some
+  ;;              (lambda (addr) (mu4e-message-contact-field-matches msg :from addr))
+  ;;              `(,(rx "boss@company.com" eos)
+  ;;                ,(rx "lucy@bookkeeper.com" eos)
+  ;;                ,(rx "jim@taxes.gov" eos)))
+  ;;             "/work")
+  ;;            ;; everything else goes to /archive
+  ;;            (t
+  ;;             "/archive"))))
 
-(defun my-elfeed-kill-buffer-and-window ()
-  "Do-what-I-mean way to handle `elfeed' windows and buffers.
-When in an entry buffer, kill the buffer and return to the Search view.
-If the entry is in its own window, delete it as well.
-When in the search view, close all other windows, else kill the buffer."
-  (interactive)
-  (let ((win (selected-window)))
-    (cond ((eq major-mode 'elfeed-show-mode)
-           (elfeed-kill-buffer)
-           (unless (one-window-p) (delete-window win))
-           (switch-to-buffer "*elfeed-search*"))
-          ((eq major-mode 'elfeed-search-mode)
-           (if (one-window-p)
-               (progn
-                 (elfeed-search-quit-window)
-                 (kill-buffer "*elfeed-search*")
-                 (kill-buffer "*elfeed-log*")
-                 (kill-buffer "elfeed-list.org")
-                 (tab-bar-close-tab))
-             (delete-other-windows win))))))
+  ;; Tweak the message-view
+  (setq mu4e-view-date-format "%Y-%m-%d %H:%M"
+	mu4e-view-fields
+	'(:from :to :cc :bcc :subject :flags :date :maildir :mailing-list))
+
+  ;; with nerd-icons or all-the-icons installed, you can get some icons when
+  ;; view messaages, e.g.
+  (setq mu4e-file-name-to-icon-function #'nerd-icons-icon-for-file)
+  ;;  or
+  ;; (setq mu4e-file-name-to-icon-function #'all-the-icons-icon-for-file)
+
+  ;; Set a message signature:
+  ;; (setq message-signature
+  ;;       (concat
+  ;;        "User McUserFace\n"
+  ;;        "http://www.example.com\n"))
+
+  (setq mu4e-attachment-dir "~/Desktop")
+  ;; this can also be function that takes a filename and mime-type
+  ;; and returns a string (path)
+
+  ;; add an 'action' (press 'a', then 'V' when in the message-view, to show
+  ;; current message in an external web-browsser
+  (add-to-list 'mu4e-view-actions '("ViewBrowser" . mu4e-action-view-in-browser) t)
+
+  :hook
+  ;; tweak the composer
+  ((mu4e-compose-mode . (lambda ()
+                          (set-fill-column 72)
+                          (flyspell-mode)))
+   ;; allow for inserting attachments with dired,
+   ;;   with `M-x gnus-dired-attach'
+   (dired-mode  . turn-on-gnus-dired-mode))
+
+  :bind ;; the Mu4e transient menu
+  (("C-c m" . mu4e-transient-menu)))
 
 ;; misc
 
