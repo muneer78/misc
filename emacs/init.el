@@ -23,7 +23,7 @@
 (use-package org)
 (use-package yasnippet)
 
-					; Basic behavior
+;; Basic behavior
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
@@ -36,15 +36,24 @@
 
 (setq tab-always-indent 'complete)
 
+;; Always use spaces for indentation
+(setq-default indent-tabs-mode nil)
+
+;; Display existing tabs as 4 columns
+(setq-default tab-width 4)
+
 ;; make {copy, cut, paste, undo} have {C-c, C-x, C-v, C-z} keys
 (cua-mode 1)
 
 ;; wrapped lines respect the indentation of the original line
 (global-visual-wrap-prefix-mode 1)
 
-;; store backup files in the tmp dir
+;; Store all backup files in ~/.emacs.d/backups/
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+      `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+;; Create the directory if it doesn't exist
+(make-directory (expand-file-name "backups/" user-emacs-directory) t)
 
 ;; store auto-save (#) files in ~/.emacs/temp
 (let ((auto-save-dir (expand-file-name "~/.emacs.d/temp")))
@@ -87,7 +96,7 @@
 (setq recentf-max-saved-items 50)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-					; Org mode configuration
+                                        ; Org mode configuration
 ;; Enable Org mode
 (require 'org)
 ;; Make Org mode work with files ending in .org
@@ -128,7 +137,7 @@
 
     (message "Archived %d tasks" (length entries))))
 
-(setq org-auto-align-tags t)
+(setq org-auto-align-tags nil)
 
 (setq org-startup-folded t)
 
@@ -269,7 +278,7 @@ Version: 2025-07-08"
         (display-buffer xoutbuf)
         (error "error xah-python-format")))))
 
-					; Tweak the looks of Emacs
+                                        ; Tweak the looks of Emacs
 
 ;; Those three belong in the early-init.el, but I am putting them here
 ;; for convenience.  If the early-init.el exists in the same directory
@@ -312,7 +321,7 @@ Version: 2025-07-08"
   :hook
   (dired-mode . nerd-icons-dired-mode))
 
-					; Configure the minibuffer and completions
+                                        ; Configure the minibuffer and completions
 
 (when (fboundp 'electric-indent-mode)
   (electric-indent-mode -1))
@@ -359,7 +368,7 @@ Version: 2025-07-08"
 ;; Enable visual-line-mode for all buffers (global setting)
 (global-visual-line-mode t)
 
-					; The file manager (Dired)
+                                        ; The file manager (Dired)
 
 (use-package dired
   :straight nil
@@ -443,7 +452,7 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
     (delete-region start end)
     (insert insertion)))
 
-					; Themes
+                                        ; Themes
 (add-to-list 'custom-theme-load-path "/Users/muneer78/.emacs.d/themes/")
 (load-theme 'synthwave)
 
@@ -489,7 +498,7 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 (setenv "PKG_CONFIG_PATH"
         "/opt/local/lib/pkgconfig:/opt/local/share/pkgconfig")
 
-					; mu4e
+                                        ; mu4e
 
 (use-package mu4e
   :ensure nil
@@ -630,8 +639,8 @@ URL `http://xahlee.info/emacs/emacs/move_file_to_dir.html'")
 
   ;; Tweak the message-view
   (setq mu4e-view-date-format "%Y-%m-%d %H:%M"
-	mu4e-view-fields
-	'(:from :to :cc :bcc :subject :flags :date :maildir :mailing-list))
+	    mu4e-view-fields
+	    '(:from :to :cc :bcc :subject :flags :date :maildir :mailing-list))
 
   ;; with nerd-icons or all-the-icons installed, you can get some icons when
   ;; view messaages, e.g.
@@ -749,12 +758,12 @@ Version: 2025-03-25"
 (use-package pet
   :config
   (add-hook 'python-ts-mode-hook
-	    (lambda ()
-	      (setq-local python-shell-interpreter
-			  (pet-executable-find "python"))
-	      (setq-local python-shell-interpreter-args "-i")
-	      (setq-local lsp-pyright-python-executable-cmd
-			  (pet-executable-find "python")))))
+	        (lambda ()
+	          (setq-local python-shell-interpreter
+			              (pet-executable-find "python"))
+	          (setq-local python-shell-interpreter-args "-i")
+	          (setq-local lsp-pyright-python-executable-cmd
+			              (pet-executable-find "python")))))
 
 ;; --- LSP + Pyright ---
 (use-package lsp-mode
@@ -768,7 +777,7 @@ Version: 2025-03-25"
 
 (use-package lsp-pyright
   :hook (python-ts-mode . (lambda ()
-			    (require 'lsp-pyright) (lsp))))
+			                (require 'lsp-pyright) (lsp))))
 
 ;; --- Completion ---
 (use-package corfu
@@ -791,10 +800,10 @@ Version: 2025-03-25"
   "Run the current Python file with uv run."
   (interactive)
   (compile (format "uv run python %s"
-		   (shell-quote-argument (buffer-file-name)))))
+		           (shell-quote-argument (buffer-file-name)))))
 (add-hook 'python-ts-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c C-r") #'my/uv-run-file)))
+	      (lambda ()
+	        (local-set-key (kbd "C-c C-r") #'my/uv-run-file)))
 
 ;; --- Debugger (debugpy via uv) ---
 (use-package dap-mode
@@ -803,7 +812,7 @@ Version: 2025-03-25"
   (require 'dap-python)
   (setq dap-python-debugger 'debugpy)
   (setq dap-python-executable
-	(lambda () (list "uv" "run" "python")))
+	    (lambda () (list "uv" "run" "python")))
   (dap-auto-configure-mode))
 
 ;; --- Which-key + Projectile ---
@@ -812,3 +821,11 @@ Version: 2025-03-25"
 (use-package projectile
   :init (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
+
+(defun my/org-fix-chores-spacing ()
+  "Reduce whitespace immediately before :chores: to one space."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "[ \t]+\\(:chores:\\)" nil t)
+      (replace-match " \\1"))))
