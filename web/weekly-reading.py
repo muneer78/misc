@@ -34,7 +34,7 @@ import re
 from pathlib import Path
 
 import requests
-from readability import Document
+from trafilatura import extract, extract_metadata
 
 # --- Hardcoded paths: edit these for your setup ---
 READING_LIST = Path("/Users/muneer78/Documents/GitHub/emacs-files/reading-list.org")
@@ -102,23 +102,44 @@ def append_sent(path: Path, entries: list[ReadingEntry]) -> None:
 
 
 def fetch_readable(entry: ReadingEntry) -> dict:
-    """Fetch a URL and extract the readable article body via readability-lxml."""
+    """Fetch a URL and extract the article body with Trafilatura."""
     try:
-        resp = requests.get(
+        response = requests.get(
             entry.url,
             headers={"User-Agent": USER_AGENT},
             timeout=REQUEST_TIMEOUT,
         )
-        resp.raise_for_status()
-        doc = Document(resp.text)
+        response.raise_for_status()
+
+        content_html = extract(
+            response.text,
+            url=entry.url,
+            output_format="html",
+            include_comments=False,
+            include_links=True,
+            include_images=True,
+            include_formatting=True,
+        )
+
+        if not content_html:
+            raise ValueError("Trafilatura could not extract article content")
+
+        metadata = extract_metadata(response.text, default_url=entry.url)
+
         return {
             "ok": True,
-            "title": doc.short_title() or entry.title,
-            "content_html": doc.summary(html_partial=True),
+            "title": metadata.title if metadata and metadata.title else entry.title,
+            "content_html": content_html,
             "error": None,
         }
-    except Exception as e:  # network errors, parse errors, non-200s, etc.
-        return {"ok": False, "title": entry.title, "content_html": None, "error": str(e)}
+
+    except Exception as e:
+        return {
+            "ok": False,
+            "title": entry.title,
+            "content_html": None,
+            "error": str(e),
+        }
 
 
 def build_digest_html(results: list[tuple[ReadingEntry, dict]], week_label: str) -> str:
@@ -195,7 +216,9 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
 ARTICLE_LIST_OPEN_TAG = '<ul id="article-list">'
 
 
-def update_article_index(index_path: Path, digest_filename: str, label: str, date_str: str) -> None:
+def update_article_index(
+    index_path: Path, digest_filename: str, label: str, date_str: str
+) -> None:
     """Insert a new <li> at the top of #article-list in article-dir.html.
 
     Matches the site's existing markup exactly:
@@ -203,7 +226,11 @@ def update_article_index(index_path: Path, digest_filename: str, label: str, dat
     New entries go right after <ul id="article-list">, so the newest link is
     always first -- same position as the one hand-written example entry.
     """
-    text = index_path.read_text(encoding="utf-8") if index_path.exists() else INDEX_TEMPLATE
+    text = (
+        index_path.read_text(encoding="utf-8")
+        if index_path.exists()
+        else INDEX_TEMPLATE
+    )
 
     new_entry = (
         f'      <li><a href="articles/{html.escape(digest_filename)}">'
@@ -211,14 +238,18 @@ def update_article_index(index_path: Path, digest_filename: str, label: str, dat
     )
 
     if ARTICLE_LIST_OPEN_TAG in text:
-        text = text.replace(ARTICLE_LIST_OPEN_TAG, f"{ARTICLE_LIST_OPEN_TAG}\n{new_entry}", 1)
+        text = text.replace(
+            ARTICLE_LIST_OPEN_TAG, f"{ARTICLE_LIST_OPEN_TAG}\n{new_entry}", 1
+        )
     elif "</ul>" in text:
         # #article-list tag missing but *some* <ul> is there -- insert before its close
         text = text.replace("</ul>", f"{new_entry}\n    </ul>", 1)
     else:
         # No <ul> at all -- rebuild a minimal one before </body>
         text = text.replace(
-            "</body>", f'    <ul id="article-list">\n{new_entry}\n    </ul>\n  </body>', 1
+            "</body>",
+            f'    <ul id="article-list">\n{new_entry}\n    </ul>\n  </body>',
+            1,
         )
 
     index_path.write_text(text, encoding="utf-8")
