@@ -1,3 +1,5 @@
+"""Extract OPML outline text to a CSV file."""
+
 import csv
 import xml.etree.ElementTree as ET
 import html

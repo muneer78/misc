@@ -1,127 +1,101 @@
-import pandas as pd
+#!/usr/bin/env python3
+"""Flatten JSON values stored in selected columns of a CSV file.
+
+Example:
+    python json-flatten.py input.csv output.csv --field pickup --field delivery
+"""
+
+from __future__ import annotations
+
+import argparse
 import json
+from pathlib import Path
+from typing import Any
 
-# Load the CSV file
-file_path = r"C:\Users\mahmad\OneDrive - Ryan RTS\Downloads\brok_hubtek_quote_parameter_v9-20250214-Redshift_Prod.csv"
-df = pd.read_csv(file_path)
-
-
-# Function to recursively flatten nested JSON fields
-def flatten_json(y):
-    out = {}
-
-    def flatten(x, name=""):
-        if type(x) is dict:
-            for a in x:
-                flatten(x[a], name + a + "_")
-        elif type(x) is list:
-            i = 0
-            for a in x:
-                flatten(a, name + str(i) + "_")
-                i += 1
-        else:
-            out[name[:-1]] = x
-
-    flatten(y)
-    return out
+import pandas as pd
 
 
-# Function to extract nested arrays and add them as new fields
-def extract_nested_arrays(row, field_name):
+def flatten_json(value: Any, prefix: str = "") -> dict[str, Any]:
+    """Return a flat mapping for nested dictionaries and lists.
+
+    Dictionary keys are joined with underscores and list indexes become part of
+    the key, e.g. ``{"pickup": [{"time": "08:00"}]}`` becomes
+    ``{"pickup_0_time": "08:00"}``.
+    """
+    flattened: dict[str, Any] = {}
+
+    def visit(item: Any, path: str) -> None:
+        if isinstance(item, dict):
+            for key, child in item.items():
+                visit(child, f"{path}_{key}" if path else str(key))
+        elif isinstance(item, list):
+            for index, child in enumerate(item):
+                visit(child, f"{path}_{index}" if path else str(index))
+        elif path:
+            flattened[path] = item
+
+    visit(value, prefix)
+    return flattened
+
+
+def parse_json(value: Any) -> Any | None:
+    """Parse a JSON string, ignoring blank, missing, and invalid values."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+
     try:
-        data = json.loads(row[field_name])
-        flattened_data = flatten_json(data)
-        for key, value in flattened_data.items():
-            row[f"{field_name}_{key}"] = value
-    except (json.JSONDecodeError, TypeError):
-        pass
-    return row
+        return json.loads(value)
+    except json.JSONDecodeError:
+        return None
 
 
-# Apply the function to extract nested arrays in Hubtek fields
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data'), axis=1)
+def flatten_columns(df: pd.DataFrame, fields: list[str]) -> pd.DataFrame:
+    """Add flattened columns for each requested JSON column."""
+    missing_fields = [field for field in fields if field not in df.columns]
+    if missing_fields:
+        available = ", ".join(df.columns)
+        missing = ", ".join(missing_fields)
+        raise ValueError(f"Column(s) not found: {missing}. Available: {available}")
 
-# Apply the function to extract nested arrays in DBX fields
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.seasonality'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.distance_tiers.distance_tiers'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.lead_time.times'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.rate_engines_weight.engines'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.conditioned_lanes.origins'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.conditioned_lanes.destinations'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.cross_border.lanes'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.international_shipment.lanes'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'parameters.extra_charges_and_restrictions.extra_charges_and_restrictions'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data.equipment_type_keywords.0'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data.equipment_type_keywords.1'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data.equipment_type_keywords.2'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data.equipment_type_keywords.3'), axis=1)
-# df = df.apply(lambda row: extract_nested_arrays(row, 'additional_data.equipment_type_keywords.4'), axis=1)
+    result = df.copy()
+    for field in fields:
+        expanded_rows = [
+            {f"{field}_{key}": item for key, item in flatten_json(parsed).items()}
+            if (parsed := parse_json(value)) is not None
+            else {}
+            for value in result[field]
+        ]
+        expanded = pd.DataFrame(expanded_rows, index=result.index)
+        result = pd.concat([result, expanded], axis=1)
 
-# Apply the function to extract nested arrays in Redshift fields
-df = df.apply(lambda row: extract_nested_arrays(row, "parameters_pickuptm"), axis=1)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_transittimevariance"), axis=1
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_distancetiersdistancetiers"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_leadtimetimes"), axis=1
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_rateenginesweightengines"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_crossborderlanes"), axis=1
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "parameters_internationalshipmentlanes"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(
-        row, "parameters_extrachargesandrestrictionsextrachargesandrestrictions"
-    ),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additionaldata_emailnotificationemails"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additional_data.equipmenttypekeywords0"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additional_data.equipmenttypekeywords1"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additional_data.equipmenttypekeywords2"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additional_data.equipmenttypekeywords3"),
-    axis=1,
-)
-df = df.apply(
-    lambda row: extract_nested_arrays(row, "additional_data.equipmenttypekeywords.4"),
-    axis=1,
-)
+    return result
 
-# Calculate the minimum and maximum number of fields a single record contains
-min_fields = df.apply(lambda row: row.count(), axis=1).min()
-max_fields = df.apply(lambda row: row.count(), axis=1).max()
 
-# Write the updated DataFrame to a new CSV file
-output_file = (
-    r"C:\Users\mahmad\OneDrive - Ryan RTS\Downloads\dbx_parameters_extracted.csv"
-)
-df.to_csv(output_file, index=False)
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("input_csv", type=Path, help="CSV file containing JSON columns")
+    parser.add_argument("output_csv", type=Path, help="Destination for the expanded CSV")
+    parser.add_argument(
+        "--field",
+        dest="fields",
+        action="append",
+        required=True,
+        help="JSON column to flatten; repeat for multiple columns",
+    )
+    return parser.parse_args()
 
-print(f"Updated CSV written to {output_file}")
-print(f"Minimum number of fields in a single record: {min_fields}")
-print(f"Maximum number of fields in a single record: {max_fields}")
+
+def main() -> None:
+    args = parse_args()
+    dataframe = pd.read_csv(args.input_csv)
+    flattened = flatten_columns(dataframe, args.fields)
+    flattened.to_csv(args.output_csv, index=False)
+
+    field_counts = flattened.count(axis=1)
+    print(f"Updated CSV written to {args.output_csv}")
+    print(f"Minimum number of fields in a single record: {field_counts.min()}")
+    print(f"Maximum number of fields in a single record: {field_counts.max()}")
+
+
+if __name__ == "__main__":
+    main()

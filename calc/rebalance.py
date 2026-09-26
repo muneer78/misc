@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
-"""
-Enhanced Portfolio Rebalancing Calculator
-Calculates optimal asset allocation adjustments and new investment distribution
-"""
+"""Calculate how to invest new cash and rebalance a three-fund portfolio."""
 
-from typing import Tuple, NamedTuple
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
-class Portfolio(NamedTuple):
-    """Current portfolio holdings"""
+@dataclass(frozen=True)
+class Portfolio:
+    """Dollar amounts held in each asset class."""
 
     domestic_stocks: float
     international_stocks: float
     bonds: float
+
+    def __post_init__(self) -> None:
+        if any(amount < 0 for amount in self.amounts):
+            raise ValueError("Portfolio amounts cannot be negative.")
+
+    @property
+    def amounts(self) -> tuple[float, float, float]:
+        return self.domestic_stocks, self.international_stocks, self.bonds
 
     @property
     def total_stocks(self) -> float:
@@ -21,285 +28,219 @@ class Portfolio(NamedTuple):
 
     @property
     def total_value(self) -> float:
-        return self.domestic_stocks + self.international_stocks + self.bonds
+        return sum(self.amounts)
+
+    def add(self, other: "Portfolio") -> "Portfolio":
+        return Portfolio(*(left + right for left, right in zip(self.amounts, other.amounts)))
 
 
-@dataclass
+@dataclass(frozen=True)
 class TargetAllocation:
-    """Target allocation percentages"""
+    """Target percentages, including the domestic portion of stocks."""
 
     stocks_pct: float
     bonds_pct: float
-    domestic_stock_ratio: float = 0.8  # 80% domestic, 20% international within stocks
+    domestic_stock_ratio: float = 0.8
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
+        if not 0 <= self.stocks_pct <= 100 or not 0 <= self.bonds_pct <= 100:
+            raise ValueError("Target percentages must be between 0 and 100.")
         if abs(self.stocks_pct + self.bonds_pct - 100) > 0.01:
-            raise ValueError("Stock and bond percentages must sum to 100%")
-        if not (0 <= self.domestic_stock_ratio <= 1):
-            raise ValueError("Domestic stock ratio must be between 0 and 1")
+            raise ValueError("Stock and bond percentages must sum to 100%.")
+        if not 0 <= self.domestic_stock_ratio <= 1:
+            raise ValueError("Domestic stock ratio must be between 0 and 1.")
+
+    def target_amounts(self, total: float) -> Portfolio:
+        stock_amount = total * self.stocks_pct / 100
+        return Portfolio(
+            domestic_stocks=stock_amount * self.domestic_stock_ratio,
+            international_stocks=stock_amount * (1 - self.domestic_stock_ratio),
+            bonds=total * self.bonds_pct / 100,
+        )
 
 
-@dataclass
+@dataclass(frozen=True)
+class Trades:
+    """Signed trades: positive amounts are buys and negative amounts are sells."""
+
+    domestic_stocks: float
+    international_stocks: float
+    bonds: float
+
+    @property
+    def amounts(self) -> tuple[float, float, float]:
+        return self.domestic_stocks, self.international_stocks, self.bonds
+
+
+@dataclass(frozen=True)
 class RebalanceResult:
-    """Results of rebalancing calculation"""
+    """Contribution allocation and trades needed to reach the target."""
 
-    current_total: float
-    new_total: float
-    current_stock_pct: float
-    current_bond_pct: float
+    current_portfolio: Portfolio
+    target_portfolio: Portfolio
+    contribution: Portfolio
+    trades: Trades
 
-    # Adjustments needed to existing portfolio
-    sell_domestic_stocks: float = 0
-    sell_international_stocks: float = 0
-    sell_bonds: float = 0
-    buy_domestic_stocks: float = 0
-    buy_international_stocks: float = 0
-    buy_bonds: float = 0
+    @property
+    def current_total(self) -> float:
+        return self.current_portfolio.total_value
 
-    # How to invest new money
-    new_money_to_domestic: float = 0
-    new_money_to_international: float = 0
-    new_money_to_bonds: float = 0
+    @property
+    def new_total(self) -> float:
+        return self.target_portfolio.total_value
+
+    @property
+    def current_stock_pct(self) -> float:
+        return self.current_portfolio.total_stocks / self.current_total * 100
+
+    @property
+    def current_bond_pct(self) -> float:
+        return self.current_portfolio.bonds / self.current_total * 100
 
 
-def get_user_input() -> Tuple[Portfolio, float, TargetAllocation]:
-    """Get user input with validation"""
-    print("Portfolio Rebalancing Calculator")
-    print("=" * 40)
+ASSET_LABELS = ("Domestic stocks", "International stocks", "Bonds")
 
-    # Get current portfolio
-    print("\n1. Current Portfolio Holdings:")
-    while True:
-        try:
-            domestic = float(input("Domestic stocks amount: $"))
-            international = float(input("International stocks amount: $"))
-            bonds = float(input("Bonds amount: $"))
 
-            if any(x < 0 for x in [domestic, international, bonds]):
-                print("Error: Amounts cannot be negative. Please try again.\n")
-                continue
+def allocate_contribution(
+    portfolio: Portfolio, contribution: float, target: Portfolio
+) -> Portfolio:
+    """Invest cash in underweight assets first, then according to target weights."""
+    remaining = contribution
+    allocations = [0.0, 0.0, 0.0]
 
-            portfolio = Portfolio(domestic, international, bonds)
-            if portfolio.total_value == 0:
-                print("Error: Portfolio cannot be empty. Please try again.\n")
-                continue
-            break
-        except ValueError:
-            print("Error: Please enter valid numbers. Please try again.\n")
+    for index, (current, desired) in enumerate(zip(portfolio.amounts, target.amounts)):
+        allocation = min(max(desired - current, 0), remaining)
+        allocations[index] = allocation
+        remaining -= allocation
 
-    # Get new investment
-    print("\n2. New Investment:")
-    while True:
-        try:
-            new_money = float(input("New money to invest: $"))
-            if new_money < 0:
-                print("Error: New investment cannot be negative. Please try again.\n")
-                continue
-            break
-        except ValueError:
-            print("Error: Please enter a valid number. Please try again.\n")
+    if remaining:
+        for index, desired in enumerate(target.amounts):
+            allocations[index] += remaining * desired / target.total_value
 
-    # Get target allocation
-    print("\n3. Target Allocation:")
-    while True:
-        try:
-            stocks_pct = float(input("Target stocks percentage (0-100): "))
-            bonds_pct = float(input("Target bonds percentage (0-100): "))
-
-            if not (0 <= stocks_pct <= 100) or not (0 <= bonds_pct <= 100):
-                print(
-                    "Error: Percentages must be between 0 and 100. Please try again.\n"
-                )
-                continue
-
-            target = TargetAllocation(stocks_pct, bonds_pct)
-            break
-        except ValueError as e:
-            print(f"Error: {e}. Please try again.\n")
-
-    # Optional: customize domestic/international split
-    print("\n4. Stock Allocation (optional):")
-    while True:
-        try:
-            response = input(
-                "Domestic stock ratio within stocks (default 80%, press Enter to accept): "
-            ).strip()
-            if not response:
-                domestic_ratio = 0.8
-                break
-
-            domestic_pct = float(response)
-            if not (0 <= domestic_pct <= 100):
-                print(
-                    "Error: Percentage must be between 0 and 100. Please try again.\n"
-                )
-                continue
-            domestic_ratio = domestic_pct / 100
-            target.domestic_stock_ratio = domestic_ratio
-            break
-        except ValueError:
-            print("Error: Please enter a valid percentage. Please try again.\n")
-
-    return portfolio, new_money, target
+    return Portfolio(*allocations)
 
 
 def calculate_rebalancing(
     portfolio: Portfolio, new_money: float, target: TargetAllocation
 ) -> RebalanceResult:
-    """Calculate optimal rebalancing strategy"""
-    new_total = portfolio.total_value + new_money
+    """Return an exact, cash-balanced plan for the requested allocation."""
+    if portfolio.total_value <= 0:
+        raise ValueError("Portfolio cannot be empty.")
+    if new_money < 0:
+        raise ValueError("New investment cannot be negative.")
 
-    # Current allocation percentages
-    current_stock_pct = (portfolio.total_stocks / portfolio.total_value) * 100
-    current_bond_pct = (portfolio.bonds / portfolio.total_value) * 100
-
-    # Target amounts after adding new money
-    target_stock_amount = (target.stocks_pct / 100) * new_total
-    target_bond_amount = (target.bonds_pct / 100) * new_total
-
-    # Target domestic/international split
-    target_domestic_amount = target_stock_amount * target.domestic_stock_ratio
-    target_international_amount = target_stock_amount * (
-        1 - target.domestic_stock_ratio
+    target_portfolio = target.target_amounts(portfolio.total_value + new_money)
+    contribution = allocate_contribution(portfolio, new_money, target_portfolio)
+    after_contribution = portfolio.add(contribution)
+    trades = Trades(
+        *(desired - actual for desired, actual in zip(target_portfolio.amounts, after_contribution.amounts))
     )
+    return RebalanceResult(portfolio, target_portfolio, contribution, trades)
 
-    # Calculate differences
-    domestic_diff = target_domestic_amount - portfolio.domestic_stocks
-    international_diff = target_international_amount - portfolio.international_stocks
-    bond_diff = target_bond_amount - portfolio.bonds
 
-    result = RebalanceResult(
-        current_total=portfolio.total_value,
-        new_total=new_total,
-        current_stock_pct=current_stock_pct,
-        current_bond_pct=current_bond_pct,
+def read_amount(prompt: str, *, allow_zero: bool = True) -> float:
+    """Read one non-negative dollar amount."""
+    while True:
+        try:
+            amount = float(input(prompt))
+            if amount < 0 or (not allow_zero and amount == 0):
+                raise ValueError
+            return amount
+        except ValueError:
+            qualifier = "positive" if not allow_zero else "non-negative"
+            print(f"Please enter a valid {qualifier} number.")
+
+
+def read_percentage(prompt: str, *, default: float | None = None) -> float:
+    """Read a percentage from zero through 100."""
+    while True:
+        response = input(prompt).strip()
+        if not response and default is not None:
+            return default
+        try:
+            percentage = float(response)
+            if 0 <= percentage <= 100:
+                return percentage
+        except ValueError:
+            pass
+        print("Please enter a percentage from 0 to 100.")
+
+
+def get_user_input() -> tuple[Portfolio, float, TargetAllocation]:
+    """Collect a portfolio and its desired allocation."""
+    print("Portfolio Rebalancing Calculator\n" + "=" * 32)
+    print("\nCurrent portfolio holdings")
+    portfolio = Portfolio(
+        read_amount("Domestic stocks: $"),
+        read_amount("International stocks: $"),
+        read_amount("Bonds: $"),
     )
+    if portfolio.total_value == 0:
+        raise ValueError("Portfolio cannot be empty.")
 
-    # Strategy: First allocate new money optimally, then rebalance existing if needed
-    remaining_new_money = new_money
+    print("\nNew investment")
+    new_money = read_amount("New money to invest: $")
 
-    # Allocate new money to assets that are below target
-    if domestic_diff > 0:
-        allocation = min(domestic_diff, remaining_new_money)
-        result.new_money_to_domestic = allocation
-        remaining_new_money -= allocation
-        domestic_diff -= allocation
+    print("\nTarget allocation")
+    while True:
+        stocks_pct = read_percentage("Stocks (0-100): ")
+        bonds_pct = read_percentage("Bonds (0-100): ")
+        try:
+            allocation = TargetAllocation(stocks_pct, bonds_pct)
+            break
+        except ValueError as error:
+            print(error)
 
-    if international_diff > 0 and remaining_new_money > 0:
-        allocation = min(international_diff, remaining_new_money)
-        result.new_money_to_international = allocation
-        remaining_new_money -= allocation
-        international_diff -= allocation
-
-    if bond_diff > 0 and remaining_new_money > 0:
-        allocation = min(bond_diff, remaining_new_money)
-        result.new_money_to_bonds = allocation
-        remaining_new_money -= allocation
-        bond_diff -= allocation
-
-    # If there's remaining new money, allocate proportionally to target
-    if remaining_new_money > 0:
-        result.new_money_to_domestic += remaining_new_money * (
-            target_domestic_amount / new_total
-        )
-        result.new_money_to_international += remaining_new_money * (
-            target_international_amount / new_total
-        )
-        result.new_money_to_bonds += remaining_new_money * (
-            target_bond_amount / new_total
-        )
-
-    # Handle remaining imbalances through rebalancing existing assets
-    if domestic_diff > 0:
-        result.buy_domestic_stocks = domestic_diff
-    elif domestic_diff < 0:
-        result.sell_domestic_stocks = -domestic_diff
-
-    if international_diff > 0:
-        result.buy_international_stocks = international_diff
-    elif international_diff < 0:
-        result.sell_international_stocks = -international_diff
-
-    if bond_diff > 0:
-        result.buy_bonds = bond_diff
-    elif bond_diff < 0:
-        result.sell_bonds = -bond_diff
-
-    return result
+    domestic_pct = read_percentage(
+        "Domestic share of stocks (default 80%): ", default=80
+    )
+    target = TargetAllocation(
+        allocation.stocks_pct, allocation.bonds_pct, domestic_pct / 100
+    )
+    return portfolio, new_money, target
 
 
-def print_results(result: RebalanceResult, target: TargetAllocation):
-    """Print formatted results"""
-    print("\n" + "=" * 50)
-    print("REBALANCING RESULTS")
-    print("=" * 50)
+def print_portfolio(title: str, portfolio: Portfolio) -> None:
+    print(f"\n{title}: ${portfolio.total_value:,.2f}")
+    for label, amount in zip(ASSET_LABELS, portfolio.amounts):
+        print(f"  {label:<22} ${amount:>12,.2f}")
 
-    # Current state
-    print(f"\nCurrent Portfolio: ${result.current_total:,.2f}")
+
+def print_results(result: RebalanceResult, target: TargetAllocation) -> None:
+    """Print the stock/bond percentages and actionable transactions."""
+    print("\n" + "=" * 50 + "\nREBALANCING RESULTS\n" + "=" * 50)
     print(
-        f"  Stocks: {result.current_stock_pct:.1f}% (Target: {target.stocks_pct:.1f}%)"
+        f"\nCurrent stocks: {result.current_stock_pct:.2f}% "
+        f"(target: {target.stocks_pct:.2f}%)"
     )
-    print(f"  Bonds:  {result.current_bond_pct:.1f}% (Target: {target.bonds_pct:.1f}%)")
-
-    print(f"\nAfter New Investment: ${result.new_total:,.2f}")
-
-    # New money allocation
-    print("\nNEW MONEY ALLOCATION:")
-    print(f"  Domestic Stocks:     ${result.new_money_to_domestic:,.2f}")
-    print(f"  International Stocks: ${result.new_money_to_international:,.2f}")
-    print(f"  Bonds:               ${result.new_money_to_bonds:,.2f}")
     print(
-        f"  Total:               ${result.new_money_to_domestic + result.new_money_to_international + result.new_money_to_bonds:,.2f}"
+        f"Current bonds:  {result.current_bond_pct:.2f}% "
+        f"(target: {target.bonds_pct:.2f}%)"
     )
+    print_portfolio("Target portfolio after contribution", result.target_portfolio)
+    print_portfolio("Invest new money as follows", result.contribution)
 
-    # Rebalancing actions
-    rebalancing_needed = any(
-        [
-            result.sell_domestic_stocks,
-            result.sell_international_stocks,
-            result.sell_bonds,
-            result.buy_domestic_stocks,
-            result.buy_international_stocks,
-            result.buy_bonds,
-        ]
-    )
-
-    if rebalancing_needed:
-        print("\nEXISTING PORTFOLIO ADJUSTMENTS:")
-        if result.sell_domestic_stocks > 0:
-            print(f"  Sell Domestic Stocks:     ${result.sell_domestic_stocks:,.2f}")
-        if result.sell_international_stocks > 0:
-            print(
-                f"  Sell International Stocks: ${result.sell_international_stocks:,.2f}"
-            )
-        if result.sell_bonds > 0:
-            print(f"  Sell Bonds:               ${result.sell_bonds:,.2f}")
-
-        if result.buy_domestic_stocks > 0:
-            print(f"  Buy Domestic Stocks:      ${result.buy_domestic_stocks:,.2f}")
-        if result.buy_international_stocks > 0:
-            print(
-                f"  Buy International Stocks:  ${result.buy_international_stocks:,.2f}"
-            )
-        if result.buy_bonds > 0:
-            print(f"  Buy Bonds:                ${result.buy_bonds:,.2f}")
-    else:
-        print("\nEXISTING PORTFOLIO ADJUSTMENTS:")
-        print("  No rebalancing of existing assets needed!")
+    transactions = [
+        (label, amount)
+        for label, amount in zip(ASSET_LABELS, result.trades.amounts)
+        if abs(amount) >= 0.005
+    ]
+    print("\nRebalancing trades after the contribution:")
+    if not transactions:
+        print("  None needed.")
+    for label, amount in transactions:
+        action = "Buy" if amount > 0 else "Sell"
+        print(f"  {action} {label:<21} ${abs(amount):>12,.2f}")
 
 
-def main():
-    """Main program execution"""
+def main() -> None:
     try:
         portfolio, new_money, target = get_user_input()
-        result = calculate_rebalancing(portfolio, new_money, target)
-        print_results(result, target)
-
-    except KeyboardInterrupt:
-        print("\n\nProgram interrupted by user.")
-    except Exception as e:
-        print(f"\nError: {e}")
-        print("Please check your inputs and try again.")
+        print_results(calculate_rebalancing(portfolio, new_money, target), target)
+    except (EOFError, KeyboardInterrupt):
+        print("\nProgram interrupted.")
+    except ValueError as error:
+        print(f"\nError: {error}")
 
 
 if __name__ == "__main__":
