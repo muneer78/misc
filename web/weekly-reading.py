@@ -26,6 +26,7 @@ ARTICLE_INDEX = REPO_DIR / "article-dir.html"
 DEFAULT_BATCH_SIZE = 10
 USER_AGENT = "weekly-reading-bot/1.0 (+personal use)"
 REQUEST_TIMEOUT = 20
+MUN_CSS_PATH = Path("/Users/muneer78/Documents/GitHub/mun-ssg/static/mun.css")
 
 ORG_LINK_RE = re.compile(
     r"^\*\*\s+TODO\s+\[\[(?P<url>.*?)\]\[(?P<title>.*?)\]\]\s*$",
@@ -161,7 +162,10 @@ def build_digest_html(
 
         articles_html.append(article)
 
-    return f"""<!DOCTYPE html>
+    return re.sub(
+        r"\n  <!--.*?  -->",
+        "",
+        f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -172,7 +176,8 @@ def build_digest_html(
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Train+One&display=swap" rel="stylesheet">
 
-  <style>
+  <style>{MUN_CSS_PATH.read_text(encoding="utf-8")}</style>
+  <!--
     :root {{
       --pink: #ff7edb;
       --purple: #241b2f;
@@ -436,7 +441,7 @@ def build_digest_html(
         box-shadow: 5px 5px 0 var(--pink);
       }}
     }}
-  </style>
+  -->
 </head>
 
 <body>
@@ -455,15 +460,21 @@ def build_digest_html(
   </main>
 </body>
 </html>
-"""
+""",
+        flags=re.DOTALL,
+    )
 
 
-INDEX_TEMPLATE = """<!DOCTYPE html>
+INDEX_TEMPLATE = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Article Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,700;1,400&family=Train+One&display=swap" rel="stylesheet">
+  <style>{MUN_CSS_PATH.read_text(encoding="utf-8")}</style>
 </head>
 <body>
   <div class="container">
